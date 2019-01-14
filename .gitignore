@@ -100,3 +100,9 @@ node_modules/*
 
 # End of https://www.gitignore.io/api/phpstorm
 /node_modules/
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
