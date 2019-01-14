@@ -8,14 +8,39 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+    {% block navigation %}
+        {% include 'navbar.html.twig' %}
+    {% endblock %}
+
+    {% block content %}
+        <div class="container text-center jumbotron" style="margin-top: 100px;">
+
+            {% block flashMessage %}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }} alert-dismissible fade show mb-4" role="alert">
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endblock %}
+
+            {% block body %}{% endblock %}
+        </div>
 
         {% block footer %}
             {% include 'footer.html.twig' %}
         {% endblock %}
+    {% endblock %}
+
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script defer src="{{ asset('fontawesome/js/all.js') }}"></script>
         {% endblock %}
     </body>
 </html>
