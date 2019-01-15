@@ -5,15 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DanserController extends AbstractController
+class TeamController extends AbstractController
 {
     /**
-     * @Route("/danser", name="danser")
+     * @Route("/team", name="Team.showAll")
      */
     public function index()
     {
-        return $this->render('danser/index.html.twig', [
-            'controller_name' => 'DanserController',
+        return $this->render('team/index.html.twig', [
+            'controller_name' => 'TeamController',
         ]);
     }
 }
