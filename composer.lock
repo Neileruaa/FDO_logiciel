@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60bf85fb3d84077cba232324c83cfe4e",
+    "content-hash": "d2a0c90f6262dc005ad4c5353e7bfdc0",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1404,6 +1404,98 @@
                 "sql"
             ],
             "time": "2014-01-12T16:20:24+00:00"
+        },
+        {
+            "name": "jepsonwu/php-mysqli",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jepsonwu/php-mysqli.git",
+                "reference": "4376ec5c88f2d1ffd284bc63d0bc1cfc09ae2d20"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jepsonwu/php-mysqli/zipball/4376ec5c88f2d1ffd284bc63d0bc1cfc09ae2d20",
+                "reference": "4376ec5c88f2d1ffd284bc63d0bc1cfc09ae2d20",
+                "shasum": ""
+            },
+            "require": {
+                "joshcam/mysqli-database-class": ">=v2.6",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "0.9",
+                "phpunit/phpunit": "^5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jepsonwu\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jepsonwu",
+                    "email": "wjp13671142513@163.com"
+                }
+            ],
+            "description": "Php mysqli driver",
+            "homepage": "https://github.com/jepsonwu/php-mysqli",
+            "keywords": [
+                "cache",
+                "jepson",
+                "mysqli"
+            ],
+            "time": "2017-03-21T02:39:23+00:00"
+        },
+        {
+            "name": "joshcam/mysqli-database-class",
+            "version": "v2.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ThingEngineer/PHP-MySQLi-Database-Class.git",
+                "reference": "e122f8e0c22165092b81578ecd618842e9e01d64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ThingEngineer/PHP-MySQLi-Database-Class/zipball/e122f8e0c22165092b81578ecd618842e9e01d64",
+                "reference": "e122f8e0c22165092b81578ecd618842e9e01d64",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "MysqliDb.php",
+                    "dbObject.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Campbell",
+                    "email": "josh.lee.campbell@gmail.com",
+                    "homepage": "https://github.com/joshcam",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alexander V. Butenko",
+                    "email": "a.butenka@gmail.com",
+                    "homepage": "http://smarttechdo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP MySQL Wrapper and object mapper which utilizes MySQLi and prepared statements",
+            "time": "2018-02-08T05:07:59+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -6477,7 +6569,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "jepsonwu/php-mysqli": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
