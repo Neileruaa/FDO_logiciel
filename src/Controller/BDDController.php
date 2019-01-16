@@ -16,6 +16,14 @@ class BDDController extends AbstractController
             . "-h localhost -D fdo_logiciel < ../baseDeDonnees/baseDeDonnees.sql";
 
         shell_exec($command);
+
+        //$conn = mysqli_connect('localhost', 'antoi', '0704', 'fdo_logiciel');
+        // Check connection
+        //if (!$conn) {
+        //    die("Connection failed: " . mysqli_connect_error());
+        //}
+        //$sql = "ALTER TABLE ";
+        //mysqli_query($conn, $sql);
         return $this->render('home/index.html.twig', [
         ]);
     }
