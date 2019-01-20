@@ -12,6 +12,9 @@ require('../css/app.scss');
 
 const $ = require('jquery');
 
+
 require('bootstrap');
+
+require('sorttable');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

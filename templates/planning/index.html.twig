@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PlanningController!{% endblock %}
+
+{% block body %}
+
+<div>
+    <h1>Hello Test Planning !! ✅</h1>
+
+    <div class="alert alert-info" role="alert">
+        Cliquer sur le nom de la colonne pour la trier !
+    </div>
+
+    <table class="sortable table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Num équipe</th>
+                <th scope="col">is Present</th>
+                <th scope="col">Tour?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>12</td>
+                <td>0</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>0</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>0</td>
+                <td>Finale</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
