@@ -72,6 +72,11 @@ class Competition
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Judge", inversedBy="competitions")
+     */
+    private $judges;
+
 
     public function __construct()
     {
@@ -79,6 +84,7 @@ class Competition
         $this->place = new ArrayCollection();
         $this->dances = new ArrayCollection();
         $this->clubOrganizer = new ArrayCollection();
+        $this->judges = new ArrayCollection();
     }
 
 
@@ -232,6 +238,32 @@ class Competition
     public function setNbMaxTeam($nbMaxTeam): self
     {
         $this->nbMaxTeam = $nbMaxTeam;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Judge[]
+     */
+    public function getJudges(): Collection
+    {
+        return $this->judges;
+    }
+
+    public function addJudge(Judge $judge): self
+    {
+        if (!$this->judges->contains($judge)) {
+            $this->judges[] = $judge;
+        }
+
+        return $this;
+    }
+
+    public function removeJudge(Judge $judge): self
+    {
+        if ($this->judges->contains($judge)) {
+            $this->judges->removeElement($judge);
+        }
 
         return $this;
     }

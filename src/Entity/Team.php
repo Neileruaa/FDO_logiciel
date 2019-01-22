@@ -50,6 +50,11 @@ class Team
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPresent;
+
 
     public function __construct()
     {
@@ -181,6 +186,18 @@ class Team
     }
 
 	public function __toString() {
-		return strval($this->getId());
-	}
+         		return strval($this->getId());
+         	}
+
+    public function getIsPresent(): ?bool
+    {
+        return $this->isPresent;
+    }
+
+    public function setIsPresent(bool $isPresent): self
+    {
+        $this->isPresent = $isPresent;
+
+        return $this;
+    }
 }
