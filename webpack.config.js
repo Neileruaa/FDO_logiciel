@@ -25,6 +25,10 @@ Encore
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
 
+    .configureBabel(function (babelConfig) {
+        babelConfig.plugins.push("@babel/plugin-proposal-class-properties")
+    })
+
     /*
      * FEATURE CONFIG
      *

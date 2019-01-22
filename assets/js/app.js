@@ -23,6 +23,7 @@ import ReactDOM from 'react-dom';
 
 import TodoTab from './Components/TodoTab';
 import PlanningTab from './Components/PlanningTab'
+import SortableComponent from './Components/SortableComponent';
 
 class App extends React.Component{
     constructor(props){
@@ -60,7 +61,7 @@ class App extends React.Component{
                     this.state.todo.splice(index, 1);
                 }
             }
-        )
+        );
         this.setState({
             done: this.state.done,
             todo: this.state.todo
@@ -76,7 +77,7 @@ class App extends React.Component{
                     this.state.done.splice(index, 1);
                 }
             }
-        )
+        );
         this.setState({
             done: this.state.done,
             todo: this.state.todo
@@ -102,8 +103,6 @@ class App extends React.Component{
                 />
 
                 <PlanningTab todo={this.state.done} removeRow={this.removeRow} />
-
-
             </div>
         );
     }
