@@ -59,7 +59,6 @@ class App extends React.Component{
         this.state.todo.map(
             (row, index)=>{
                 if (row['id']===id){
-                    console.log(row);
                     this.state.todo.splice(index, 1);
                 }
             }
@@ -75,7 +74,6 @@ class App extends React.Component{
         this.state.done.map(
             (row, index)=>{
                 if (row['id']===id){
-                    console.log(row);
                     this.state.done.splice(index, 1);
                 }
             }
@@ -100,7 +98,7 @@ class App extends React.Component{
                     addRow={this.addRow}
                 />
 
-                <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd}/>
+                <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
             </div>
         );
     }

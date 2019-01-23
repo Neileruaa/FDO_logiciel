@@ -3,19 +3,19 @@ import React, {Component} from 'react';
 import {
     SortableContainer,
     SortableElement,
-    arrayMove,
 } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({id, numTeam, isPresent, round, index}) => (
+const SortableItem = SortableElement(({id, numTeam, isPresent, round, index, removeRow}) => (
     <tr key={id}>
         <th scope="row">{id}</th>
         <td>{numTeam}</td>
         <td>{isPresent}</td>
         <td>{round}</td>
+        <td><button onClick={() => removeRow({id:id, numTeam:numTeam, isPresent:isPresent, round:round}, id)} className="btn btn-danger"><i className="fas fa-minus"/></button></td>
     </tr>
 ));
 
-const SortableList = SortableContainer(({todo}) => {
+const SortableList = SortableContainer(({todo, removeRow}) => {
     return (
         <table className="sortable table table-striped table-hover">
             <thead>
@@ -28,7 +28,7 @@ const SortableList = SortableContainer(({todo}) => {
             </thead>
             <tbody>
                 {todo.map(({id, numTeam, isPresent, round}, index) => (
-                    <SortableItem key={`item-${id}`} index={index} id={id} numTeam={numTeam} isPresent={isPresent} round={round} />
+                    <SortableItem key={`item-${id}`} index={index} id={id} numTeam={numTeam} isPresent={isPresent} round={round} removeRow={removeRow} />
                 ))}
             </tbody>
         </table>
@@ -41,6 +41,6 @@ export default class SortableComponent extends Component {
     }
 
     render() {
-        return <SortableList todo={this.props.todo} onSortEnd={this.props.onSortEnd} />;
+        return <SortableList todo={this.props.todo} onSortEnd={this.props.onSortEnd} removeRow={this.props.removeRow} />;
     }
 }
