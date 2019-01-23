@@ -6,6 +6,7 @@
  */
 
 // any CSS you require will output into a single css file (app.css in this case)
+
 require('../css/Montserrat.css');
 
 require('../css/app.scss');
@@ -23,7 +24,8 @@ import ReactDOM from 'react-dom';
 
 import TodoTab from './Components/TodoTab';
 import PlanningTab from './Components/PlanningTab'
-import SortableComponent from './Components/SortableComponent';
+import {arrayMove} from "react-sortable-hoc";
+
 
 class App extends React.Component{
     constructor(props){
@@ -84,25 +86,21 @@ class App extends React.Component{
         });
     }
 
+    onSortEnd = ({oldIndex, newIndex}) =>{
+        this.setState(({done})=>({
+            done: arrayMove(done, oldIndex, newIndex)
+        }));
+    };
+
     render() {
         return(
             <div>
-                {/*{this.state.entries.map(*/}
-                    {/*({id,title,body})=>(*/}
-                        {/*<Items*/}
-                            {/*key={id}*/}
-                            {/*title={title}*/}
-                            {/*body={body}*/}
-                        {/*/>*/}
-                    {/*)*/}
-                {/*)}*/}
-
                 <TodoTab
                     todo={this.state.todo}
                     addRow={this.addRow}
                 />
 
-                <PlanningTab todo={this.state.done} removeRow={this.removeRow} />
+                <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd}/>
             </div>
         );
     }

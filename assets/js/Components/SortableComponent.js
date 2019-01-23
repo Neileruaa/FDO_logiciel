@@ -6,32 +6,41 @@ import {
     arrayMove,
 } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({value}) => <li>{value}</li>);
+const SortableItem = SortableElement(({id, numTeam, isPresent, round, index}) => (
+    <tr key={id}>
+        <th scope="row">{id}</th>
+        <td>{numTeam}</td>
+        <td>{isPresent}</td>
+        <td>{round}</td>
+    </tr>
+));
 
-const SortableList = SortableContainer(({items}) => {
+const SortableList = SortableContainer(({todo}) => {
     return (
-        <ul>
-            {items.map((value, index) => (
-                <SortableItem key={`item-${index}`} index={index} value={value} />
-            ))}
-        </ul>
+        <table className="sortable table table-striped table-hover">
+            <thead>
+                <tr key="id">
+                    <th scope="col">#</th>
+                    <th scope="col">Num Team</th>
+                    <th scope="col">is Present</th>
+                    <th scope="col">Round?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {todo.map(({id, numTeam, isPresent, round}, index) => (
+                    <SortableItem key={`item-${id}`} index={index} id={id} numTeam={numTeam} isPresent={isPresent} round={round} />
+                ))}
+            </tbody>
+        </table>
     );
 });
 
 export default class SortableComponent extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
-        };
     }
 
-    onSortEnd = ({oldIndex, newIndex}) => {
-        this.setState(({items}) => ({
-            items: arrayMove(items, oldIndex, newIndex),
-        }));
-    };
     render() {
-        return <SortableList items={this.state.items} onSortEnd={this.onSortEnd} />;
+        return <SortableList todo={this.props.todo} onSortEnd={this.props.onSortEnd} />;
     }
 }
