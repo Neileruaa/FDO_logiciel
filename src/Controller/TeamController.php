@@ -2,18 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Competition;
+use App\Entity\Team;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TeamController extends AbstractController
 {
     /**
-     * @Route("/team", name="Team.showAll")
+     * @Route("/competition/{title}/appel", name="Team.appel", requirements={"page"="\d+"})
      */
-    public function index()
+    public function appel(Competition $competition, ObjectManager $manager, Request $request)
     {
-        return $this->render('team/index.html.twig', [
-            'controller_name' => 'TeamController',
+        $teams=$competition->getTeams();
+
+        return $this->render('team/appel.html.twig', [
+            'teams'=>$teams
         ]);
     }
 }

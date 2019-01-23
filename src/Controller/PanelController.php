@@ -13,7 +13,7 @@ class PanelController extends AbstractController
      */
     public function index()
     {
-        return $this->render('panel/index.html.twig', [
+        return $this->render('panel/appel.html.twig', [
         ]);
     }
 

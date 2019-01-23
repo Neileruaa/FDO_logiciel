@@ -11,7 +11,7 @@ class PlanningController extends AbstractController
      * @Route("/planning", name="Planning.index")
      */
     public function index() {
-        return $this->render('planning/index.html.twig', [
+        return $this->render('planning/appel.html.twig', [
 
         ]);
     }

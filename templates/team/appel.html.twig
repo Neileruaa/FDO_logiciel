@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TeamController!{% endblock %}
+
+{% block body %}
+    {% if teams is not empty %}
+    {% for team in teams %}
+
+        {{ team.id }}
+    {% endfor %}
+    {% else %}
+        <strong>Aucune équipe n'est inscrite à cette compétition.</strong>
+    {% endif %}
+{% endblock %}

@@ -1,78 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Sélection des compétitions{% endblock %}
 
 {% block body %}
-<div>
-    <h1>FDO : Gestion Compétition</h1>
+    <h1>Compétitions</h1>
     <hr>
     <br>
+    {% if competitions is not empty %}
     <div class="row">
+    {% for competition in competitions %}
         <div class="col-lg-4 mb-4">
             <div class="card">
-                <img class="card-img-top" src="https://fakeimg.pl/300x150/84888e/" alt="fakeImage">
                 <div class="card-body">
-                    <h5 class="card-title">Faire l'appel</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consequatur dolorum eius enim fuga maxime necessitatibus neque reiciendis vero voluptas? Consectetur corporis, doloribus labore laudantium nesciunt numquam quis reiciendis voluptatem!</p>
-                    <a href="#" class="btn btn-primary">Voir</a>
+                    <h4 class="card-title"><strong>Compétition : </strong>{{ competition.title }}</h4>
+                    <ul class="list-group mb-5">
+                        <li class="list-group-item"><strong>Club organisateur : </strong> {{ competition.clubOrganizer.username }}</li>
+                        <li class="list-group-item"><strong>Date de la compétition : </strong>{{ competition.dateCompetition|date('d-m-Y') }}</li>
+                        <li class="list-group-item"><strong>Ville : </strong>{{ competition.city }}</li>
+                        <li class="list-group-item"><strong>Adresse : </strong>{{ competition.address }}</li>
+                        <li class="list-group-item"><strong>Liste des danses de la compétition : </strong><br>
+                            {% for dance in competition.dances %}
+                                {{ dance.nameDance }}
+                                <hr>
+                            {% else %}
+                                Pas de dances renseignée pour cette compétition
+                            {% endfor %}
+                        </li>
+                        <li class="list-group-item"><strong>Liste des juges de la compétition : </strong><br>
+                            {% for judge in competition.judges %}
+                            {{ judge.id }} : {{ judge.nameJudge }} {{ judge.firstNameJudge }}
+                                <br>
+                            {% else %}
+                                Pas de juge inscrit pour cette compétition
+                            {% endfor %}
+                        </li>
+                    </ul>
+                    <p class="card-text">{{ competition.description }}</p>
+                    <a href="{{ path('Team.appel', {title: competition.title}) }}" class="btn btn-success">Sélectionner</a>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="https://fakeimg.pl/250x130/2a5089/" alt="fakeImage">
-
-                <div class="card-body">
-                    <h5 class="card-title">Création planning</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid architecto beatae commodi consequatur, dolores ex illum laudantium molestias nihil nisi odit perferendis placeat porro recusandae, unde vel veritatis voluptas! Officia!</p>
-                    <a href="#" class="btn btn-primary">Voir</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="https://fakeimg.pl/250x160/3c9e56/" alt="fakeImage">
-
-                <div class="card-body">
-                    <h5 class="card-title">Compétition</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias, atque beatae consequuntur cumque dolor dolores esse facere id ipsam laudantium, optio pariatur perferendis quam quia, quos repudiandae veniam vero.</p>
-                    <a href="#" class="btn btn-primary">Voir</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="https://fakeimg.pl/250x90/c10ba6/" alt="fakeImage">
-
-                <div class="card-body">
-                    <h5 class="card-title">Espace juges</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam blanditiis consequatur cupiditate, error excepturi hic libero molestiae molestias natus omnis perspiciatis possimus rem vel. Expedita ipsam nulla odit perspiciatis voluptatem.</p>
-                    <a href="{{ path('Panel.index') }}" class="btn btn-primary">Voir</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="https://fakeimg.pl/250x100/ff0000/" alt="fakeImage">
-
-                <div class="card-body">
-                    <h5 class="card-title">Résultat</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam expedita quae repudiandae voluptatem. Ab accusantium aspernatur, debitis dolores explicabo hic labore magni maiores numquam quasi quos vel velit voluptas voluptatibus!</p>
-                    <a href="#" class="btn btn-primary">Voir</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="https://fakeimg.pl/250x100/ff0000/" alt="fakeImage">
-
-                <div class="card-body">
-                    <h5 class="card-title">Options supplémentaires</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto, autem consequuntur debitis deserunt, dolor ea eos itaque laborum maiores nostrum numquam obcaecati odit provident quo rem tempore temporibus vel.</p>
-                    <a href="#" class="btn btn-primary">Voir</a>
-                </div>
-            </div>
-        </div>
+    {% endfor %}
     </div>
-</div>
+    {% else %}
+        <strong>Il n'y a aucune compétition inscrite.</strong>
+    {% endif %}
 {% endblock %}

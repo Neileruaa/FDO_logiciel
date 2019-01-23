@@ -3,7 +3,7 @@
 -- Host: localhost	Database: fdo
 -- ------------------------------------------------------
 -- Server version 	5.7.24-0ubuntu0.18.04.1
--- Date: Mon, 14 Jan 2019 20:30:04 +0100
+-- Date: Tue, 22 Jan 2019 12:04:11 +0100
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -62,7 +62,7 @@ CREATE TABLE `club` (
   `roles` json NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_B8EE387227D818F7` (`email_club`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,12 +72,12 @@ CREATE TABLE `club` (
 LOCK TABLES `club` WRITE;
 /*!40000 ALTER TABLE `club` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `club` VALUES (1,'Belfort Dance','Belfort','90000','0606060606','Antoine','$2y$13$1KxL.yQGwaqrvL10L906VeEoG.IOrIKvKjTGOuGFTIXKistTSc0eq','test@gmail.com','\"ROLE_ADMIN\"');
+INSERT INTO `club` VALUES (1,'Belfort Dance','Belfort','90000','0606060606','Antoine','$2y$13$1KxL.yQGwaqrvL10L906VeEoG.IOrIKvKjTGOuGFTIXKistTSc0eq','test@gmail.com','\"ROLE_ADMIN\"'),(2,'Mulhouse Dance','Mulhouse','68000','0606060606','Antoine','$2y$13$H9cA175D/5fGciF6impHIea23bPIRn1xvYGZTgp7RHD4SkwtdfZki','testtest@gmail.com','\"ROLE_USER\"');
 /*!40000 ALTER TABLE `club` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `club` with 1 row(s)
+-- Dumped table `club` with 2 row(s)
 --
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `competition` (
   PRIMARY KEY (`id`),
   KEY `IDX_B50A2CB1FDD8E52A` (`club_organizer_id`),
   CONSTRAINT `FK_B50A2CB1FDD8E52A` FOREIGN KEY (`club_organizer_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,11 +109,12 @@ CREATE TABLE `competition` (
 LOCK TABLES `competition` WRITE;
 /*!40000 ALTER TABLE `competition` DISABLE KEYS */;
 SET autocommit=0;
+INSERT INTO `competition` VALUES (1,1,'2019-01-02','dazeda','aedaz',90000,'dezza',23,'zedzefzefz'),(2,1,'2019-01-02','dazeda','aedaz',90000,'dezza',23,'adzazda');
 /*!40000 ALTER TABLE `competition` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition` with 0 row(s)
+-- Dumped table `competition` with 2 row(s)
 --
 
 --
@@ -140,11 +141,44 @@ CREATE TABLE `competition_dance` (
 LOCK TABLES `competition_dance` WRITE;
 /*!40000 ALTER TABLE `competition_dance` DISABLE KEYS */;
 SET autocommit=0;
+INSERT INTO `competition_dance` VALUES (1,2),(1,3),(2,3),(2,4);
 /*!40000 ALTER TABLE `competition_dance` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition_dance` with 0 row(s)
+-- Dumped table `competition_dance` with 4 row(s)
+--
+
+--
+-- Table structure for table `competition_judge`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `competition_judge` (
+  `competition_id` int(11) NOT NULL,
+  `judge_id` int(11) NOT NULL,
+  PRIMARY KEY (`competition_id`,`judge_id`),
+  KEY `IDX_E24CF1C27B39D312` (`competition_id`),
+  KEY `IDX_E24CF1C2B7D66194` (`judge_id`),
+  CONSTRAINT `FK_E24CF1C27B39D312` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_E24CF1C2B7D66194` FOREIGN KEY (`judge_id`) REFERENCES `judge` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `competition_judge`
+--
+
+LOCK TABLES `competition_judge` WRITE;
+/*!40000 ALTER TABLE `competition_judge` DISABLE KEYS */;
+SET autocommit=0;
+INSERT INTO `competition_judge` VALUES (1,3);
+/*!40000 ALTER TABLE `competition_judge` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+
+-- Dumped table `competition_judge` with 1 row(s)
 --
 
 --
@@ -223,7 +257,7 @@ CREATE TABLE `dancer` (
   PRIMARY KEY (`id`),
   KEY `IDX_B11CC8A961190A32` (`club_id`),
   CONSTRAINT `FK_B11CC8A961190A32` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,11 +267,41 @@ CREATE TABLE `dancer` (
 LOCK TABLES `dancer` WRITE;
 /*!40000 ALTER TABLE `dancer` DISABLE KEYS */;
 SET autocommit=0;
+INSERT INTO `dancer` VALUES (1,1,'Heitzmann','Antoine','1999-01-02','salut@gmail.com',1),(2,1,'Drey','Aurelien','1960-01-03','salut@gmail.com',1);
 /*!40000 ALTER TABLE `dancer` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `dancer` with 0 row(s)
+-- Dumped table `dancer` with 2 row(s)
+--
+
+--
+-- Table structure for table `judge`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `judge` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_judge` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name_judge` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `judge`
+--
+
+LOCK TABLES `judge` WRITE;
+/*!40000 ALTER TABLE `judge` DISABLE KEYS */;
+SET autocommit=0;
+INSERT INTO `judge` VALUES (3,'Heitzmann','Antoine');
+/*!40000 ALTER TABLE `judge` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+
+-- Dumped table `judge` with 1 row(s)
 --
 
 --
@@ -287,12 +351,12 @@ CREATE TABLE `migration_versions` (
 LOCK TABLES `migration_versions` WRITE;
 /*!40000 ALTER TABLE `migration_versions` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `migration_versions` VALUES ('20190114114533');
+INSERT INTO `migration_versions` VALUES ('20190114114533'),('20190121104109'),('20190122102056');
 /*!40000 ALTER TABLE `migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `migration_versions` with 1 row(s)
+-- Dumped table `migration_versions` with 3 row(s)
 --
 
 --
@@ -333,12 +397,13 @@ CREATE TABLE `team` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `club_id` int(11) DEFAULT NULL,
   `category_id` int(11) NOT NULL,
+  `is_present` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_C4E0A61F61190A32` (`club_id`),
   KEY `IDX_C4E0A61F12469DE2` (`category_id`),
   CONSTRAINT `FK_C4E0A61F12469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FK_C4E0A61F61190A32` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -348,11 +413,12 @@ CREATE TABLE `team` (
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
 SET autocommit=0;
+INSERT INTO `team` VALUES (3,1,3,0);
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team` with 0 row(s)
+-- Dumped table `team` with 1 row(s)
 --
 
 --
@@ -379,11 +445,12 @@ CREATE TABLE `team_dance` (
 LOCK TABLES `team_dance` WRITE;
 /*!40000 ALTER TABLE `team_dance` DISABLE KEYS */;
 SET autocommit=0;
+INSERT INTO `team_dance` VALUES (3,1);
 /*!40000 ALTER TABLE `team_dance` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team_dance` with 0 row(s)
+-- Dumped table `team_dance` with 1 row(s)
 --
 
 --
@@ -410,11 +477,12 @@ CREATE TABLE `team_dancer` (
 LOCK TABLES `team_dancer` WRITE;
 /*!40000 ALTER TABLE `team_dancer` DISABLE KEYS */;
 SET autocommit=0;
+INSERT INTO `team_dancer` VALUES (3,1),(3,2);
 /*!40000 ALTER TABLE `team_dancer` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team_dancer` with 0 row(s)
+-- Dumped table `team_dancer` with 2 row(s)
 --
 
 --
@@ -459,4 +527,4 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on: Mon, 14 Jan 2019 20:30:04 +0100
+-- Dump completed on: Tue, 22 Jan 2019 12:04:11 +0100
