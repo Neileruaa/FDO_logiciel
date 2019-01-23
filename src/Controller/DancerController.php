@@ -11,7 +11,7 @@ class DancerController extends AbstractController
      * @Route("/dancer", name="Dancer.showAll")
      */
     public function index() {
-        return $this->render('dancer/index.html.twig', [
+        return $this->render('dancer/appel.html.twig', [
 
         ]);
     }
