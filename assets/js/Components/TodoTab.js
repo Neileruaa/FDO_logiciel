@@ -3,7 +3,7 @@ import React from 'react';
 const TodoTab = ({todo, addRow}) =>(
     <table className="sortable table table-striped table-hover">
         <thead>
-            <tr>
+            <tr key="id">
                 <th scope="col">#</th>
                 <th scope="col">Num Team</th>
                 <th scope="col">is Present</th>

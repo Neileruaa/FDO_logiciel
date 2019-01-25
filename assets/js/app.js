@@ -42,6 +42,7 @@ class App extends React.Component{
 
         this.addRow = this.addRow.bind(this);
         this.removeRow = this.removeRow.bind(this);
+        this.testClick = this.testClick.bind(this);
     }
 
     componentDidMount() {
@@ -90,6 +91,10 @@ class App extends React.Component{
         }));
     };
 
+    testClick(){
+        console.log(this.state.done);
+    }
+
     render() {
         return(
             <div>
@@ -99,6 +104,8 @@ class App extends React.Component{
                 />
 
                 <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
+
+                <button className="btn btn-success" onClick={this.testClick}>Valider</button>
             </div>
         );
     }
