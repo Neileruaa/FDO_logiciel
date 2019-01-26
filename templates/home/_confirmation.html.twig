@@ -1,0 +1,17 @@
+<div id="delete{{ id }}" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Êtes-vous sûr ?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                <a href="{{ path }}" class="btn btn-success">Sélectionner</a>
+            </div>
+        </div>
+    </div>
+</div>

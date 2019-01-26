@@ -9,6 +9,7 @@
     {% if competitions is not empty %}
     <div class="row">
     {% for competition in competitions %}
+        {% include 'home/_confirmation.html.twig' with {"id": competition.id, "message": "Êtes-vous sûr(e) de vouloir sélectionner la compétition : "~competition.title~" ? Tout avancement d'autres compétition sera écrasé par le nouveau.", "path": path('Team.appel', {title: competition.title}) } %}
         <div class="col-lg-4 mb-4">
             <div class="card">
                 <div class="card-body">
@@ -36,7 +37,7 @@
                         </li>
                     </ul>
                     <p class="card-text">{{ competition.description }}</p>
-                    <a href="{{ path('Team.appel', {title: competition.title}) }}" class="btn btn-success">Sélectionner</a>
+                    <a href="#" data-toggle="modal" data-target="#delete{{ competition.id }}" class="btn btn-success">Sélectionner</a>
                 </div>
             </div>
         </div>
