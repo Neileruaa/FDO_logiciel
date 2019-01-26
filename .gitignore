@@ -107,3 +107,4 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /baseDeDonnees/*
+/src/Controller/BDDController.php
