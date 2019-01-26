@@ -25,6 +25,7 @@ import ReactDOM from 'react-dom';
 import TodoTab from './Components/TodoTab';
 import PlanningTab from './Components/PlanningTab'
 import {arrayMove} from "react-sortable-hoc";
+import axios from 'axios';
 
 
 class App extends React.Component{
@@ -43,6 +44,7 @@ class App extends React.Component{
         this.addRow = this.addRow.bind(this);
         this.removeRow = this.removeRow.bind(this);
         this.testClick = this.testClick.bind(this);
+        this.testClick2 = this.testClick2.bind(this);
     }
 
     componentDidMount() {
@@ -92,7 +94,20 @@ class App extends React.Component{
     };
 
     testClick(){
-        console.log(this.state.done);
+        axios.get('http://127.0.0.1:8000/testAjax')
+            .then(res=>{
+                console.log(res.data.username)
+            })
+    }
+
+    testClick2(){
+        axios.post('http://127.0.0.1:8000/testAjaxPost',{
+            number: 3
+        }).then(res=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log(err);
+        })
     }
 
     render() {
