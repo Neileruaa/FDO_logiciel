@@ -34,6 +34,7 @@ class App extends React.Component{
         this.state={
             error:null,
             todo: [],
+            isLoaded:false,
             done: []
         };
 
@@ -45,15 +46,19 @@ class App extends React.Component{
     componentDidMount() {
         axios.get('http://127.0.0.1:8000/testAjax')
             .then(res=>{
-                console.log(res.data.teams);
-                this.setState({
-                    todo: res.data.teams,
-                })
+                setTimeout(()=>{
+                    console.log(res.data.teams);
+                    this.setState({
+                        todo: res.data.teams,
+                        isLoaded: true
+                    })
+                }, 2000);
             })
             .catch(err=>{
                 console.log(err);
                 this.setState({
-                    error:err
+                    error:err,
+                    isLoaded: true
                 })
             })
     }
@@ -105,18 +110,26 @@ class App extends React.Component{
     }
 
     render() {
-        return(
-            <div>
-                <TodoTab
-                    todo={this.state.todo}
-                    addRow={this.addRow}
-                />
+        if (!this.state.isLoaded){
+            return(
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+            );
+        } else{
+            return(
+                <div>
+                    <TodoTab
+                        todo={this.state.todo}
+                        addRow={this.addRow}
+                    />
 
-                <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
+                    <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
 
-                <button className="btn btn-success" onClick={this.testClick2}>Valider</button>
-            </div>
-        );
+                    <button className="btn btn-success" onClick={this.testClick2}>Valider</button>
+                </div>
+            );
+        }
     }
 }
 
