@@ -104,7 +104,9 @@ class App extends React.Component{
             number: 3
         }).then(res=>{
             console.log(res);
+            this.button.setAttribute("class", "btn btn-success");
         }).catch(err=>{
+            this.button.setAttribute("class", "btn btn-danger");
             console.log(err);
         })
     }
@@ -126,7 +128,7 @@ class App extends React.Component{
 
                     <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
 
-                    <button className="btn btn-success" onClick={this.testClick2}>Valider</button>
+                    <button className="btn btn-info" ref={buttonValider=>{this.button=buttonValider}} onClick={this.testClick2}>Valider</button>
                 </div>
             );
         }
