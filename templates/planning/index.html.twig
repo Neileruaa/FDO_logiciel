@@ -2,8 +2,12 @@
 
 {% block title %}Hello PlanningController!{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('planningApp') }}
+{% endblock %}
 
+{% block body %}
 <div>
     <h1>Hello Test Planning !! ✅</h1>
 
@@ -12,4 +16,9 @@
     </div>
     <div id="root"></div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('planningApp') }}
 {% endblock %}
