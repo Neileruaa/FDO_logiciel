@@ -32,29 +32,30 @@ class App extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            todo: [
-                {id: 0, numTeam: 0, isPresent:0, round:1},
-                {id: 1, numTeam: 1, isPresent:1, round:1},
-                {id: 2, numTeam: 2, isPresent:1, round:2},
-                {id: 3, numTeam: 3, isPresent:0, round:"Finale"},
-            ],
+            error:null,
+            todo: [],
             done: []
         };
 
         this.addRow = this.addRow.bind(this);
         this.removeRow = this.removeRow.bind(this);
-        this.testClick = this.testClick.bind(this);
         this.testClick2 = this.testClick2.bind(this);
     }
 
     componentDidMount() {
-        // fetch('https://jsonplaceholder.typicode.com/posts/')
-        //     .then(response => response.json())
-        //     .then(entries => {
-        //         this.setState({
-        //             entries
-        //         });
-        //     });
+        axios.get('http://127.0.0.1:8000/testAjax')
+            .then(res=>{
+                console.log(res.data.teams);
+                this.setState({
+                    todo: res.data.teams,
+                })
+            })
+            .catch(err=>{
+                console.log(err);
+                this.setState({
+                    error:err
+                })
+            })
     }
 
     addRow(newRow, id){
@@ -93,13 +94,6 @@ class App extends React.Component{
         }));
     };
 
-    testClick(){
-        axios.get('http://127.0.0.1:8000/testAjax')
-            .then(res=>{
-                console.log(res.data.username)
-            })
-    }
-
     testClick2(){
         axios.post('http://127.0.0.1:8000/testAjaxPost',{
             number: 3
@@ -120,7 +114,7 @@ class App extends React.Component{
 
                 <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
 
-                <button className="btn btn-success" onClick={this.testClick}>Valider</button>
+                <button className="btn btn-success" onClick={this.testClick2}>Valider</button>
             </div>
         );
     }

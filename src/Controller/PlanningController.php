@@ -22,7 +22,16 @@ class PlanningController extends AbstractController
      * @Route("/testAjax", name="Planning.testAjax", methods={"GET"})
      */
     public function testAjax(){
-    	return $this->json(['username'=>'Aurélien DREY']);
+
+    	$teams = [
+    		['id'=>0, 'numTeam'=>0, 'isPresent'=>0, 'round'=>1],
+    		['id'=>1, 'numTeam'=>1, 'isPresent'=>1, 'round'=>1],
+    		['id'=>2, 'numTeam'=>2, 'isPresent'=>1, 'round'=>1],
+    		['id'=>3, 'numTeam'=>3, 'isPresent'=>0, 'round'=>'Finale'],
+	    ];
+
+
+    	return $this->json(['teams'=>$teams]);
     }
 
     /**
