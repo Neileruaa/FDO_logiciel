@@ -29,7 +29,6 @@ class BDDController extends AbstractController
         //}
         //$sql = "ALTER TABLE ";
         //mysqli_query($conn, $sql);
-        return $this->render('home/appel.html.twig', [
-        ]);
+        return $this->redirectToRoute('Home.index');
     }
 }

@@ -6,8 +6,11 @@ use App\Entity\Competition;
 use App\Entity\Team;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class TeamController extends AbstractController
 {
@@ -16,10 +19,36 @@ class TeamController extends AbstractController
      */
     public function appel(Competition $competition, ObjectManager $manager, Request $request)
     {
+        $session=$this->get('session');
+        $session->set('competSelected', $competition);
+
+        $teams=$competition->getTeams();
+        foreach ($teams as $team){
+            //dump($team->getIsPresent());
+            //die();
+        }
+        return $this->render('team/appel.html.twig', [
+            'teams'=>$teams,
+            'compet'=>$this->get("session")->get('competSelected')
+        ]);
+    }
+
+    /**
+     * @Route("/competition/{title}/appel/valide", name="Team.appelValide", requirements={"page"="\d+"})
+     */
+    public function valideAppel(Request $request){
+        $manager=$this->getDoctrine()->getManager();
+        $competition=$this->get("session")->get('competSelected');
         $teams=$competition->getTeams();
 
-        return $this->render('team/appel.html.twig', [
-            'teams'=>$teams
-        ]);
+        foreach ($teams as $team){
+            $idTeam=$team->getId();
+            $statut=$request->request->get("appel".$idTeam);
+            if ($statut=="present") $team->setIsPresent(true);
+            elseif ($statut=="absent") $team->setIsPresent(false);
+            $manager->merge($team);
+            $manager->flush();
+        }
+        return $this->redirectToRoute("Planning.index");
     }
 }
