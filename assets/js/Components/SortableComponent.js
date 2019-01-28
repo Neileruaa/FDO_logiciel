@@ -5,13 +5,15 @@ import {
     SortableElement,
 } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({id, numTeam, isPresent, round, index, removeRow}) => (
+const SortableItem = SortableElement(({id, Dance, Categorie, Age, Round, Piste, index, removeRow}) => (
     <tr key={id}>
         <th scope="row">{id}</th>
-        <td>{numTeam}</td>
-        <td>{isPresent}</td>
-        <td>{round}</td>
-        <td><button onClick={() => removeRow({id:id, numTeam:numTeam, isPresent:isPresent, round:round}, id)} className="btn btn-danger"><i className="fas fa-minus"/></button></td>
+        <td>{Dance}</td>
+        <td>{Categorie}</td>
+        <td>{Age}</td>
+        <td>{Round}</td>
+        <td>{Piste}</td>
+        <td><button onClick={() => removeRow({id:id, Dance:Dance, Categorie:Categorie, Age:Age, Round:Round, Piste:Piste}, id)} className="btn btn-danger"><i className="fas fa-minus"/></button></td>
     </tr>
 ));
 
@@ -21,14 +23,17 @@ const SortableList = SortableContainer(({todo, removeRow}) => {
             <thead>
                 <tr key="id">
                     <th scope="col">#</th>
-                    <th scope="col">Num Team</th>
-                    <th scope="col">is Present</th>
-                    <th scope="col">Round?</th>
+                    <th scope="col">Danse</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Tour</th>
+                    <th scope="col">Pistes</th>
+                    <th scope="col">Options</th>
                 </tr>
             </thead>
             <tbody>
-                {todo.map(({id, numTeam, isPresent, round}, index) => (
-                    <SortableItem key={`item-${id}`} index={index} id={id} numTeam={numTeam} isPresent={isPresent} round={round} removeRow={removeRow} />
+                {todo.map(({id, Dance, Categorie, Age, Round, Piste}, index) => (
+                    <SortableItem key={`item-${id}`} index={index} id={id} Dance={Dance} Categorie={Categorie} Age={Age} Round={Round} Piste={Piste} removeRow={removeRow} />
                 ))}
             </tbody>
         </table>

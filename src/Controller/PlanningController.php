@@ -31,19 +31,19 @@ class PlanningController extends AbstractController
      */
     public function testAjax(){
 
-    	$compet = $this->get("session")->get('competSelected');
+//    	$compet = $this->get("session")->get('competSelected');
+//
+//    	dump("test");
 
-    	dump("test");
-
-	    $teams = [
-    		['id'=>0, 'numTeam'=>0, 'isPresent'=>0, 'round'=>1],
-    		['id'=>1, 'numTeam'=>1, 'isPresent'=>1, 'round'=>1],
-    		['id'=>2, 'numTeam'=>2, 'isPresent'=>1, 'round'=>1],
-    		['id'=>3, 'numTeam'=>3, 'isPresent'=>0, 'round'=>'Finale'],
+	    $row = [
+    		['id'=>0, 'Dance'=>'Salsa', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'A'],
+    		['id'=>1, 'Dance'=>'Salsa', 'Categorie'=>'solo', 'Age'=> 'Enfant', 'Round'=>2, 'Piste'=> 'B' ],
+    		['id'=>2, 'Dance'=>'HipHop', 'Categorie'=>'Formations', 'Age'=>'Junior', 'Round'=>'Finale', 'Piste'=> 'A'],
+    		['id'=>3, 'Dance'=>'HipHop', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'B'],
 	    ];
 
 
-		    return $this->json(['teams'=>$teams]);
+		    return $this->json(['row'=>$row]);
     }
 
     /**

@@ -5,20 +5,25 @@ const TodoTab = ({todo, addRow}) =>(
         <thead>
             <tr key="id">
                 <th scope="col">#</th>
-                <th scope="col">Num Team</th>
-                <th scope="col">is Present</th>
-                <th scope="col">Round?</th>
+                <th scope="col">Danse</th>
+                <th scope="col">Catégorie</th>
+                <th scope="col">Age</th>
+                <th scope="col">Tour</th>
+                <th scope="col">Pistes</th>
+                <th scope="col">Options</th>
             </tr>
         </thead>
         <tbody>
         {todo.map(
-            ({id, numTeam, isPresent, round})=>
+            ({id, Dance, Categorie, Age, Round, Piste})=>
                 <tr key={id}>
                     <th scope="row">{id}</th>
-                    <td>{numTeam}</td>
-                    <td>{isPresent}</td>
-                    <td>{round}</td>
-                    <td><button onClick={() => addRow({id:id, numTeam:numTeam, isPresent:isPresent, round:round}, id)} className="btn btn-success"><i className="fas fa-plus"/></button></td>
+                    <td>{Dance}</td>
+                    <td>{Categorie}</td>
+                    <td>{Age}</td>
+                    <td>{Round}</td>
+                    <td>{Piste}</td>
+                    <td><button onClick={() => addRow({id:id, Dance:Dance, Categorie:Categorie, Age:Age, Round:Round, Piste:Piste}, id)} className="btn btn-success"><i className="fas fa-plus"/></button></td>
                 </tr>
         )}
         </tbody>
