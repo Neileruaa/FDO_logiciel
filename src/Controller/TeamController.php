@@ -19,6 +19,7 @@ class TeamController extends AbstractController
      */
     public function appel(Competition $competition, ObjectManager $manager, Request $request)
     {
+        $manager->detach($competition);
         $session=$this->get('session');
         $session->set('competSelected', $competition->getId());
 
