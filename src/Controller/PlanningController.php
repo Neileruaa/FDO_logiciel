@@ -43,7 +43,7 @@ class PlanningController extends AbstractController
 	    ];
 
 
-	    return $this->json(['teams'=>$teams]);
+		    return $this->json(['teams'=>$teams]);
     }
 
     /**

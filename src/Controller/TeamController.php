@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeamController extends AbstractController
 {
     /**
-     * @Route("/competition/{title}/appel", name="Team.appel", requirements={"page"="\d+"})
+     * @Route("/competition/{id}/appel", name="Team.appel", requirements={"page"="\d+"})
      */
     public function appel(Competition $competition, ObjectManager $manager, Request $request)
     {
@@ -29,7 +29,7 @@ class TeamController extends AbstractController
         }
         return $this->render('team/appel.html.twig', [
             'teams'=>$teams,
-            'compet'=>$this->get("session")->get('competSelected')
+            'compet'=>$competition
         ]);
     }
 
