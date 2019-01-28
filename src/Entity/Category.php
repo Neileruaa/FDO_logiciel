@@ -28,9 +28,15 @@ class Category
      */
     private $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Row", mappedBy="category")
+     */
+    private $rows;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->rows = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,6 +86,37 @@ class Category
             // set the owning side to null (unless already changed)
             if ($team->getCategory() === $this) {
                 $team->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Row[]
+     */
+    public function getRows(): Collection
+    {
+        return $this->rows;
+    }
+
+    public function addRow(Row $row): self
+    {
+        if (!$this->rows->contains($row)) {
+            $this->rows[] = $row;
+            $row->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRow(Row $row): self
+    {
+        if ($this->rows->contains($row)) {
+            $this->rows->removeElement($row);
+            // set the owning side to null (unless already changed)
+            if ($row->getCategory() === $this) {
+                $row->setCategory(null);
             }
         }
 
