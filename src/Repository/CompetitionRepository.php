@@ -19,6 +19,23 @@ class CompetitionRepository extends ServiceEntityRepository
         parent::__construct($registry, Competition::class);
     }
 
+    public function getRows($idCompet){
+        $entityManager = $this->getEntityManager();
+        return $this->createQueryBuilder('c')
+            ->select('cd.nameDance, cat.nameCategory, ct.size')
+            ->andWhere('c.id = :idCompet')
+            ->andWhere('cd.id = td.id')
+            ->join("c.dances", "cd")
+            ->join("c.teams", "ct")
+            ->join("ct.dances", "td")
+            ->join("ct.category", "cat")
+            ->setParameter('idCompet', $idCompet)
+            ->distinct("d.nameDance")
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Competition[] Returns an array of Competition objects
 //     */
