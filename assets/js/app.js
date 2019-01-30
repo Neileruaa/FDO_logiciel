@@ -16,5 +16,6 @@ const $ = require('jquery');
 require('bootstrap');
 
 require('sorttable');
+import sorttable from 'sorttable';
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

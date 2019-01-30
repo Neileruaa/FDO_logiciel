@@ -30,7 +30,7 @@ class App extends React.Component{
                         todo: res.data.row,
                         isLoaded: true
                     })
-                }, 2000);
+                }, 200);
             })
             .catch(err=>{
                 console.log(err);
@@ -113,4 +113,4 @@ class App extends React.Component{
     }
 }
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('planningCreator'));

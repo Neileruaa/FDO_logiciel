@@ -5,6 +5,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('planningApp') }}
+    {{ encore_entry_link_tags('ResultApp') }}
 {% endblock %}
 
 {% block body %}
@@ -14,11 +15,13 @@
     <div class="alert alert-info" role="alert">
         Cliquer sur le nom de la colonne pour la trier !
     </div>
-    <div id="root"></div>
+    <div id="planningCreator"></div>
+    <div id="resultatApp"></div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('planningApp') }}
+    {{ encore_entry_script_tags('ResultApp') }}
 {% endblock %}
