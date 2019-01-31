@@ -18,11 +18,13 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@handsontable/react": "^2.1.0",
+        "axios": "^0.18.0",
         "bootstrap": "^4.2.1",
+        "handsontable": "^6.2.2",
         "jquery": "^3.3.1",
         "popper.js": "^1.14.6",
         "react": "^16.7.0",
-        "sorttable": "^1.0.2",
-        "axios": "latest"
+        "sorttable": "^1.0.2"
     }
 }
