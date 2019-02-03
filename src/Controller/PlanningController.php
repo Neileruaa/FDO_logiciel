@@ -93,7 +93,10 @@ class PlanningController extends AbstractController
     /**
      * @Route("/planning/actuel", name="Planning.actualPlanning")
      */
-	public function actualPlanning() {
-
+	public function actualPlanning(RowRepository $rowRepository) {
+		dump($rowRepository->findAll());
+		return $this->render('planning/planningActuel.html.twig',[
+			'rows'=>$rowRepository->findAll(),
+		]);
     }
 }

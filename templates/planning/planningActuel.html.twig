@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PlanningController!{% endblock %}
+
+
+{% block body %}
+    <div>
+        <h1>Voici le planning actuel</h1>
+
+        <div class="alert alert-info" role="alert">
+            Vous pouvez toujours en faire un nouveau dans l'onglet "creation"
+        </div>
+
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Dance</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Tour</th>
+                    <th scope="col">Pistes</th>
+                    <th scope="col">Options</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows if rows is not empty %}
+                    <tr>
+                        <th scope="row">{{ row.dance.nameDance }}</th>
+                        <td>{{ row.formation }}</td>
+                        <td>{{ row.category.nameCategory }}</td>
+                        <td>{{ row.numTour }}</td>
+                        <td>{{ row.piste }}</td>
+                        <td>
+                            <a href="#" class="btn btn-info">Voir planning équipes</a>
+                            <a href="#" class="btn btn-info">Résultats</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td scope="row" colspan="6">
+                            Vous devez créer un planning dans l'onglet approprié.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
