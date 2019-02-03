@@ -89,4 +89,11 @@ class PlanningController extends AbstractController
 		$manager->flush();
 		return new Response('test');
     }
+
+    /**
+     * @Route("/planning/actuel", name="Planning.actualPlanning")
+     */
+	public function actualPlanning() {
+
+    }
 }
