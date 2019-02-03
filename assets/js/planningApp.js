@@ -19,6 +19,7 @@ class App extends React.Component{
         this.addRow = this.addRow.bind(this);
         this.removeRow = this.removeRow.bind(this);
         this.testClick2 = this.testClick2.bind(this);
+        this.handleSelectPiste = this.handleSelectPiste.bind(this);
     }
 
     componentDidMount() {
@@ -58,6 +59,7 @@ class App extends React.Component{
 
     removeRow(newRow, id){
         this.state.todo.push(newRow);
+        console.log(id);
         this.state.done.map(
             (row, index)=>{
                 if (row['id']===id){
@@ -89,6 +91,10 @@ class App extends React.Component{
         })
     }
 
+    handleSelectPiste(event, id){
+        console.log(id);
+    }
+
     render() {
         if (!this.state.isLoaded){
             return(
@@ -104,7 +110,11 @@ class App extends React.Component{
                         addRow={this.addRow}
                     />
 
-                    <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
+                    <PlanningTab
+                        todo={this.state.done}
+                        removeRow={this.removeRow}
+                        onSortEnd={this.onSortEnd}
+                        handleSelectPiste={this.handleSelectPiste}/>
 
                     <button className="btn btn-info" ref={buttonValider=>{this.button=buttonValider}} onClick={this.testClick2}>Valider</button>
                 </div>

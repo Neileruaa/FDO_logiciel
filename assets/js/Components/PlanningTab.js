@@ -1,8 +1,12 @@
 import React from 'react';
 import SortableComponent from "./SortableComponent";
 
-const PlanningTab = ({todo, removeRow, onSortEnd}) =>(
-    <SortableComponent todo={todo} onSortEnd={onSortEnd} removeRow={removeRow}/>
+const PlanningTab = ({todo, removeRow, onSortEnd, handleSelectPiste}) =>(
+    <SortableComponent
+        todo={todo}
+        onSortEnd={onSortEnd}
+        removeRow={removeRow}
+        handleSelectPiste={handleSelectPiste}/>
 );
 
 export default PlanningTab;
