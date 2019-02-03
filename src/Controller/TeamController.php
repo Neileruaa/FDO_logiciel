@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Competition;
+use App\Entity\Row;
 use App\Entity\Team;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,5 +52,12 @@ class TeamController extends AbstractController
             $manager->flush();
         }
         return $this->redirectToRoute("Planning.index");
+    }
+
+	/**
+	 * @Route("/teams/row/{id}", name="Teams.getAllTeamsSelectedRow")
+	 */
+	public function findAllTeamForSelectedRow(ObjectManager $manager, Row $row) {
+		dump($row);
     }
 }

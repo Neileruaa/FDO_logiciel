@@ -27,7 +27,8 @@
         "symfony/web-link": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "4.2.*",
-      "ext-mysqli": "*"
+      "ext-mysqli": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

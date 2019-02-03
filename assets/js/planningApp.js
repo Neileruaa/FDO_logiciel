@@ -79,7 +79,7 @@ class App extends React.Component{
 
     testClick2(){
         axios.post('http://127.0.0.1:8000/testAjaxPost',{
-            number: this.state.done
+            rows: this.state.done
         }).then(res=>{
             console.log(res);
             this.button.setAttribute("class", "btn btn-success");
