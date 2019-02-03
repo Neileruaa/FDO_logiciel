@@ -25,7 +25,7 @@ class App extends React.Component{
         axios.get('http://127.0.0.1:8000/testAjax')
             .then(res=>{
                 setTimeout(()=>{
-                    console.log(res.data.row);
+                    // console.log(res.data.row);
                     this.setState({
                         todo: res.data.row,
                         isLoaded: true
