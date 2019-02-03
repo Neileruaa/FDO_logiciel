@@ -8,6 +8,7 @@ use App\Entity\Dance;
 use App\Entity\Row;
 use App\Repository\CategoryRepository;
 use App\Repository\DanceRepository;
+use App\Repository\RowRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,13 +54,21 @@ class PlanningController extends AbstractController
 	public function testAjaxPost(Request $request,
 	                             ObjectManager $manager,
 	                             CategoryRepository $categoryRepository,
-	                             DanceRepository $danceRepository) {
+	                             DanceRepository $danceRepository,
+	                             RowRepository $rowRepository) {
 //		$rows = $request->getContent();
 
 		$parametersAsArray = array();
 		if ($content = $request->getContent()){
 			$parametersAsArray = json_decode($content, true);
 		}
+
+		//vide la table Row
+		$rows = $rowRepository->findAll();
+		foreach ($rows as $line){
+			$manager->remove($line);
+		}
+		$manager->flush();
 
 		foreach ($parametersAsArray as $param){
 			foreach ($param as $rows){
@@ -71,6 +80,7 @@ class PlanningController extends AbstractController
 					->setFormation($rows['Categorie'])
 					->setNumTour($rows['Round'])
 					->setPiste($rows['Piste'])
+					->setIsDone(false)
 					->setPassageSimul(4)
 				;
 				$manager->persist($row);
