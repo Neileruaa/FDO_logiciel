@@ -14,6 +14,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -22,12 +24,10 @@ class TeamController extends AbstractController
     /**
      * @Route("/competition/{id}/appel", name="Team.appel", requirements={"page"="\d+"})
      */
-    public function appel(Competition $competition, ObjectManager $manager, Request $request)
+    public function appel(Competition $competition, ObjectManager $manager, Request $request, SessionInterface $session)
     {
         $manager->detach($competition);
-        $session=$this->get('session');
         $session->set('competSelected', $competition->getId());
-
         $teams=$competition->getTeams();
         foreach ($teams as $team){
             //dump($team->getIsPresent());
@@ -42,38 +42,18 @@ class TeamController extends AbstractController
     /**
      * @Route("/competition/{title}/appel/valide", name="Team.appelValide", requirements={"page"="\d+"})
      */
-    public function valideAppel(Request $request, ObjectManager $manager){
-        $session=$this->get('session');
-        $competition=$this->get("session")->get('competSelected');
-        $this->deleteRows($manager);
-        $rows=$this->getDoctrine()->getRepository(Competition::class)->getRows($session->get('competSelected'));
+    public function valideAppel(Request $request, ObjectManager $manager, SessionInterface $session){
+        $competition=$session->get('competSelected');
+        $rowController=new RowController();
 
-        foreach ($rows as $row){
-            $newRow=new Row();
-            //dump($row);
-            $dance=$this->getDoctrine()->getRepository(Dance::class)->findBy(['nameDance'=>$row['nameDance']]);
-            $newRow->setDance($dance[0]);
+        $cr=$this->getDoctrine()->getRepository(Competition::class);
+        $rr=$this->getDoctrine()->getRepository(Row::class);
+        $dr=$this->getDoctrine()->getRepository(Dance::class);
+        $tr=$this->getDoctrine()->getRepository(Team::class);
+        $catr=$this->getDoctrine()->getRepository(Category::class);
 
-            $newRow->setNumTour(1);
-
-            $category=$this->getDoctrine()->getRepository(Category::class)->findBy(['nameCategory'=>$row['nameCategory']]);
-            $newRow->setCategory($category[0]);
-
-            $newRow->setFormation($row['size']);
-
-            $teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size']);
-            foreach ($teams as $team){
-                $t=$this->getDoctrine()->getRepository(Team::class)->find($team);
-                $newRow->addTeam($t);
-            }
-            $c=$this->getDoctrine()->getRepository(Competition::class)->find($competition);
-            dump($c);
-            $newRow->setCompetition($c);
-            $newRow->setIsDone(false);
-            $newRow->setPiste("A");
-            $manager->persist($newRow);
-            $manager->flush();
-        }
+        $rowController->deleteRows($manager, $session, $cr, $rr);
+        $rowController->insertRows($manager, $session, $cr, $rr, $dr, $tr, $catr);
 
         $teams=$this->getDoctrine()->getRepository(Competition::class)->find($competition)->getTeams();
 
@@ -86,15 +66,5 @@ class TeamController extends AbstractController
             $manager->flush();
         }
         return $this->redirectToRoute("Planning.index");
-    }
-
-    public function deleteRows(ObjectManager $manager){
-        $compet=$this->get("session")->get('competSelected');
-        $compet=$this->getDoctrine()->getRepository(Competition::class)->find($compet);
-        $rows=$this->getDoctrine()->getRepository(Row::class)->findBy(['competition'=>$compet]);
-        foreach ($rows as $row){
-            $manager->remove($row);
-            $manager->flush();
-        }
     }
 }

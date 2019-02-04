@@ -13,6 +13,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PlanningController extends AbstractController
@@ -20,8 +21,8 @@ class PlanningController extends AbstractController
     /**
      * @Route("/planning", name="Planning.index")
      */
-    public function index() {
-	    $compet = $this->get("session")->get('competSelected');
+    public function index(SessionInterface $session) {
+	    $compet = $session->get('competSelected');
 	    $compet=$this->getDoctrine()->getRepository(Competition::class)->find($compet);
         return $this->render('planning/index.html.twig', [
 
