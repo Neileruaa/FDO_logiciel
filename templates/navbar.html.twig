@@ -14,8 +14,14 @@
 				<li class="nav-item">
 					<a class="nav-link js-scroll-trigger" href="{{ path('Panel.index') }}"><i class="fas fa-chalkboard-teacher"></i> Espace juges</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="{{ path('Planning.index') }}"><i class="fas fa-home"></i> TestTable</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<strong>Planning</strong>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{{ path('Planning.index') }}">Création planning</a>
+						<a class="dropdown-item" href="{{ path('Planning.actualPlanning') }}">Planning actuel</a>
+					</div>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link js-scroll-trigger" href="{{ path('Import') }}"><i class="fas fa-download"></i> Importer</a>

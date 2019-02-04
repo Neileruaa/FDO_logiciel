@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Competition;
-use App\Entity\Dance;
 use App\Entity\Row;
 use App\Entity\Team;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,8 +23,7 @@ class TeamController extends AbstractController
         $manager->detach($competition);
         $session=$this->get('session');
         $session->set('competSelected', $competition->getId());
-        //dump();
-        //die();
+
         $teams=$competition->getTeams();
         foreach ($teams as $team){
             //dump($team->getIsPresent());

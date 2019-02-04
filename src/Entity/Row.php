@@ -19,7 +19,7 @@ class Row
     private $id;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=0, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $numTour;
 
@@ -54,7 +54,7 @@ class Row
     private $isDone;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $passageSimul;
 
@@ -166,15 +166,19 @@ class Row
         return $this;
     }
 
-    public function getPassageSimul(): ?bool
-    {
-        return $this->passageSimul;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getPassageSimul() {
+		return $this->passageSimul;
+	}
 
-    public function setPassageSimul(?bool $passageSimul): self
-    {
-        $this->passageSimul = $passageSimul;
+	/**
+	 * @param mixed $passageSimul
+	 */
+	public function setPassageSimul($passageSimul) {
+		$this->passageSimul = $passageSimul;
+	}
 
-        return $this;
-    }
+
 }

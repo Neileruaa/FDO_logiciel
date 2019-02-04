@@ -19,18 +19,19 @@ class App extends React.Component{
         this.addRow = this.addRow.bind(this);
         this.removeRow = this.removeRow.bind(this);
         this.testClick2 = this.testClick2.bind(this);
+        this.handleSelectPiste = this.handleSelectPiste.bind(this);
     }
 
     componentDidMount() {
         axios.get('http://127.0.0.1:8000/testAjax')
             .then(res=>{
                 setTimeout(()=>{
-                    console.log(res.data.row);
+                    // console.log(res.data.row);
                     this.setState({
                         todo: res.data.row,
                         isLoaded: true
                     })
-                }, 2000);
+                }, 200);
             })
             .catch(err=>{
                 console.log(err);
@@ -58,6 +59,7 @@ class App extends React.Component{
 
     removeRow(newRow, id){
         this.state.todo.push(newRow);
+        console.log(id);
         this.state.done.map(
             (row, index)=>{
                 if (row['id']===id){
@@ -79,7 +81,7 @@ class App extends React.Component{
 
     testClick2(){
         axios.post('http://127.0.0.1:8000/testAjaxPost',{
-            number: this.state.done
+            rows: this.state.done
         }).then(res=>{
             console.log(res);
             this.button.setAttribute("class", "btn btn-success");
@@ -87,6 +89,10 @@ class App extends React.Component{
             this.button.setAttribute("class", "btn btn-danger");
             console.log(err);
         })
+    }
+
+    handleSelectPiste(event, id){
+        console.log(id);
     }
 
     render() {
@@ -104,7 +110,11 @@ class App extends React.Component{
                         addRow={this.addRow}
                     />
 
-                    <PlanningTab todo={this.state.done} removeRow={this.removeRow} onSortEnd={this.onSortEnd} />
+                    <PlanningTab
+                        todo={this.state.done}
+                        removeRow={this.removeRow}
+                        onSortEnd={this.onSortEnd}
+                        handleSelectPiste={this.handleSelectPiste}/>
 
                     <button className="btn btn-info" ref={buttonValider=>{this.button=buttonValider}} onClick={this.testClick2}>Valider</button>
                 </div>
@@ -113,4 +123,4 @@ class App extends React.Component{
     }
 }
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('planningCreator'));

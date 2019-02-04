@@ -12,8 +12,8 @@ class BDDController extends AbstractController
      */
     public function importer()
     {
-        $username="antoi";
-        $password="0704";
+        $username="aurel";
+        $password="titi0301";
         $database="fdo_logiciel";
         $command='mysql -u '.$username.' -p'.$password.' -D '.$database.' -e "drop database '.$database.'"';
         shell_exec($command);
