@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Competition;
+use App\Entity\Dance;
+use App\Entity\Row;
 use App\Entity\Team;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +24,8 @@ class TeamController extends AbstractController
         $manager->detach($competition);
         $session=$this->get('session');
         $session->set('competSelected', $competition->getId());
-
+        //dump();
+        //die();
         $teams=$competition->getTeams();
         foreach ($teams as $team){
             //dump($team->getIsPresent());
@@ -38,6 +41,14 @@ class TeamController extends AbstractController
      * @Route("/competition/{title}/appel/valide", name="Team.appelValide", requirements={"page"="\d+"})
      */
     public function valideAppel(Request $request){
+        $session=$this->get('session');
+        $rows=$this->getDoctrine()->getRepository(Competition::class)->getRows($session->get('competSelected'));
+        $newRow=new Row();
+        foreach ($rows as $row){
+            $newRow->setDance($row[0]);
+            $newRow->setNumTour(1);
+        }
+
         $manager=$this->getDoctrine()->getManager();
         $competition=$this->get("session")->get('competSelected');
         $teams=$competition->getTeams();
