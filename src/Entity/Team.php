@@ -61,7 +61,7 @@ class Team
     private $size;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Row", mappedBy="teams")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Row", mappedBy="teams",cascade={"remove"})
      */
     private $rows;
 

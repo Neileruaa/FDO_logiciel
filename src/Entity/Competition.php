@@ -77,6 +77,11 @@ class Competition
      */
     private $judges;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Row", mappedBy="competition",cascade={"remove"})
+     */
+    private $rows;
+
 
     public function __construct()
     {
@@ -85,6 +90,7 @@ class Competition
         $this->dances = new ArrayCollection();
         $this->clubOrganizer = new ArrayCollection();
         $this->judges = new ArrayCollection();
+        $this->rows = new ArrayCollection();
     }
 
 
@@ -263,6 +269,37 @@ class Competition
     {
         if ($this->judges->contains($judge)) {
             $this->judges->removeElement($judge);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Row[]
+     */
+    public function getRows(): Collection
+    {
+        return $this->rows;
+    }
+
+    public function addRow(Row $row): self
+    {
+        if (!$this->rows->contains($row)) {
+            $this->rows[] = $row;
+            $row->setCompetition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRow(Row $row): self
+    {
+        if ($this->rows->contains($row)) {
+            $this->rows->removeElement($row);
+            // set the owning side to null (unless already changed)
+            if ($row->getCompetition() === $this) {
+                $row->setCompetition(null);
+            }
         }
 
         return $this;

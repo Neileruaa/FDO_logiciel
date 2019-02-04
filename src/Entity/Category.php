@@ -29,7 +29,7 @@ class Category
     private $teams;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Row", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Row", mappedBy="category",cascade={"remove"})
      */
     private $rows;
 

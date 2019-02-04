@@ -58,6 +58,11 @@ class Row
      */
     private $passageSimul;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Competition", inversedBy="rows")
+     */
+    private $competition;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -170,15 +175,27 @@ class Row
 	 * @return mixed
 	 */
 	public function getPassageSimul() {
-		return $this->passageSimul;
-	}
+         		return $this->passageSimul;
+         	}
 
 	/**
 	 * @param mixed $passageSimul
 	 */
 	public function setPassageSimul($passageSimul) {
-		$this->passageSimul = $passageSimul;
-	}
+         		$this->passageSimul = $passageSimul;
+         	}
+
+    public function getCompetition(): ?Competition
+    {
+        return $this->competition;
+    }
+
+    public function setCompetition(?Competition $competition): self
+    {
+        $this->competition = $competition;
+
+        return $this;
+    }
 
 
 }

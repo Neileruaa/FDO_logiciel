@@ -24,7 +24,7 @@ class Dance
     private $nameDance;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Row", mappedBy="dance")
+     * @ORM\OneToMany(targetEntity="App\Entity\Row", mappedBy="dance",cascade={"remove"})
      */
     private $rows;
 

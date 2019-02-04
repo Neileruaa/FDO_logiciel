@@ -30,7 +30,7 @@ class CompetitionRepository extends ServiceEntityRepository
             ->join("ct.dances", "td")
             ->join("ct.category", "cat")
             ->setParameter('idCompet', $idCompet)
-            ->distinct("d.nameDance")
+            ->distinct("d.nameDance, cat.nameCategory, ct.size")
             ->getQuery()
             ->getResult()
             ;
