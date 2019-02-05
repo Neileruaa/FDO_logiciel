@@ -12,6 +12,7 @@ use App\Repository\DanceRepository;
 use App\Repository\RowRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -62,9 +63,13 @@ class PlanningController extends AbstractController
 
         $serialiser = new Serializer([$normalizer], [$encoder]);
 
-        return new Response($serialiser->serialize($row, 'json'));
+//        return new JsonResponse($serialiser->serialize($row, 'json'));
 
-        return $this->json(['row'=>$row]);
+        return $this->json(['row'=>$row],Response::HTTP_OK, [], [
+        	ObjectNormalizer::CIRCULAR_REFERENCE_HANDLER => function($object){
+        	return $object->getId();
+	        }
+        ]);
     }
 
     /**
