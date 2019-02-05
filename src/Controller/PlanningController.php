@@ -7,6 +7,7 @@ use App\Entity\Competition;
 use App\Entity\Dance;
 use App\Entity\Row;
 use App\Repository\CategoryRepository;
+use App\Repository\CompetitionRepository;
 use App\Repository\DanceRepository;
 use App\Repository\RowRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -15,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class PlanningController extends AbstractController
 {
@@ -32,21 +36,35 @@ class PlanningController extends AbstractController
     /**
      * @Route("/testAjax", name="Planning.testAjax", methods={"GET"})
      */
-    public function testAjax(){
+    public function testAjax(RowRepository $rowRepository){
 
 //    	$compet = $this->get("session")->get('competSelected');
 //
 //    	dump("test");
 
-	    $row = [
-    		['id'=>0, 'Dance'=>'Salsa', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'A'],
-    		['id'=>1, 'Dance'=>'Salsa', 'Categorie'=>'solo', 'Age'=> 'Enfant', 'Round'=>2, 'Piste'=> 'B' ],
-    		['id'=>2, 'Dance'=>'HipHop', 'Categorie'=>'Formations', 'Age'=>'Junior', 'Round'=>'Finale', 'Piste'=> 'A'],
-    		['id'=>3, 'Dance'=>'HipHop', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'B'],
-	    ];
+//	    $row = [
+//    		['id'=>0, 'Dance'=>'Salsa', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'A'],
+//    		['id'=>1, 'Dance'=>'Salsa', 'Categorie'=>'solo', 'Age'=> 'Enfant', 'Round'=>2, 'Piste'=> 'B' ],
+//    		['id'=>2, 'Dance'=>'HipHop', 'Categorie'=>'Formations', 'Age'=>'Junior', 'Round'=>'Finale', 'Piste'=> 'A'],
+//    		['id'=>3, 'Dance'=>'HipHop', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'B'],
+//	    ];
+
+        $row= $rowRepository->findAll();
+
+        $encoder = new JsonEncoder();
+
+        $normalizer = new ObjectNormalizer();
+
+        $normalizer->setCircularReferenceHandler(function ($object, string $format = null, array $context = []) {
+            return $object->getId();
+        });
 
 
-		    return $this->json(['row'=>$row]);
+        $serialiser = new Serializer([$normalizer], [$encoder]);
+
+        return new Response($serialiser->serialize($row, 'json'));
+
+        return $this->json(['row'=>$row]);
     }
 
     /**

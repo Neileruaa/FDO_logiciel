@@ -5,20 +5,18 @@ import {
     SortableElement,
 } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({id, Dance, Categorie, Age, Round, Piste, index, removeRow, handleSelectPiste}) => (
-    <tr key={id}>
-        <th scope="row">{id}</th>
-        <td>{Dance}</td>
-        <td>{Categorie}</td>
-        <td>{Age}</td>
-        <td>{Round}</td>
-        <td>{Piste}</td>
+const SortableItem = SortableElement(({nameDance, nameCategory, size, round, piste, index, handleSelectPiste}) => (
+    <tr key={index}>
+        <td>{nameDance}</td>
+        <td>{size}</td>
+        <td>{nameCategory}</td>
+        <td>{round}</td>
+        <td>{piste}</td>
         <td>
-            <button onClick={() => removeRow({id:id, Dance:Dance, Categorie:Categorie, Age:Age, Round:Round, Piste:Piste}, id)} className="btn btn-danger"><i className="fas fa-minus"/></button>
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i className="fas fa-cogs"/></button>
+            <button type="button" className="btn btn-primary" data-toggle="modal" data-target={"#exampleModal"+index}><i className="fas fa-cogs"/></button>
 
 
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
+            <div className="modal fade" id={"exampleModal"+index} tabIndex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
@@ -30,9 +28,9 @@ const SortableItem = SortableElement(({id, Dance, Categorie, Age, Round, Piste, 
                         </div>
                         <div className="modal-body">
                             <label htmlFor="choisirPiste">Choisir une piste:</label>
-                            <select id="choisirPiste" value={Piste} onChange={()=>handleSelectPiste(event, id)}>
-                                <option value="A" >A</option>
-                                <option value="B" >B</option>
+                            <select id="choisirPiste" value={piste} onChange={()=>handleSelectPiste(event, index)}>
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
                             </select>
                         </div>
                         <div className="modal-footer">
@@ -51,7 +49,6 @@ const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste}) =>
         <table className="sortable table table-striped table-hover">
             <thead>
                 <tr key="id">
-                    <th scope="col">#</th>
                     <th scope="col">Danse</th>
                     <th scope="col">Catégorie</th>
                     <th scope="col">Age</th>
@@ -61,16 +58,15 @@ const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste}) =>
                 </tr>
             </thead>
             <tbody>
-                {todo.map(({id, Dance, Categorie, Age, Round, Piste}, index) => (
+                {todo.map(({nameDance, nameCategory, size, round, piste}, index) => (
                     <SortableItem
-                        key={`item-${id}`}
+                        key={`item-${index}`}
                         index={index}
-                        id={id}
-                        Dance={Dance}
-                        Categorie={Categorie}
-                        Age={Age}
-                        Round={Round}
-                        Piste={Piste}
+                        nameDance={nameDance}
+                        size={size}
+                        nameCategory={nameCategory}
+                        round={round}
+                        piste={piste}
                         removeRow={removeRow}
                         handleSelectPiste={handleSelectPiste}/>
                 ))}
@@ -88,7 +84,6 @@ export default class SortableComponent extends Component {
         return <SortableList
             todo={this.props.todo}
             onSortEnd={this.props.onSortEnd}
-            removeRow={this.props.removeRow}
             handleSelectPiste={this.props.handleSelectPiste}/>;
     }
 }

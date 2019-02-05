@@ -22,7 +22,7 @@ class CompetitionRepository extends ServiceEntityRepository
     public function getRows($idCompet){
         $entityManager = $this->getEntityManager();
         return $this->createQueryBuilder('c')
-            ->select('cd.nameDance, cat.nameCategory, ct.size')
+            ->select('cd.nameDance, cat.nameCategory, ct.size, 1 as round, 1 as piste')
             ->andWhere('c.id = :idCompet')
             ->andWhere('cd.id = td.id')
             ->join("c.dances", "cd")

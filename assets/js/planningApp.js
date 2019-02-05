@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import TodoTab from './Components/TodoTab';
 import PlanningTab from './Components/PlanningTab'
 import {arrayMove} from "react-sortable-hoc";
 import axios from 'axios';
@@ -16,8 +15,6 @@ class App extends React.Component{
             done: []
         };
 
-        this.addRow = this.addRow.bind(this);
-        this.removeRow = this.removeRow.bind(this);
         this.testClick2 = this.testClick2.bind(this);
         this.handleSelectPiste = this.handleSelectPiste.bind(this);
     }
@@ -28,8 +25,8 @@ class App extends React.Component{
                 setTimeout(()=>{
                     // console.log(res.data.row);
                     this.setState({
-                        todo: res.data.row,
-                        isLoaded: true
+                        done: res.data.row,
+                        isLoaded: true,
                     })
                 }, 200);
             })
@@ -40,37 +37,6 @@ class App extends React.Component{
                     isLoaded: true
                 })
             })
-    }
-
-    addRow(newRow, id){
-        this.state.done.push(newRow);
-        this.state.todo.map(
-            (row, index)=>{
-                if (row['id']===id){
-                    this.state.todo.splice(index, 1);
-                }
-            }
-        );
-        this.setState({
-            done: this.state.done,
-            todo: this.state.todo
-        });
-    }
-
-    removeRow(newRow, id){
-        this.state.todo.push(newRow);
-        console.log(id);
-        this.state.done.map(
-            (row, index)=>{
-                if (row['id']===id){
-                    this.state.done.splice(index, 1);
-                }
-            }
-        );
-        this.setState({
-            done: this.state.done,
-            todo: this.state.todo
-        });
     }
 
     onSortEnd = ({oldIndex, newIndex}) =>{
@@ -91,8 +57,8 @@ class App extends React.Component{
         })
     }
 
-    handleSelectPiste(event, id){
-        console.log(id);
+    handleSelectPiste(event, index ){
+        console.log(index);
     }
 
     render() {
@@ -105,14 +71,8 @@ class App extends React.Component{
         } else{
             return(
                 <div>
-                    <TodoTab
-                        todo={this.state.todo}
-                        addRow={this.addRow}
-                    />
-
                     <PlanningTab
                         todo={this.state.done}
-                        removeRow={this.removeRow}
                         onSortEnd={this.onSortEnd}
                         handleSelectPiste={this.handleSelectPiste}/>
 
