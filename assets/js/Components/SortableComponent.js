@@ -90,6 +90,8 @@ export default class SortableComponent extends Component {
             todo={this.props.todo}
             onSortEnd={this.props.onSortEnd}
             handleSelectPassageSimul={this.props.handleSelectPassageSimul}
-            handleSelectPiste={this.props.handleSelectPiste} />;
+            handleSelectPiste={this.props.handleSelectPiste}
+            distance={10}
+        />;
     }
 }
