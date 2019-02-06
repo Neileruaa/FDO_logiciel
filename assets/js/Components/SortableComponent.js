@@ -5,19 +5,18 @@ import {
     SortableElement,
 } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({nameDance, nameCategory, size, round, piste, index, handleSelectPiste}) => (
+const SortableItem = SortableElement(({id,dance, category, formation, numTour, piste, index, handleSelectPiste, passageSimul, handleSelectPassageSimul}) => (
     <tr key={index}>
-        <td>{nameDance}</td>
-        <td>{size}</td>
-        <td>{nameCategory}</td>
-        <td>{round}</td>
+        <td>{dance['nameDance']}</td>
+        <td>{formation}</td>
+        <td>{category['nameCategory']}</td>
+        <td>{numTour}</td>
         <td>{piste}</td>
         <td>
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target={"#exampleModal"+index}><i className="fas fa-cogs"/></button>
+            <button type="button" className="btn btn-primary" data-toggle="modal" data-target={"#exampleModal"+id}><i className="fas fa-cogs"/></button>
 
 
-            <div className="modal fade" id={"exampleModal"+index} tabIndex="-1" role="dialog"
-                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id={"exampleModal"+id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -28,10 +27,13 @@ const SortableItem = SortableElement(({nameDance, nameCategory, size, round, pis
                         </div>
                         <div className="modal-body">
                             <label htmlFor="choisirPiste">Choisir une piste:</label>
-                            <select id="choisirPiste" value={piste} onChange={()=>handleSelectPiste(event, index)}>
-                                <option value="1" >1</option>
-                                <option value="2" >2</option>
+                            <select name="piste" id="choisirPiste" value={piste} onChange={()=>handleSelectPiste(event, id)}>
+                                <option value="A" >A</option>
+                                <option value="B" >B</option>
                             </select>
+                            <hr/>
+                            <label htmlFor="choisirPassageSimul">Choisir nb danseurs simultanés :</label>
+                            <input type="text" value={passageSimul} id="choisirPassageSimul" onChange={()=>handleSelectPassageSimul(event, id)}/>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -44,7 +46,7 @@ const SortableItem = SortableElement(({nameDance, nameCategory, size, round, pis
     </tr>
 ));
 
-const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste}) => {
+const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, handleSelectPassageSimul}) => {
     return (
         <table className="sortable table table-striped table-hover">
             <thead>
@@ -58,16 +60,19 @@ const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste}) =>
                 </tr>
             </thead>
             <tbody>
-                {todo.map(({nameDance, nameCategory, size, round, piste}, index) => (
+                {todo.map(({id, dance, category, formation, numTour, piste, passageSimul}, index) => (
                     <SortableItem
                         key={`item-${index}`}
+                        id={id}
                         index={index}
-                        nameDance={nameDance}
-                        size={size}
-                        nameCategory={nameCategory}
-                        round={round}
+                        dance={dance}
+                        formation={formation}
+                        category={category}
+                        numTour={numTour}
                         piste={piste}
+                        passageSimul={passageSimul}
                         removeRow={removeRow}
+                        handleSelectPassageSimul={handleSelectPassageSimul}
                         handleSelectPiste={handleSelectPiste}/>
                 ))}
             </tbody>
@@ -84,6 +89,7 @@ export default class SortableComponent extends Component {
         return <SortableList
             todo={this.props.todo}
             onSortEnd={this.props.onSortEnd}
-            handleSelectPiste={this.props.handleSelectPiste}/>;
+            handleSelectPassageSimul={this.props.handleSelectPassageSimul}
+            handleSelectPiste={this.props.handleSelectPiste} />;
     }
 }

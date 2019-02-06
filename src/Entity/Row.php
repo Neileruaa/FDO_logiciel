@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RowRepository")
@@ -15,46 +16,55 @@ class Row
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("planning")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups("planning")
      */
     private $numTour;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Dance", inversedBy="rows")
+     * @Groups("planning")
      */
     private $dance;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Team", inversedBy="rows")
+     * @Groups("planning")
      */
     private $teams;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="rows")
+     * @Groups("planning")
      */
     private $category;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("planning")
      */
     private $formation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("planning")
      */
     private $piste;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups("planning")
      */
     private $isDone;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("planning")
      */
     private $passageSimul;
 

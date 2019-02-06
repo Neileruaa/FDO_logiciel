@@ -17,6 +17,7 @@ class App extends React.Component{
 
         this.testClick2 = this.testClick2.bind(this);
         this.handleSelectPiste = this.handleSelectPiste.bind(this);
+        this.handleSelectPassageSimul= this.handleSelectPassageSimul.bind(this);
     }
 
     componentDidMount() {
@@ -57,8 +58,30 @@ class App extends React.Component{
         })
     }
 
-    handleSelectPiste(event, index ){
-        console.log(index);
+    handleSelectPiste(event, id){
+        this.state.done.map(
+            (row, index)=>{
+                if (row['id'] === id){
+                    this.state.done.find(x => x.id ===id).piste= event.target.value;
+                }
+            }
+        );
+        this.setState({
+            done:this.state.done,
+        });
+    }
+
+    handleSelectPassageSimul(event, id){
+        this.state.done.map(
+            (row, index)=>{
+                if (row['id'] === id){
+                    this.state.done.find(x => x.id ===id).passageSimul= event.target.value;
+                }
+            }
+        );
+        this.setState({
+            done:this.state.done,
+        });
     }
 
     render() {
@@ -74,7 +97,9 @@ class App extends React.Component{
                     <PlanningTab
                         todo={this.state.done}
                         onSortEnd={this.onSortEnd}
-                        handleSelectPiste={this.handleSelectPiste}/>
+                        handleSelectPiste={this.handleSelectPiste}
+                        handleSelectPassageSimul={this.handleSelectPassageSimul}
+                    />
 
                     <button className="btn btn-info" ref={buttonValider=>{this.button=buttonValider}} onClick={this.testClick2}>Valider</button>
                 </div>

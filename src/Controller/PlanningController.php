@@ -26,9 +26,12 @@ class PlanningController extends AbstractController
     /**
      * @Route("/planning", name="Planning.index")
      */
-    public function index(SessionInterface $session) {
+    public function index(SessionInterface $session, CompetitionRepository $competitionRepository) {
 	    $compet = $session->get('competSelected');
 	    $compet=$this->getDoctrine()->getRepository(Competition::class)->find($compet);
+
+	    $rows = $competitionRepository -> findAll();
+	    dump($rows);
         return $this->render('planning/index.html.twig', [
 
         ]);
@@ -52,23 +55,23 @@ class PlanningController extends AbstractController
 
         $row= $rowRepository->findAll();
 
-        $encoder = new JsonEncoder();
-
-        $normalizer = new ObjectNormalizer();
-
-        $normalizer->setCircularReferenceHandler(function ($object, string $format = null, array $context = []) {
-            return $object->getId();
-        });
-
-
-        $serialiser = new Serializer([$normalizer], [$encoder]);
-
-//        return new JsonResponse($serialiser->serialize($row, 'json'));
+//        $encoder = new JsonEncoder();
+//
+//        $normalizer = new ObjectNormalizer();
+//        $normalizer->setIgnoredAttributes(['dancers','rows','competition', "__initializer__", "__cloner__","__isInitialized__"]);
+//
+//
+//        $normalizer->setCircularReferenceHandler(function ($object, string $format = null, array $context = []) {
+//            return $object->getId();
+//        });
+//
+//
+//        $serialiser = new Serializer([$normalizer], [$encoder]);
+//
+//        return new JsonResponse($serialiser->serialize($row, 'json'),200, [], true);
 
         return $this->json(['row'=>$row],Response::HTTP_OK, [], [
-        	ObjectNormalizer::CIRCULAR_REFERENCE_HANDLER => function($object){
-        	return $object->getId();
-	        }
+            ObjectNormalizer::GROUPS => ['planning'],
         ]);
     }
 
