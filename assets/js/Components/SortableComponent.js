@@ -5,7 +5,7 @@ import {
     SortableElement,
 } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({id,dance, category, formation, numTour, piste, index, handleSelectPiste, passageSimul, handleSelectPassageSimul}) => (
+const SortableItem = SortableElement(({id,dance, category, formation, numTour, piste, index, handleSelectPiste, handleSelectNumTour, passageSimul, handleSelectPassageSimul}) => (
     <tr key={index}>
         <td>{dance['nameDance']}</td>
         <td>{formation}</td>
@@ -34,10 +34,21 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
                             <hr/>
                             <label htmlFor="choisirPassageSimul">Choisir nb danseurs simultanés :</label>
                             <input type="text" value={passageSimul} id="choisirPassageSimul" onChange={()=>handleSelectPassageSimul(event, id)}/>
+                            <hr/>
+                            <label htmlFor="choisirNumTour">Choisir une piste:</label>
+                            <select name="piste" id="choisirPiste" value={numTour} onChange={()=>handleSelectNumTour(event, id)}>
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+                                <option value="Huitieme" >Huitième</option>
+                                <option value="Quart" >Quart de finale</option>
+                                <option value="Demi" >Demi finale</option>
+                                <option value="Finale" >Finale</option>
+                            </select>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
+                            <button type="button" className="btn btn-success" data-dismiss="modal">Terminer</button>
                         </div>
                     </div>
                 </div>
@@ -46,7 +57,7 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
     </tr>
 ));
 
-const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, handleSelectPassageSimul}) => {
+const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, handleSelectPassageSimul, handleSelectNumTour}) => {
     return (
         <table className="sortable table table-striped table-hover">
             <thead>
@@ -73,7 +84,9 @@ const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, han
                         passageSimul={passageSimul}
                         removeRow={removeRow}
                         handleSelectPassageSimul={handleSelectPassageSimul}
-                        handleSelectPiste={handleSelectPiste}/>
+                        handleSelectPiste={handleSelectPiste}
+                        handleSelectNumTour={handleSelectNumTour}
+                    />
                 ))}
             </tbody>
         </table>
@@ -91,6 +104,7 @@ export default class SortableComponent extends Component {
             onSortEnd={this.props.onSortEnd}
             handleSelectPassageSimul={this.props.handleSelectPassageSimul}
             handleSelectPiste={this.props.handleSelectPiste}
+            handleSelectNumTour={this.props.handleSelectNumTour}
             distance={10}
         />;
     }
