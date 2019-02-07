@@ -20,7 +20,6 @@
                     <th scope="col">Tour</th>
                     <th scope="col">Pistes</th>
                     <th scope="col">Options</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +32,7 @@
                         <td>{{ row.piste }}</td>
                         <td>
                             <a href="#" class="btn btn-info">Voir planning équipes</a>
-                            <a href="#" class="btn btn-info">Résultats</a>
+                            <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info">Résultats</a>
                         </td>
                     </tr>
                     {% else %}

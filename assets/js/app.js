@@ -15,7 +15,6 @@ const $ = require('jquery');
 
 require('bootstrap');
 
-require('sorttable');
 
 import 'handsontable/dist/handsontable.full.css';
 
