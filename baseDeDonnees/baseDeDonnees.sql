@@ -3,7 +3,7 @@
 -- Host: localhost	Database: mogi6927_fdo
 -- ------------------------------------------------------
 -- Server version 	10.3.12-MariaDB
--- Date: Mon, 04 Feb 2019 11:25:14 +0100
+-- Date: Thu, 07 Feb 2019 07:44:38 +0100
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -61,7 +61,7 @@ CREATE TABLE `dancer` (
   PRIMARY KEY (`id`),
   KEY `IDX_B11CC8A961190A32` (`club_id`),
   CONSTRAINT `FK_B11CC8A961190A32` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `dancer` (
 LOCK TABLES `dancer` WRITE;
 /*!40000 ALTER TABLE `dancer` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `dancer` VALUES (1,1,'DREY','Aurélien','1999-01-03','aureliendrey@gmail.com',1),(2,4,'Drey','Aurelien','1999-02-14','salut@gmail.com',1),(3,1,'IENCO','Raph','1999-12-11','aureliendrey@gmail.com',1),(4,1,'SALFRANC','Olivier','1999-03-30','aureliendrey@gmail.com',1),(5,1,'DREY','Aurélien','1999-01-03','aureliendrey@gmail.com',1),(6,1,'DREY','Aurélien','1999-01-03','aureliendrey@gmail.com',0),(8,5,'pp','ff','2003-12-25','dd.ddd@orange.fr',0),(9,5,'dd','gg','2005-12-23','ff.ff@orange.fr',0);
+INSERT INTO `dancer` VALUES (1,1,'DREY','Aurélien','1999-01-03','aureliendrey@gmail.com',1),(3,1,'IENCO','Raph','1999-12-11','aureliendrey@gmail.com',1),(4,1,'SALFRANC','Olivier','1999-03-30','aureliendrey@gmail.com',1),(5,1,'DREY','Aurélien','1999-01-03','aureliendrey@gmail.com',1),(6,1,'DREY','Aurélien','1999-01-03','aureliendrey@gmail.com',0),(8,5,'pp','ff','2003-12-25','dd.ddd@orange.fr',1),(9,5,'dd','gg','2005-12-23','ff.ff@orange.fr',1),(10,5,'oo','oo','2008-08-08','t@orange.fr',1);
 /*!40000 ALTER TABLE `dancer` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -103,12 +103,12 @@ CREATE TABLE `competition_team` (
 LOCK TABLES `competition_team` WRITE;
 /*!40000 ALTER TABLE `competition_team` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `competition_team` VALUES (1,3),(2,1),(2,3),(2,4),(2,5);
+INSERT INTO `competition_team` VALUES (1,3),(2,1),(2,3),(2,4),(2,5),(3,1);
 /*!40000 ALTER TABLE `competition_team` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition_team` with 5 row(s)
+-- Dumped table `competition_team` with 6 row(s)
 --
 
 --
@@ -174,12 +174,12 @@ CREATE TABLE `team` (
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `team` VALUES (1,1,3,1,'solo'),(2,4,3,1,'solo'),(3,1,3,1,'duo'),(4,1,3,1,'solo'),(5,1,3,1,'solo');
+INSERT INTO `team` VALUES (1,1,3,1,'solo'),(3,1,3,1,'duo'),(4,1,3,1,'solo'),(5,1,3,1,'solo');
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team` with 5 row(s)
+-- Dumped table `team` with 4 row(s)
 --
 
 --
@@ -234,12 +234,12 @@ CREATE TABLE `team_dance` (
 LOCK TABLES `team_dance` WRITE;
 /*!40000 ALTER TABLE `team_dance` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `team_dance` VALUES (1,2),(2,1),(2,3),(2,4),(3,2),(3,3),(3,4),(4,1),(5,3),(5,4),(5,5);
+INSERT INTO `team_dance` VALUES (1,2),(3,2),(3,3),(3,4),(4,1),(5,3),(5,4),(5,5);
 /*!40000 ALTER TABLE `team_dance` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team_dance` with 11 row(s)
+-- Dumped table `team_dance` with 8 row(s)
 --
 
 --
@@ -266,12 +266,12 @@ CREATE TABLE `team_dancer` (
 LOCK TABLES `team_dancer` WRITE;
 /*!40000 ALTER TABLE `team_dancer` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `team_dancer` VALUES (1,1),(2,2),(3,3),(3,4),(4,1),(5,3);
+INSERT INTO `team_dancer` VALUES (1,1),(3,3),(3,4),(4,1),(5,3);
 /*!40000 ALTER TABLE `team_dancer` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team_dancer` with 6 row(s)
+-- Dumped table `team_dancer` with 5 row(s)
 --
 
 --
@@ -377,6 +377,7 @@ CREATE TABLE `row` (
   `piste` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_done` tinyint(1) DEFAULT NULL,
   `passage_simul` int(11) DEFAULT NULL,
+  `nb_judge` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_8430F6DB65D64EDD` (`dance_id`),
   KEY `IDX_8430F6DB12469DE2` (`category_id`),
@@ -423,12 +424,12 @@ CREATE TABLE `competition_dance` (
 LOCK TABLES `competition_dance` WRITE;
 /*!40000 ALTER TABLE `competition_dance` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `competition_dance` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10);
+INSERT INTO `competition_dance` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(3,1),(3,2);
 /*!40000 ALTER TABLE `competition_dance` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition_dance` with 20 row(s)
+-- Dumped table `competition_dance` with 22 row(s)
 --
 
 --
@@ -570,7 +571,7 @@ CREATE TABLE `competition` (
   PRIMARY KEY (`id`),
   KEY `IDX_B50A2CB1FDD8E52A` (`club_organizer_id`),
   CONSTRAINT `FK_B50A2CB1FDD8E52A` FOREIGN KEY (`club_organizer_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -580,12 +581,12 @@ CREATE TABLE `competition` (
 LOCK TABLES `competition` WRITE;
 /*!40000 ALTER TABLE `competition` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `competition` VALUES (1,4,'2021-01-08','Mulhouse','125 rue Vauban',68100,'Compet de la joie',32,'Salut ! \r\nOn organise la compet\' de la joie !!'),(2,1,'2021-01-08','Belfort','6 rue Marechal Pétain',90000,'Compet des meilleures JPO du monde !',32,'Salut une compet de danse organisé le jour des jpos.');
+INSERT INTO `competition` VALUES (1,4,'2021-01-08','Mulhouse','125 rue Vauban',68100,'Compétition Mulhouse',32,'Compétition régionale alsacienne organisée à Mulhouse.'),(2,1,'2021-01-08','Belfort','6 rue Marechal Foch',90000,'Compétition de la nouvelle année',32,'Compétition organisée à l\'occasion de la nouvelle année.'),(3,1,'2021-01-08','Mulhouse','125 rue Vauban',68100,'Compet Light',32,'Un compet avec pas beaucoup de param');
 /*!40000 ALTER TABLE `competition` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition` with 2 row(s)
+-- Dumped table `competition` with 3 row(s)
 --
 
 --
@@ -628,4 +629,4 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on: Mon, 04 Feb 2019 11:25:14 +0100
+-- Dump completed on: Thu, 07 Feb 2019 07:44:38 +0100

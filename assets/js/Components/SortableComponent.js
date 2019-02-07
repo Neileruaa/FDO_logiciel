@@ -33,7 +33,7 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
                             </select>
                             <hr/>
                             <label htmlFor="choisirPassageSimul">Choisir nb danseurs simultanés :</label>
-                            <input type="text" value={passageSimul} id="choisirPassageSimul" onChange={()=>handleSelectPassageSimul(event, id)}/>
+                            <input type="number" min="1" max="16" value={passageSimul} id="choisirPassageSimul" onChange={()=>handleSelectPassageSimul(event, id)}/>
                             <hr/>
                             <label htmlFor="choisirNumTour">Choisir une piste:</label>
                             <select name="piste" id="choisirPiste" value={numTour} onChange={()=>handleSelectNumTour(event, id)}>
@@ -46,6 +46,16 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
                                 <option value="Demi" >Demi finale</option>
                                 <option value="Finale" >Finale</option>
                             </select>
+                            <hr/>
+                            <label htmlFor="rangeNumberJugde" id="test">Nombre de juges: </label>
+                            <input type="range" className="custom-range" min="1" max="15" step="1" id="rangeNumberJugde" onInput={(event)=>{
+                                console.log(event.target.value);
+                                // document.getElementById("test").innerHTML = "1";
+
+                                var span = document.getElementById("test");
+                                var txt = document.createTextNode(event.target.value);
+                                span.appendChild(txt);
+                            }}/>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-success" data-dismiss="modal">Terminer</button>

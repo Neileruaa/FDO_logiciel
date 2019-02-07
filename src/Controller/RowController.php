@@ -52,6 +52,7 @@ class RowController extends AbstractController
             $newRow->setFormation($row['size']);
 
             $newRow->setPassageSimul(2);
+            $newRow->setNbJudge(3);
 
             $teams=$tr->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size']);
             foreach ($teams as $team){
