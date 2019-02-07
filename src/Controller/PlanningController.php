@@ -42,33 +42,7 @@ class PlanningController extends AbstractController
      */
     public function testAjax(RowRepository $rowRepository){
 
-//    	$compet = $this->get("session")->get('competSelected');
-//
-//    	dump("test");
-
-//	    $row = [
-//    		['id'=>0, 'Dance'=>'Salsa', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'A'],
-//    		['id'=>1, 'Dance'=>'Salsa', 'Categorie'=>'solo', 'Age'=> 'Enfant', 'Round'=>2, 'Piste'=> 'B' ],
-//    		['id'=>2, 'Dance'=>'HipHop', 'Categorie'=>'Formations', 'Age'=>'Junior', 'Round'=>'Finale', 'Piste'=> 'A'],
-//    		['id'=>3, 'Dance'=>'HipHop', 'Categorie'=>'duo', 'Age'=>'Adulte', 'Round'=>1, 'Piste'=> 'B'],
-//	    ];
-
         $row= $rowRepository->findAll();
-
-//        $encoder = new JsonEncoder();
-//
-//        $normalizer = new ObjectNormalizer();
-//        $normalizer->setIgnoredAttributes(['dancers','rows','competition', "__initializer__", "__cloner__","__isInitialized__"]);
-//
-//
-//        $normalizer->setCircularReferenceHandler(function ($object, string $format = null, array $context = []) {
-//            return $object->getId();
-//        });
-//
-//
-//        $serialiser = new Serializer([$normalizer], [$encoder]);
-//
-//        return new JsonResponse($serialiser->serialize($row, 'json'),200, [], true);
 
         return $this->json(['row'=>$row],Response::HTTP_OK, [], [
             ObjectNormalizer::GROUPS => ['planning'],
