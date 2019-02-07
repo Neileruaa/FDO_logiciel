@@ -31,7 +31,7 @@ class PlanningController extends AbstractController
 	    $compet=$this->getDoctrine()->getRepository(Competition::class)->find($compet);
 
 	    $rows = $competitionRepository -> findAll();
-	    dump($rows);
+
         return $this->render('planning/index.html.twig', [
 
         ]);
@@ -99,18 +99,19 @@ class PlanningController extends AbstractController
 
 		foreach ($parametersAsArray as $param){
 			foreach ($param as $rows){
-				$category= $categoryRepository->findOneBy(['nameCategory'=>$rows['Age']]);
-				$dance = $danceRepository->findOneBy(['nameDance'=>$rows['Dance']]);
-				$row = new Row();
-				$row->setDance($dance)
-					->setCategory($category)
-					->setFormation($rows['Categorie'])
-					->setNumTour($rows['Round'])
-					->setPiste($rows['Piste'])
-					->setIsDone(false)
-					->setPassageSimul(4)
-				;
-				$manager->persist($row);
+				$category= $categoryRepository->findOneBy(['nameCategory'=>$rows['category']['nameCategory']]);
+				$dance = $danceRepository->findOneBy(['nameDance'=>$rows['dance']['nameDance']]);
+                $row = new Row();
+                $row->setDance($dance)
+                    ->setCategory($category)
+                    ->setFormation($rows['formation'])
+                    ->setNumTour($rows['numTour'])
+                    ->setPiste($rows['piste'])
+                    ->setIsDone($rows['isDone'])
+                    ->setNbJudge($rows['nbJudge'])
+                    ->setPassageSimul($rows['passageSimul'])
+                ;
+                $manager->persist($row);
 			}
 		}
 		$manager->flush();
