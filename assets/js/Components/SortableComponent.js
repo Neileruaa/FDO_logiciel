@@ -4,14 +4,18 @@ import {
     SortableContainer,
     SortableElement,
 } from 'react-sortable-hoc';
+import sorttable from 'sorttable';
 
-const SortableItem = SortableElement(({id,dance, category, formation, numTour, piste, index, handleSelectPiste, handleSelectNumTour, passageSimul, handleSelectPassageSimul}) => (
+
+const SortableItem = SortableElement(({id,dance, category, formation, numTour, piste, index, handleSelectPiste, handleSelectNumTour, passageSimul, handleSelectPassageSimul, nbJudge, handleSelectNbJudge}) => (
     <tr key={index}>
         <td>{dance['nameDance']}</td>
         <td>{formation}</td>
         <td>{category['nameCategory']}</td>
         <td>{numTour}</td>
         <td>{piste}</td>
+        <td>{passageSimul}</td>
+        <td>{nbJudge}</td>
         <td>
             <button type="button" className="btn btn-primary" data-toggle="modal" data-target={"#exampleModal"+id}><i className="fas fa-cogs"/></button>
 
@@ -35,7 +39,7 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
                             <label htmlFor="choisirPassageSimul">Choisir nb danseurs simultanés :</label>
                             <input type="number" min="1" max="16" value={passageSimul} id="choisirPassageSimul" onChange={()=>handleSelectPassageSimul(event, id)}/>
                             <hr/>
-                            <label htmlFor="choisirNumTour">Choisir une piste:</label>
+                            <label htmlFor="choisirNumTour">Choisir un type de tour:</label>
                             <select name="piste" id="choisirPiste" value={numTour} onChange={()=>handleSelectNumTour(event, id)}>
                                 <option value="1" >1</option>
                                 <option value="2" >2</option>
@@ -47,15 +51,8 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
                                 <option value="Finale" >Finale</option>
                             </select>
                             <hr/>
-                            <label htmlFor="rangeNumberJugde" id="test">Nombre de juges: </label>
-                            <input type="range" className="custom-range" min="1" max="15" step="1" id="rangeNumberJugde" onInput={(event)=>{
-                                console.log(event.target.value);
-                                // document.getElementById("test").innerHTML = "1";
-
-                                var span = document.getElementById("test");
-                                var txt = document.createTextNode(event.target.value);
-                                span.appendChild(txt);
-                            }}/>
+                            <label htmlFor="rangeNumberJugde" id="test">Nombre de juges: {nbJudge} </label>
+                            <input type="range" className="custom-range" min="3" max="15" step="2" id="rangeNumberJugde" value={nbJudge} onChange={()=>handleSelectNbJudge(event,id)}/>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-success" data-dismiss="modal">Terminer</button>
@@ -67,9 +64,9 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
     </tr>
 ));
 
-const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, handleSelectPassageSimul, handleSelectNumTour}) => {
+const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, handleSelectPassageSimul, handleSelectNumTour, handleSelectNbJudge}) => {
     return (
-        <table className="sortable table table-striped table-hover">
+        <table className="sorttable table table-striped table-hover">
             <thead>
                 <tr key="id">
                     <th scope="col">Danse</th>
@@ -77,11 +74,13 @@ const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, han
                     <th scope="col">Age</th>
                     <th scope="col">Tour</th>
                     <th scope="col">Pistes</th>
+                    <th scope="col">Danseurs simultanés</th>
+                    <th scope="col">Nb juges</th>
                     <th scope="col">Options</th>
                 </tr>
             </thead>
             <tbody>
-                {todo.map(({id, dance, category, formation, numTour, piste, passageSimul}, index) => (
+                {todo.map(({id, dance, category, formation, numTour, piste, passageSimul, nbJudge}, index) => (
                     <SortableItem
                         key={`item-${index}`}
                         id={id}
@@ -92,10 +91,12 @@ const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, han
                         numTour={numTour}
                         piste={piste}
                         passageSimul={passageSimul}
+                        nbJudge={nbJudge}
                         removeRow={removeRow}
                         handleSelectPassageSimul={handleSelectPassageSimul}
                         handleSelectPiste={handleSelectPiste}
                         handleSelectNumTour={handleSelectNumTour}
+                        handleSelectNbJudge={handleSelectNbJudge}
                     />
                 ))}
             </tbody>
@@ -115,6 +116,7 @@ export default class SortableComponent extends Component {
             handleSelectPassageSimul={this.props.handleSelectPassageSimul}
             handleSelectPiste={this.props.handleSelectPiste}
             handleSelectNumTour={this.props.handleSelectNumTour}
+            handleSelectNbJudge={this.props.handleSelectNbJudge}
             distance={10}
         />;
     }

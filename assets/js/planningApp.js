@@ -19,6 +19,7 @@ class App extends React.Component{
         this.handleSelectPiste = this.handleSelectPiste.bind(this);
         this.handleSelectPassageSimul= this.handleSelectPassageSimul.bind(this);
         this.handleSelectNumTour= this.handleSelectNumTour.bind(this);
+        this.handleSelectNbJudge= this.handleSelectNbJudge.bind(this);
     }
 
     componentDidMount() {
@@ -98,6 +99,19 @@ class App extends React.Component{
         });
     }
 
+    handleSelectNbJudge(event, id){
+        this.state.done.map(
+            (row, index)=>{
+                if (row['id'] === id){
+                    this.state.done.find(x => x.id ===id).nbJudge= event.target.value;
+                }
+            }
+        );
+        this.setState({
+            done:this.state.done,
+        });
+    }
+
     render() {
         if (!this.state.isLoaded){
             return(
@@ -114,6 +128,7 @@ class App extends React.Component{
                         handleSelectPiste={this.handleSelectPiste}
                         handleSelectPassageSimul={this.handleSelectPassageSimul}
                         handleSelectNumTour={this.handleSelectNumTour}
+                        handleSelectNbJudge={this.handleSelectNbJudge}
                     />
 
                     <button className="btn btn-info" ref={buttonValider=>{this.button=buttonValider}} onClick={this.testClick2}>Valider</button>
