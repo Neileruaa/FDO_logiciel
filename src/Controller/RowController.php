@@ -28,7 +28,7 @@ class RowController extends AbstractController
         $compet=$session->get('competSelected');
         $compet=$cr->find($compet);
 
-        $rows=$rr->findBy(['competition'=>$compet]);
+        $rows=$rr->findAll();
         foreach ($rows as $row){
             $manager->remove($row);
             $manager->flush();
