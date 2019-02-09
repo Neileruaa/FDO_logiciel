@@ -2,6 +2,18 @@
 
 {% block title %}Hello ResultatController!{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('ResultApp') }}
+{% endblock %}
+
 {% block body %}
-    <h1>Voici le planning actuel</h1>
+    <div id="resultatApp" data-row="{{ row|json_encode|e("html_attr") }}" data-row-nbJudge="{{ row.nbJudge }}"></div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ResultApp') }}
 {% endblock %}

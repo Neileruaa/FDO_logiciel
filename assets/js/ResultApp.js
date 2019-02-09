@@ -9,30 +9,39 @@ class ResultApp extends React.Component{
         super(props);
 
         this.state={
-            testData: [],
+            sheet: [],
         };
     }
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/testAjax')
-            .then(res=>{
-                setTimeout(()=>{
-                    this.setState({
-                        testData: res.data.row.map(Object.values),
-                    });
-                    console.log(this.state.testData);
-                }, 200);
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+        const  nbJudge = document.getElementById("resultatApp").getAttribute("data-row-nbJudge");
+
+        let judges = [""];
+        
+        for (var i=1; i<=nbJudge; i++){
+            judges.push((i + 9).toString(36).toUpperCase());
+        }
+        this.setState({
+            sheet : this.state.sheet.push(judges)
+        });
+
+        this.setState({
+            sheet : this.state.sheet.push(judges)
+        });
+        console.log(Array.isArray(this.state.sheet));
     }
 
     render() {
         return(
             <div className="hot-app">
                 <h1>Affichage des résultats</h1>
-                <HotTable data={this.state.testData} colHeaders={true} rowHeaders={true} stretchH="all" width="auto"/>
+                <HotTable
+                    data={this.state.sheet.splice()}
+                    colHeaders={true}
+                    rowHeaders={true}
+                    stretchH="all"
+                    width="auto"
+                />
             </div>
         );
     }
