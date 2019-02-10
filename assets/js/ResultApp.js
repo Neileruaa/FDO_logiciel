@@ -10,6 +10,7 @@ class ResultApp extends React.Component{
 
         this.state={
             sheet: [],
+            notes: []
         };
     }
 
@@ -40,28 +41,36 @@ class ResultApp extends React.Component{
 
 
         //fake datas
-        var line = ["Equipe 1"];
+        var line = ["1"];
         line.length = judges.length;
-        line.fill("0",1);
+        line.fill(0,1);
         this.state.sheet.push(line);
 
-        var line2 = ["Equipe 2"];
+        var line2 = ["2"];
         line2.length = judges.length;
-        line2.fill("0",1);
+        line2.fill(0,1);
         this.state.sheet.push(line2);
 
-        var line3 = ["Equipe 3"];
+        var line3 = ["3"];
         line3.length = judges.length;
-        line3.fill("0",1);
+        line3.fill(0,1);
         this.state.sheet.push(line3);
 
-        var line4 = ["Equipe 4"];
+        var line4 = ["4"];
         line4.length = judges.length;
-        line4.fill("0",1);
+        line4.fill(0,1);
         this.state.sheet.push(line4);
 
+        ///initialisation des notes
+        console.log(this.state.sheet);
+
+        for (var j = 1; j<this.state.sheet.length; j++){
+            this.state.notes[this.state.sheet[j][0]] = 0;
+        }
+
         this.setState({
-            sheet : this.state.sheet
+            sheet : this.state.sheet,
+            notes : this.state.notes
         });
     }
 
