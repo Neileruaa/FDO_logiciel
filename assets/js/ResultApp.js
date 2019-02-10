@@ -13,7 +13,7 @@ class ResultApp extends React.Component{
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const  nbJudge = document.getElementById("resultatApp").getAttribute("data-row-nbJudge");
 
         let judges = [""];
@@ -21,22 +21,19 @@ class ResultApp extends React.Component{
         for (var i=1; i<=nbJudge; i++){
             judges.push((i + 9).toString(36).toUpperCase());
         }
+        this.state.sheet.push(judges);
         this.setState({
-            sheet : this.state.sheet.push(judges)
+            sheet : this.state.sheet
         });
-
-        this.setState({
-            sheet : this.state.sheet.push(judges)
-        });
-        console.log(Array.isArray(this.state.sheet));
     }
 
     render() {
+        console.log(this.state.sheet);
         return(
             <div className="hot-app">
                 <h1>Affichage des résultats</h1>
                 <HotTable
-                    data={this.state.sheet.splice()}
+                    data={this.state.sheet}
                     colHeaders={true}
                     rowHeaders={true}
                     stretchH="all"
