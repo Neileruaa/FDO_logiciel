@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-    <div id="resultatApp" data-row="{{ row|json_encode|e("html_attr") }}" data-row-nbJudge="{{ row.nbJudge }}"></div>
+    <div id="resultatApp" data-row="{{ row|json_encode|e("html_attr") }}" data-row-nbJudge="{{ row.nbJudge }}" data-row-id="{{ row.id }}"></div>
 
 {% endblock %}
 

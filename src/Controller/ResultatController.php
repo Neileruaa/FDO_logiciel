@@ -14,7 +14,6 @@ class ResultatController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Row $row){
-        dump($row);
         return $this->render("resultat/index.html.twig", [
             'row'=>$row
         ]);
