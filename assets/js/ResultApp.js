@@ -111,7 +111,17 @@ class ResultApp extends React.Component{
                     stretchH="all"
                     width="auto"
                     ref={this.hotTableComponent}
-
+                    cells={function (row, col, prop) {
+                        var cellProperties = {};
+                            if (col ===0) {
+                                cellProperties.readOnly = 'true'
+                            }
+                        if (row===0) {
+                            cellProperties.readOnly = 'true'
+                        }
+                        return cellProperties
+                    }
+                    }
                 />
                 <button onClick={this.doCalc}>Calculer les moyennes</button>
 

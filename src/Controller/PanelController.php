@@ -22,7 +22,9 @@ class PanelController extends AbstractController
 	 */
 	public function firstPdfDomPDF() {
 		$dompdf = new Dompdf();
-		$html = $this->renderView('pdf/test.html.twig',[]);
+		$html = $this->renderView('pdf/test.html.twig',[
+		    'test' => "test"
+        ]);
 		$dompdf->loadHtml($html);
 		$dompdf->setPaper('A4', 'portrait');
 		$dompdf->render();
