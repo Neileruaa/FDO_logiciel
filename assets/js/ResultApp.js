@@ -20,6 +20,25 @@ class ResultApp extends React.Component{
     }
 
     componentDidMount() {
+        var self = this;
+        this.hotTableComponent.current.hotInstance.updateSettings({
+            afterChange: function (changes) {
+                for (let j = 1; j<self.state.sheet.length; j++){
+                    self.state.notes[self.state.sheet[j][0]] = 0;
+                }
+
+                for(let i = 1; i<this.getData().length; i++){
+                    // self.state.notes[this.getData()[i][0]]
+                    for(let j = 1; j<this.getData()[0].length; j++){
+                        self.state.notes[this.getData()[i][0]] += parseInt(this.getData()[i][j]);
+                    }
+                    console.log(self.state.notes[this.getData()[i][0]]);
+                    self.state.notes[this.getData()[i][0]] /= this.getData()[0].length-1;
+                    console.log(self.state.notes[this.getData()[i][0]]);
+                }
+            },
+        });
+
         //Recupere les équipes
         const idRow = document.getElementById("resultatApp").getAttribute("data-row-id");
         axios.get('http://127.0.0.1:8000/row/getAllTeamById',{
@@ -79,28 +98,30 @@ class ResultApp extends React.Component{
         });
     }
 
-
     doCalc(){
-        var self = this;
-        this.hotTableComponent.current.hotInstance.updateSettings({
-            afterChange: function (changes) {
-                for (let j = 1; j<self.state.sheet.length; j++){
-                    self.state.notes[self.state.sheet[j][0]] = 0;
-                }
-
-                for(let i = 1; i<this.getData().length; i++){
-                    // self.state.notes[this.getData()[i][0]]
-                    for(let j = 1; j<this.getData()[0].length; j++){
-                        self.state.notes[this.getData()[i][0]] += parseInt(this.getData()[i][j]);
-                    }
-                    console.log(self.state.notes[this.getData()[i][0]]);
-                    self.state.notes[this.getData()[i][0]] /= this.getData()[0].length-1;
-                    console.log(self.state.notes[this.getData()[i][0]]);
-                }
-            }
-        });
+        // var self = this;
+        // this.hotTableComponent.current.hotInstance.updateSettings({
+        //     afterChange: function (changes) {
+        //         console.log("test");
+        //         for (let j = 1; j<self.state.sheet.length; j++){
+        //             self.state.notes[self.state.sheet[j][0]] = 0;
+        //         }
+        //
+        //         for(let i = 1; i<this.getData().length; i++){
+        //             // self.state.notes[this.getData()[i][0]]
+        //             for(let j = 1; j<this.getData()[0].length; j++){
+        //                 self.state.notes[this.getData()[i][0]] += parseInt(this.getData()[i][j]);
+        //             }
+        //             console.log(self.state.notes[this.getData()[i][0]]);
+        //             self.state.notes[this.getData()[i][0]] /= this.getData()[0].length-1;
+        //             console.log(self.state.notes[this.getData()[i][0]]);
+        //         }
+        //     }
+        // });
         this.setState({notes:this.state.notes});
     }
+
+
 
     render() {
         return(
