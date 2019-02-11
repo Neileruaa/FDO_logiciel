@@ -2,29 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Competition;
+use App\Entity\Row;
 use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PanelController extends AbstractController
 {
-    /**
-     * @Route("/panel", name="Panel.index")
-     */
-    public function index()
-    {
-        return $this->render('panel/index.html.twig', [
-        ]);
-    }
-
 	/**
-	 * @Route("/testpdf", name="Panel.testPdf")
+	 * @Route("/planning/pdf", name="Panel.testPdf")
 	 */
-	public function firstPdfDomPDF() {
-		$dompdf = new Dompdf();
-		$html = $this->renderView('pdf/test.html.twig',[
-		    'test' => "test"
-        ]);
+	public function firstPdfDomPDF(SessionInterface $session) {
+	    $compet=$this->getDoctrine()->getRepository(Competition::class)->find($session->get('competSelected'));
+        $dompdf = new Dompdf();
+        $html = $this->renderView('pdf/test.html.twig',['rows'=>$this->getDoctrine()->getRepository(Row::class)->findBy(['competition'=>$compet])]);
 		$dompdf->loadHtml($html);
 		$dompdf->setPaper('A4', 'portrait');
 		$dompdf->render();
