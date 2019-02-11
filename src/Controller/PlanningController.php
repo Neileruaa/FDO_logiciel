@@ -39,7 +39,7 @@ class PlanningController extends AbstractController
     }
 
     /**
-     * @Route("/testAjax", name="Planning.testAjax", methods={"GET"})
+     * @Route("/planning/get", name="Planning.get", methods={"GET"})
      */
     public function testAjax(RowRepository $rowRepository){
 
@@ -51,9 +51,9 @@ class PlanningController extends AbstractController
     }
 
     /**
-     * @Route("/testAjaxPost", name="Planning.testAjaxPost", methods={"POST"})
+     * @Route("/planning/validation", name="Planning.validation", methods={"POST"})
      */
-	public function testAjaxPost(Request $request,
+	public function validationRows(Request $request,
 	                             ObjectManager $manager,
 	                             CategoryRepository $categoryRepository,
 	                             DanceRepository $danceRepository,
