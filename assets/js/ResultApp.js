@@ -57,32 +57,45 @@ class ResultApp extends React.Component{
             }
         })
             .then(function (res) {
-                console.log(res.data);
+                console.log(res.data.Res);
+                for (let nbTeam of res.data.Res){
+                    console.log(nbTeam);
+                    var line = [];
+                    line.push(nbTeam.toString());
+                    line.length = judges.length;
+                    line.fill(0,1);
+                    self.state.sheet.push(line);
+                    self.setState({sheet: self.state.sheet});
+                    for (var j = 1; j<self.state.sheet.length; j++){
+                        self.state.notes[self.state.sheet[j][0]] = 0;
+                    }
+                }
             })
             .catch(function (err) {
                 console.log(err);
             });
 
+        console.log(this.state.sheet);
         //fake datas
-        var line = ["1"];
-        line.length = judges.length;
-        line.fill(0,1);
-        this.state.sheet.push(line);
-
-        var line2 = ["6"];
-        line2.length = judges.length;
-        line2.fill(0,1);
-        this.state.sheet.push(line2);
-
-        var line3 = ["7"];
-        line3.length = judges.length;
-        line3.fill(0,1);
-        this.state.sheet.push(line3);
-
-        var line4 = ["8"];
-        line4.length = judges.length;
-        line4.fill(0,1);
-        this.state.sheet.push(line4);
+        // var line = ["1"];
+        // line.length = judges.length;
+        // line.fill(0,1);
+        // this.state.sheet.push(line);
+        //
+        // var line2 = ["6"];
+        // line2.length = judges.length;
+        // line2.fill(0,1);
+        // this.state.sheet.push(line2);
+        //
+        // var line3 = ["7"];
+        // line3.length = judges.length;
+        // line3.fill(0,1);
+        // this.state.sheet.push(line3);
+        //
+        // var line4 = ["8"];
+        // line4.length = judges.length;
+        // line4.fill(0,1);
+        // this.state.sheet.push(line4);
 
         ///initialisation des notes
         // console.log(this.state.sheet);
