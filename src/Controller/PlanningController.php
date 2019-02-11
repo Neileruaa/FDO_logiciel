@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Competition;
 use App\Entity\Dance;
 use App\Entity\Row;
+use App\Entity\Team;
 use App\Repository\CategoryRepository;
 use App\Repository\CompetitionRepository;
 use App\Repository\DanceRepository;
@@ -75,6 +76,7 @@ class PlanningController extends AbstractController
 			foreach ($param as $rows){
 				$category= $categoryRepository->findOneBy(['nameCategory'=>$rows['category']['nameCategory']]);
 				$dance = $danceRepository->findOneBy(['nameDance'=>$rows['dance']['nameDance']]);
+				$teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($rows['dance']['nameDance'], $rows['category']['nameCategory'], $rows['formation']);
                 $row = new Row();
                 $row->setDance($dance)
                     ->setCategory($category)
@@ -85,6 +87,9 @@ class PlanningController extends AbstractController
                     ->setNbJudge($rows['nbJudge'])
                     ->setPassageSimul($rows['passageSimul'])
                 ;
+                foreach ($teams as $team){
+                    $row->addTeam($this->getDoctrine()->getRepository(Team::class)->find($team));
+                }
                 $manager->persist($row);
 			}
 		}
@@ -96,7 +101,6 @@ class PlanningController extends AbstractController
      * @Route("/planning/actuel", name="Planning.actualPlanning")
      */
 	public function actualPlanning(RowRepository $rowRepository) {
-		dump($rowRepository->findAll());
 		return $this->render('planning/planningActuel.html.twig',[
 			'rows'=>$rowRepository->findAll(),
 		]);
