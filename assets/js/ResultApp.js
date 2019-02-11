@@ -32,9 +32,7 @@ class ResultApp extends React.Component{
                     for(let j = 1; j<this.getData()[0].length; j++){
                         self.state.notes[this.getData()[i][0]] += parseInt(this.getData()[i][j]);
                     }
-                    console.log(self.state.notes[this.getData()[i][0]]);
                     self.state.notes[this.getData()[i][0]] /= this.getData()[0].length-1;
-                    console.log(self.state.notes[this.getData()[i][0]]);
                 }
             },
         });
@@ -57,9 +55,7 @@ class ResultApp extends React.Component{
             }
         })
             .then(function (res) {
-                console.log(res.data.Res);
                 for (let nbTeam of res.data.Res){
-                    console.log(nbTeam);
                     var line = [];
                     line.push(nbTeam.toString());
                     line.length = judges.length;
@@ -75,7 +71,6 @@ class ResultApp extends React.Component{
                 console.log(err);
             });
 
-        console.log(this.state.sheet);
         //fake datas
         // var line = ["1"];
         // line.length = judges.length;
@@ -98,7 +93,6 @@ class ResultApp extends React.Component{
         // this.state.sheet.push(line4);
 
         ///initialisation des notes
-        // console.log(this.state.sheet);
 
         for (var j = 1; j<this.state.sheet.length; j++){
             this.state.notes[this.state.sheet[j][0]] = 0;
@@ -111,29 +105,8 @@ class ResultApp extends React.Component{
     }
 
     doCalc(){
-        // var self = this;
-        // this.hotTableComponent.current.hotInstance.updateSettings({
-        //     afterChange: function (changes) {
-        //         console.log("test");
-        //         for (let j = 1; j<self.state.sheet.length; j++){
-        //             self.state.notes[self.state.sheet[j][0]] = 0;
-        //         }
-        //
-        //         for(let i = 1; i<this.getData().length; i++){
-        //             // self.state.notes[this.getData()[i][0]]
-        //             for(let j = 1; j<this.getData()[0].length; j++){
-        //                 self.state.notes[this.getData()[i][0]] += parseInt(this.getData()[i][j]);
-        //             }
-        //             console.log(self.state.notes[this.getData()[i][0]]);
-        //             self.state.notes[this.getData()[i][0]] /= this.getData()[0].length-1;
-        //             console.log(self.state.notes[this.getData()[i][0]]);
-        //         }
-        //     }
-        // });
         this.setState({notes:this.state.notes});
     }
-
-
 
     render() {
         return(
