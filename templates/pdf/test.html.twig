@@ -11,10 +11,157 @@
 		/*table, tr, td {*/
 			/*border: 1px solid black;*/
 		/*}*/
+		.container {
+			width: 100%;
+			padding-right: 15px;
+			padding-left: 15px;
+			margin-right: auto;
+			margin-left: auto;
+		}
+		.text-center {
+			text-align: center !important;
+		}
+		.table {
+			width: 100%;
+			margin-bottom: 1rem;
+			background-color: transparent;
+		}
+
+		.table th,
+		.table td {
+			padding: 0.75rem;
+			vertical-align: top;
+			border-top: 1px solid #dee2e6;
+		}
+
+		.table thead th {
+			vertical-align: bottom;
+			border-bottom: 2px solid #dee2e6;
+		}
+
+		.table tbody + tbody {
+			border-top: 2px solid #dee2e6;
+		}
+
+		.table .table {
+			background-color: #fff;
+		}
+
+		.table-sm th,
+		.table-sm td {
+			padding: 0.3rem;
+		}
+
+		.table-bordered {
+			border: 1px solid #dee2e6;
+		}
+
+		.table-bordered th,
+		.table-bordered td {
+			border: 1px solid #dee2e6;
+		}
+
+		.table-bordered thead th,
+		.table-bordered thead td {
+			border-bottom-width: 2px;
+		}
+
+		.table-borderless th,
+		.table-borderless td,
+		.table-borderless thead th,
+		.table-borderless tbody + tbody {
+			border: 0;
+		}
+		.table .thead-dark th {
+			color: #fff;
+			background-color: #212529;
+			border-color: #32383e;
+		}
+
+		.table .thead-light th {
+			color: #495057;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+		}
+
+		.table-dark {
+			color: #fff;
+			background-color: #212529;
+		}
+
+		.table-dark th,
+		.table-dark td,
+		.table-dark thead th {
+			border-color: #32383e;
+		}
+
+		.table-dark.table-bordered {
+			border: 0;
+		}
+
+		.table-dark.table-striped tbody tr:nth-of-type(odd) {
+			background-color: rgba(255, 255, 255, 0.05);
+		}
+
+		.table-dark.table-hover tbody tr:hover {
+			background-color: rgba(255, 255, 255, 0.075);
+		}
+
+		.table-responsive {
+			display: block;
+			width: 100%;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			-ms-overflow-style: -ms-autohiding-scrollbar;
+		}
+
+		.table-responsive > .table-bordered {
+			border: 0;
+		}
 	</style>
 </head>
 
 <body>
-	<h1>Aurélien est trop fort !</h1>
+	<div class="container text-center">
+		<h1>Planning de la compétition</h1>
+		<table class="table table-bordered">
+			<thead class="thead-dark">
+			<tr>
+				<th scope="col">Danse</th>
+				<th scope="col">Catégorie</th>
+				<th scope="col">Formation</th>
+				<th scope="col">Tour</th>
+				<th scope="col">Piste</th>
+				<th scope="col">Équipes</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for row in rows%}
+				<tr>
+					<th scope="row">{{ row.dance.nameDance }}</th>
+					<td>{{ row.category }}</td>
+					<td>{{ row.formation }}</td>
+					<td>{{ row.numTour }}</td>
+					<td>{{ row.piste }}</td>
+					<td>
+						{% set cmpt=1 %}
+						{% set passage=1 %}
+						{% for team in row.getTeams() %}
+							{% if cmpt % row.passageSimul==1 %}
+								<strong style="color: red">Passage {{ passage }}</strong><br>
+								{% set passage= passage+1 %}
+							{% endif %}
+							Équipe <strong>{{ team.id }}</strong><br>
+							{% if cmpt % row.passageSimul==0 %}
+								<hr>
+							{% endif %}
+							{% set cmpt = cmpt+1 %}
+						{% endfor %}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
