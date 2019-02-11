@@ -23,7 +23,7 @@ class App extends React.Component{
     }
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/testAjax')
+        axios.get('http://127.0.0.1:8000/planning/get')
             .then(res=>{
                 setTimeout(()=>{
                     // console.log(res.data.row);
@@ -49,7 +49,7 @@ class App extends React.Component{
     };
 
     testClick2(){
-        axios.post('http://127.0.0.1:8000/testAjaxPost',{
+        axios.post('http://127.0.0.1:8000/planning/validation',{
             rows: this.state.done
         }).then(res=>{
             console.log(res);

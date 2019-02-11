@@ -39,6 +39,16 @@ class ResultApp extends React.Component{
             },
         });
 
+
+        const  nbJudge = document.getElementById("resultatApp").getAttribute("data-row-nbJudge");
+
+        let judges = [""];
+        
+        for (var i=1; i<=nbJudge; i++){
+            judges.push((i + 9).toString(36).toUpperCase());
+        }
+        this.state.sheet.push(judges);
+
         //Recupere les équipes
         const idRow = document.getElementById("resultatApp").getAttribute("data-row-id");
         axios.get('http://127.0.0.1:8000/row/getAllTeamById',{
@@ -52,17 +62,6 @@ class ResultApp extends React.Component{
             .catch(function (err) {
                 console.log(err);
             });
-
-
-        const  nbJudge = document.getElementById("resultatApp").getAttribute("data-row-nbJudge");
-
-        let judges = [""];
-        
-        for (var i=1; i<=nbJudge; i++){
-            judges.push((i + 9).toString(36).toUpperCase());
-        }
-        this.state.sheet.push(judges);
-
 
         //fake datas
         var line = ["1"];
