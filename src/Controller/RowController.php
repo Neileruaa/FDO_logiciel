@@ -70,7 +70,7 @@ class RowController extends AbstractController
     }
 
 	/**
-	 * @Route("/row/getAllTeamById", name="Row.getAllTeamById", methods={"GET"})
+         * @Route("/row/getAllTeamById", name="Row.getAllTeamById", methods={"GET"})
 	 */
 	public function getAllTeamByRowId(RowRepository $rowRepository) {
 		$row = $rowRepository->find($_GET['id']);
@@ -78,7 +78,7 @@ class RowController extends AbstractController
 		$numTeams = [];
 
 		foreach ($teams as $team){
-			dump($team);
+			array_push($numTeams,$team->getId());
 		}
 		return $this->json(["Res"=>$numTeams]);
     }
