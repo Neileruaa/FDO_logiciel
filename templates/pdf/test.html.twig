@@ -148,7 +148,7 @@
 						{% set passage=1 %}
 						{% for team in row.getTeams() %}
 							{% if cmpt % row.passageSimul==1 %}
-								<strong style="color: red">Passage {{ passage }}</strong><br>
+								<strong style="color: red">Passage {{ passage }}</strong><br><br>
 								{% set passage= passage+1 %}
 							{% endif %}
 							Équipe <strong>{{ team.id }}</strong><br>

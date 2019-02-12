@@ -54,12 +54,13 @@ class PlanningController extends AbstractController
      * @Route("/planning/validation", name="Planning.validation", methods={"POST"})
      */
 	public function validationRows(Request $request,
+                                 SessionInterface $session,
 	                             ObjectManager $manager,
 	                             CategoryRepository $categoryRepository,
 	                             DanceRepository $danceRepository,
 	                             RowRepository $rowRepository) {
 //		$rows = $request->getContent();
-
+        $compet=$this->getDoctrine()->getRepository(Competition::class)->find($session->get('competSelected'));
 		$parametersAsArray = array();
 		if ($content = $request->getContent()){
 			$parametersAsArray = json_decode($content, true);
@@ -79,6 +80,7 @@ class PlanningController extends AbstractController
 				$teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($rows['dance']['nameDance'], $rows['category']['nameCategory'], $rows['formation']);
                 $row = new Row();
                 $row->setDance($dance)
+                    ->setCompetition($compet)
                     ->setCategory($category)
                     ->setFormation($rows['formation'])
                     ->setNumTour($rows['numTour'])
@@ -87,6 +89,7 @@ class PlanningController extends AbstractController
                     ->setNbJudge($rows['nbJudge'])
                     ->setPassageSimul($rows['passageSimul'])
                 ;
+
                 foreach ($teams as $team){
                     $row->addTeam($this->getDoctrine()->getRepository(Team::class)->find($team));
                 }
