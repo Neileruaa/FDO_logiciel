@@ -131,7 +131,8 @@ class App extends React.Component{
                         handleSelectNbJudge={this.handleSelectNbJudge}
                     />
 
-                    <button className="btn btn-info" ref={buttonValider=>{this.button=buttonValider}} onClick={this.testClick2}>Valider</button>
+                    <button className="btn btn-info" ref={buttonValider=>{this.button=buttonValider}} onClick={this.testClick2}>
+                        <i className="fas fa-check"></i> Valider</button>
                 </div>
             );
         }
