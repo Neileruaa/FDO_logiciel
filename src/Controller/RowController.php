@@ -15,6 +15,7 @@ use App\Repository\TeamRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use phpDocumentor\Reflection\Types\This;
 use http\Env\Response;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,6 +47,41 @@ class RowController extends AbstractController
             $newRow->setDance($dance[0]);
 
             $newRow->setNumTour("1");
+
+            $category=$catr->findBy(['nameCategory'=>$row['nameCategory']]);
+            $newRow->setCategory($category[0]);
+
+            $newRow->setFormation($row['size']);
+
+            $newRow->setPassageSimul(2);
+            $newRow->setNbJudge(3);
+
+            $teams=$tr->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size']);
+            foreach ($teams as $team){
+                $t=$tr->find($team);
+                $newRow->addTeam($t);
+            }
+            $competition=$cr->find($competition);
+            $newRow->setCompetition($competition);
+            $newRow->setIsDone(false);
+            $newRow->setPiste("A");
+            $manager->persist($newRow);
+            $manager->flush();
+        }
+    }
+
+    public function createNextRows(ObjectManager $manager, SessionInterface $session, CompetitionRepository $cr, RowRepository $rr, DanceRepository $dr, TeamRepository $tr, CategoryRepository $catr, Request $request){
+        $numTour=$request->get("numTour");
+        $competition=$session->get('competSelected');
+        $rows=$cr->getRows($session->get('competSelected'));
+
+        foreach ($rows as $row){
+            $newRow=new Row();
+            //dump($row);
+            $dance=$dr->findBy(['nameDance'=>$row['nameDance']]);
+            $newRow->setDance($dance[0]);
+
+            $newRow->setNumTour($numTour);
 
             $category=$catr->findBy(['nameCategory'=>$row['nameCategory']]);
             $newRow->setCategory($category[0]);
