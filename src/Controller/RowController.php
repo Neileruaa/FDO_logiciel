@@ -70,7 +70,18 @@ class RowController extends AbstractController
         }
     }
 
-    public function createNextRows(ObjectManager $manager, SessionInterface $session, CompetitionRepository $cr, RowRepository $rr, DanceRepository $dr, TeamRepository $tr, CategoryRepository $catr, Request $request){
+    /**
+     * @Route("/create/rows", name="Row.create")
+     * @param ObjectManager $manager
+     * @param SessionInterface $session
+     * @param CompetitionRepository $cr
+     * @param DanceRepository $dr
+     * @param TeamRepository $tr
+     * @param CategoryRepository $catr
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function createNextRows(ObjectManager $manager, Request $request, SessionInterface $session, CompetitionRepository $cr, DanceRepository $dr, TeamRepository $tr, CategoryRepository $catr){
         $numTour=$request->get("numTour");
         $competition=$session->get('competSelected');
         $rows=$cr->getRows($session->get('competSelected'));
@@ -103,6 +114,7 @@ class RowController extends AbstractController
             $manager->persist($newRow);
             $manager->flush();
         }
+        return $this->redirectToRoute("Planning.actualPlanning");
     }
 
 	/**
