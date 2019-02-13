@@ -42,7 +42,6 @@ class RowController extends AbstractController
 
         foreach ($rows as $row){
             $newRow=new Row();
-            //dump($row);
             $dance=$dr->findBy(['nameDance'=>$row['nameDance']]);
             $newRow->setDance($dance[0]);
 
@@ -56,7 +55,11 @@ class RowController extends AbstractController
             $newRow->setPassageSimul(2);
             $newRow->setNbJudge(3);
 
-            $teams=$tr->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size']);
+            $teams=$tr->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size'], $competition);
+
+            if ($teams==null){
+                continue;
+            }
             foreach ($teams as $team){
                 $t=$tr->find($team);
                 $newRow->addTeam($t);
@@ -102,7 +105,7 @@ class RowController extends AbstractController
             $newRow->setPassageSimul(2);
             $newRow->setNbJudge(3);
 
-            $teams=$tr->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size']);
+            $teams=$tr->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size'],$competition);
             foreach ($teams as $team){
                 $t=$tr->find($team);
                 $newRow->addTeam($t);
@@ -117,9 +120,11 @@ class RowController extends AbstractController
         return $this->redirectToRoute("Planning.actualPlanning");
     }
 
-	/**
-         * @Route("/row/getAllTeamById", name="Row.getAllTeamById", methods={"GET"})
-	 */
+    /**
+     * @Route("/row/getAllTeamById", name="Row.getAllTeamById", methods={"GET"})
+     * @param RowRepository $rowRepository
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
 	public function getAllTeamByRowId(RowRepository $rowRepository) {
 		$row = $rowRepository->find($_GET['id']);
 		$teams = $row->getTeams();
