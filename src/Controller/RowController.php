@@ -73,17 +73,17 @@ class RowController extends AbstractController
     /**
      * @Route("/create/rows", name="Row.create")
      * @param ObjectManager $manager
-     * @param SessionInterface $session
-     * @param CompetitionRepository $cr
-     * @param DanceRepository $dr
-     * @param TeamRepository $tr
-     * @param CategoryRepository $catr
      * @param Request $request
+     * @param SessionInterface $session
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function createNextRows(ObjectManager $manager, Request $request, SessionInterface $session, CompetitionRepository $cr, DanceRepository $dr, TeamRepository $tr, CategoryRepository $catr){
+    public function createNextRow(ObjectManager $manager, Request $request, SessionInterface $session){
         $numTour=$request->get("numTour");
         $competition=$session->get('competSelected');
+        $cr=$this->getDoctrine()->getRepository(Competition::class);
+        $dr=$this->getDoctrine()->getRepository(Dance::class);
+        $tr=$this->getDoctrine()->getRepository(Team::class);
+        $catr=$this->getDoctrine()->getRepository(Category::class);
         $rows=$cr->getRows($session->get('competSelected'));
 
         foreach ($rows as $row){
