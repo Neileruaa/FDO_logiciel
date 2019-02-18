@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import {HotTable} from "@handsontable/react";
 import axios from "axios";
 import ShowResult from './Components/ShowResult'
-
-
+// import _ from 'lodash';
+import _ from 'underscore';
 
 class ResultApp extends React.Component{
     constructor(props){
         super(props);
 
-        this.state={
+        this.state= {
             sheet: [],
-            notes: []
+            notes: {}
         };
 
         this.hotTableComponent = React.createRef();
@@ -23,16 +23,18 @@ class ResultApp extends React.Component{
         var self = this;
         this.hotTableComponent.current.hotInstance.updateSettings({
             afterChange: function (changes) {
-                for (let j = 1; j<self.state.sheet.length; j++){
-                    self.state.notes[self.state.sheet[j][0]] = 0;
+                for (let nbTeam in self.state.sheet){
+                    if (self.state.sheet[nbTeam][0] !== "" && self.state.sheet[nbTeam][0] !== 0 ) {
+                        self.state.notes[self.state.sheet[nbTeam][0]] = 0;
+                    }
                 }
 
                 for(let i = 1; i<this.getData().length; i++){
-                    // self.state.notes[this.getData()[i][0]]
                     for(let j = 1; j<this.getData()[0].length; j++){
                         self.state.notes[this.getData()[i][0]] += parseInt(this.getData()[i][j]);
                     }
                     self.state.notes[this.getData()[i][0]] /= this.getData()[0].length-1;
+
                 }
             },
         });
@@ -62,41 +64,14 @@ class ResultApp extends React.Component{
                     line.fill(0,1);
                     self.state.sheet.push(line);
                     self.setState({sheet: self.state.sheet});
-                    for (var j = 1; j<self.state.sheet.length; j++){
-                        self.state.notes[self.state.sheet[j][0]] = 0;
-                    }
                 }
+                // for (var j = 1; j<self.state.sheet.length; j++){
+                //     self.state.notes[self.state.sheet[j][0]] = 0;
+                // }
             })
             .catch(function (err) {
                 console.log(err);
             });
-
-        //fake datas
-        // var line = ["1"];
-        // line.length = judges.length;
-        // line.fill(0,1);
-        // this.state.sheet.push(line);
-        //
-        // var line2 = ["6"];
-        // line2.length = judges.length;
-        // line2.fill(0,1);
-        // this.state.sheet.push(line2);
-        //
-        // var line3 = ["7"];
-        // line3.length = judges.length;
-        // line3.fill(0,1);
-        // this.state.sheet.push(line3);
-        //
-        // var line4 = ["8"];
-        // line4.length = judges.length;
-        // line4.fill(0,1);
-        // this.state.sheet.push(line4);
-
-        ///initialisation des notes
-
-        for (var j = 1; j<this.state.sheet.length; j++){
-            this.state.notes[this.state.sheet[j][0]] = 0;
-        }
 
         this.setState({
             sheet : this.state.sheet,
@@ -105,7 +80,21 @@ class ResultApp extends React.Component{
     }
 
     doCalc(){
-        this.setState({notes:this.state.notes});
+        var tabNotes = [];
+        for (var note in this.state.notes){
+            tabNotes.push([note, this.state.notes[note]]);
+        }
+        tabNotes.sort(function (a,b) {
+           return b[1] - a[1];
+        });
+        this.setState({notes: this.objectify(tabNotes)});
+    }
+
+     objectify(array) {
+        return array.reduce(function(p, c) {
+            p[c[0]] = c[1];
+            return p;
+        }, {});
     }
 
     render() {
@@ -117,19 +106,19 @@ class ResultApp extends React.Component{
                     stretchH="all"
                     width="auto"
                     ref={this.hotTableComponent}
-                    cells={function (row, col, prop) {
-                        var cellProperties = {};
-                            if (col ===0) {
-                                cellProperties.readOnly = 'true'
-                            }
-                        if (row===0) {
-                            cellProperties.readOnly = 'true'
+                        cells={function (row, col, prop) {
+                            var cellProperties = {};
+                                if (col ===0) {
+                                    cellProperties.readOnly = 'true'
+                                }
+                                if (row===0) {
+                                    cellProperties.readOnly = 'true'
+                                }
+                            return cellProperties
                         }
-                        return cellProperties
-                    }
                     }
                 />
-                <button onClick={this.doCalc}>Calculer les moyennes</button>
+                <button onClick={this.doCalc} className="btn btn-outline-primary">Calculer les moyennes</button>
 
                 <ShowResult
                     notes={this.state.notes}
