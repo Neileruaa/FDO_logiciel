@@ -6,7 +6,7 @@
 {% block body %}
     <div>
         <h1>Planning actuel</h1>
-
+        <a class="btn btn-warning float-right" href="{{ path('Planning.index') }}"><i class="fas fa-calendar-plus"></i> Modifier le planning</a><br><br>
         <div class="alert alert-info" role="alert">
             Vous pouvez toujours en faire un nouveau dans l'onglet "création"
         </div>
@@ -31,8 +31,8 @@
                         <td>{{ row.numTour }}</td>
                         <td>{{ row.piste }}</td>
                         <td>
-                            <a href="#" class="btn btn-info">Voir planning équipes</a>
-                            <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info">Résultats</a>
+                            <a href="#" class="btn btn-info"><i class="fas fa-calendar-alt"></i> Voir planning équipes</a>
+                            <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
                         </td>
                     </tr>
                     {% else %}
@@ -44,6 +44,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{{ path('Panel.testPdf') }}" target="_blank" class="btn btn-info">Planning compétition</a>
+        <a href="{{ path('Panel.testPdf') }}" target="_blank" class="btn btn-info"><i class="fas fa-calendar-alt"></i> Planning compétition <i class="fas fa-calendar-alt"></i></a>
     </div>
 {% endblock %}

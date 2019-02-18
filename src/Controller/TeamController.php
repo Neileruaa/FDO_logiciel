@@ -29,10 +29,6 @@ class TeamController extends AbstractController
         $manager->detach($competition);
         $session->set('competSelected', $competition->getId());
         $teams=$competition->getTeams();
-        foreach ($teams as $team){
-            //dump($team->getIsPresent());
-            //die();
-        }
         return $this->render('team/appel.html.twig', [
             'teams'=>$teams,
             'compet'=>$competition
@@ -52,11 +48,7 @@ class TeamController extends AbstractController
         $tr=$this->getDoctrine()->getRepository(Team::class);
         $catr=$this->getDoctrine()->getRepository(Category::class);
 
-        $rowController->deleteRows($manager, $session, $cr, $rr);
-        $rowController->insertRows($manager, $session, $cr, $rr, $dr, $tr, $catr);
-
         $teams=$this->getDoctrine()->getRepository(Competition::class)->find($competition)->getTeams();
-
         foreach ($teams as $team){
             $idTeam=$team->getId();
             $statut=$request->request->get("appel".$idTeam);
@@ -65,6 +57,10 @@ class TeamController extends AbstractController
             $manager->merge($team);
             $manager->flush();
         }
+        $rowController->deleteRows($manager, $session, $cr, $rr);
+        $rowController->insertRows($manager, $session, $cr, $rr, $dr, $tr, $catr);
+
+
         return $this->redirectToRoute("Planning.index");
     }
 }

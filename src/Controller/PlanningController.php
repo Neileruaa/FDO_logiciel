@@ -32,7 +32,14 @@ class PlanningController extends AbstractController
 	    $compet=$this->getDoctrine()->getRepository(Competition::class)->find($compet);
 
 	    $rows = $competitionRepository -> findAll();
-
+        $test=$this->getDoctrine()->getRepository(Row::class)->findBy(["competition"=>$compet]);
+        foreach ($test as $t){
+            $teams=$t->getTeams();
+            foreach ($teams as $team){
+                dump($team);
+            }
+        }
+        //die();
         return $this->render('planning/index.html.twig', [
 
         ]);
@@ -77,7 +84,7 @@ class PlanningController extends AbstractController
 			foreach ($param as $rows){
 				$category= $categoryRepository->findOneBy(['nameCategory'=>$rows['category']['nameCategory']]);
 				$dance = $danceRepository->findOneBy(['nameDance'=>$rows['dance']['nameDance']]);
-				$teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($rows['dance']['nameDance'], $rows['category']['nameCategory'], $rows['formation']);
+				$teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($rows['dance']['nameDance'], $rows['category']['nameCategory'], $rows['formation'],$session->get('competSelected'));
                 $row = new Row();
                 $row->setDance($dance)
                     ->setCompetition($compet)
