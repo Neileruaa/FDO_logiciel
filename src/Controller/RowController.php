@@ -152,7 +152,6 @@ class RowController extends AbstractController
         $competition=$cr->find($idCompetition);
 
 
-        //TODO : passer l'id en data pour pouvoir récup les info importantes
         $idRow = $parametersAsArray['rowId'];
 
         $row = $rr->find($idRow);
