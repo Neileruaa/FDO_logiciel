@@ -21,6 +21,7 @@ class ResultApp extends React.Component{
         this.doCalc = this.doCalc.bind(this);
         this.handleRangeNbQualifie = this.handleRangeNbQualifie.bind(this);
         this.handleSelectNextRound= this.handleSelectNextRound.bind(this);
+        this.createNextRound= this.createNextRound.bind(this);
     }
 
     componentDidMount() {
@@ -109,6 +110,21 @@ class ResultApp extends React.Component{
         this.setState({nextRound:e.target.value})
     }
 
+    createNextRound(){
+        axios.post('http://127.0.0.1:8000/create/rows/afterResult', {
+            nextRound: this.state.nextRound,
+            rowId : document.getElementById("resultatApp").getAttribute("data-row-id"),
+            notes: this.state.notes,
+            nbQualifie: this.state.nbQualifie
+        })
+            .then(function (response) {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     render() {
 
         var tour = "";
@@ -156,6 +172,7 @@ class ResultApp extends React.Component{
                         <option value="Finale" >Finale</option>
                     </select>
                 </div>
+                <button onClick={this.createNextRound} className="btn btn-success">Valider ces résultats</button>
                 <ShowResult
                     notes={this.state.notes}
                 />

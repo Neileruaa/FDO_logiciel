@@ -120,6 +120,94 @@ class RowController extends AbstractController
         return $this->redirectToRoute("Planning.actualPlanning");
     }
 
+    function array_kshift(&$arr){
+        list($k) = array_keys($arr);
+        $r  = array($k=>$arr[$k]);
+        unset($arr[$k]);
+        return $r;
+    }
+
+    /**
+     * @Route("/create/rows/afterResult", name="Row.createAfterResult")
+     * @param ObjectManager $manager
+     * @param Request $request
+     * @param SessionInterface $session
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function createNextRowAfterResult(ObjectManager $manager,
+                                             Request $request,
+                                             SessionInterface $session,
+                                             CompetitionRepository $cr,
+                                             DanceRepository $dr,
+                                             TeamRepository $tr,
+                                             CategoryRepository $catr,RowRepository $rr){
+        $parametersAsArray = array();
+        if ($content = $request->getContent()){
+            $parametersAsArray = json_decode($content, true);
+        }
+
+        $numTour=$parametersAsArray['nextRound'];
+
+        $idCompetition=$session->get('competSelected');
+        $competition=$cr->find($idCompetition);
+
+
+        //TODO : passer l'id en data pour pouvoir récup les info importantes
+        $idRow = $parametersAsArray['rowId'];
+
+        $row = $rr->find($idRow);
+
+        $dance = $row->getDance();
+
+        $category = $row->getCategory();
+
+        $formation = $row->getFormation();
+
+        $piste = $row->getPiste();
+
+        $passageSimul = $row->getPassageSimul();
+
+        $nbJudge = $row->getNbJudge();
+
+        $nbTeamsChoosen = $parametersAsArray['nbQualifie'];
+
+        $notes = $parametersAsArray['notes'];
+
+        dump($notes);
+        arsort($notes);
+        dump($notes);
+
+        $teamsForNextRound = [];
+        for ($i = 0; $i<$nbTeamsChoosen; $i++){
+            $maxVal = $this->array_kshift($notes);
+            $teamsForNextRound[array_keys($maxVal)[0]]=array_values($maxVal)[0];
+        }
+        dump($teamsForNextRound);
+
+        $newRow=new Row();
+
+        $newRow->setNumTour($numTour)
+        ->setDance($dance)
+        ->setCategory($category)
+        ->setFormation($formation)
+        ->setPiste($piste)
+        ->setIsDone(false)
+        ->setCompetition($competition)
+        ->setNbJudge($nbJudge)
+        ->setPassageSimul($passageSimul);
+
+        //ajout des équipes
+        $idDesEquipes = array_keys($teamsForNextRound);
+        foreach ($idDesEquipes as $idEquipe){
+            $equipe = $tr->find($idEquipe);
+            $newRow->addTeam($equipe);
+        }
+        $manager->persist($newRow);
+        $manager->flush();
+
+        return $this->json(['res' => 'YESSS']);
+    }
+
     /**
      * @Route("/row/getAllTeamById", name="Row.getAllTeamById", methods={"GET"})
      * @param RowRepository $rowRepository
@@ -135,5 +223,7 @@ class RowController extends AbstractController
 		}
 		return $this->json(["Res"=>$numTeams]);
     }
+
+
 
 }
