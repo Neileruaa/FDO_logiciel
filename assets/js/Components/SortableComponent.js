@@ -31,16 +31,16 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
                         </div>
                         <div className="modal-body">
                             <label htmlFor="choisirPiste">Choisir une piste:</label>
-                            <select name="piste" id="choisirPiste" value={piste} onChange={()=>handleSelectPiste(event, id)}>
+                            <select name="piste" id="choisirPiste" value={piste} onChange={(event)=>handleSelectPiste(event, id)}>
                                 <option value="A" >A</option>
                                 <option value="B" >B</option>
                             </select>
                             <hr/>
                             <label htmlFor="choisirPassageSimul">Choisir nb danseurs simultanés :</label>
-                            <input type="number" min="1" max="16" value={passageSimul} id="choisirPassageSimul" onChange={()=>handleSelectPassageSimul(event, id)}/>
+                            <input type="number" min="1" max="16" value={passageSimul} id="choisirPassageSimul" onChange={(event)=>handleSelectPassageSimul(event, id)}/>
                             <hr/>
                             <label htmlFor="choisirNumTour">Choisir un type de tour:</label>
-                            <select name="piste" id="choisirPiste" value={numTour} onChange={()=>handleSelectNumTour(event, id)}>
+                            <select name="piste" id="choisirPiste" value={numTour} onChange={(event)=>handleSelectNumTour(event, id)}>
                                 <option value="1" >1</option>
                                 <option value="2" >2</option>
                                 <option value="3" >3</option>
@@ -52,7 +52,7 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
                             </select>
                             <hr/>
                             <label htmlFor="rangeNumberJugde" id="test">Nombre de juges: {nbJudge} </label>
-                            <input type="range" className="custom-range" min="3" max="15" step="2" id="rangeNumberJugde" value={nbJudge} onChange={()=>handleSelectNbJudge(event,id)}/>
+                            <input type="range" className="custom-range" min="3" max="15" step="2" id="rangeNumberJugde" value={nbJudge} onChange={(event)=>handleSelectNbJudge(event,id)}/>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-success" data-dismiss="modal">Terminer</button>
