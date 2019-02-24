@@ -84,8 +84,15 @@ class PlanningController extends AbstractController
 			foreach ($param as $rows){
 				$category= $categoryRepository->findOneBy(['nameCategory'=>$rows['category']['nameCategory']]);
 				$dance = $danceRepository->findOneBy(['nameDance'=>$rows['dance']['nameDance']]);
-				$teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($rows['dance']['nameDance'], $rows['category']['nameCategory'], $rows['formation'],$session->get('competSelected'));
-                $row = new Row();
+				if ($rows['numTour'] == "1"){
+					$teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($rows['dance']['nameDance'], $rows['category']['nameCategory'], $rows['formation'],$session->get('competSelected'));
+				}else{
+					$teams=[];
+					foreach ($rows['teams'] as $team){
+						array_push($teams, $team['id']);
+					}
+				}
+				$row = new Row();
                 $row->setDance($dance)
                     ->setCompetition($compet)
                     ->setCategory($category)
