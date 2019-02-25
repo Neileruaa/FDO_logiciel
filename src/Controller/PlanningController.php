@@ -119,7 +119,16 @@ class PlanningController extends AbstractController
      */
 	public function actualPlanning(RowRepository $rowRepository) {
 		return $this->render('planning/planningActuel.html.twig',[
-			'rows'=>$rowRepository->findAll(),
+			'rows'=>$rowRepository->findToDoRow(),
 		]);
     }
+
+	/**
+	 * @Route("/planning/previous", name="Planning.previousPlanning")
+	 */
+	public function previousRound(RowRepository $rowRepository) {
+		return $this->render('planning/planningPrevious.html.twig',[
+			'rows'=>$rowRepository->findByIsDone(),
+		]);
+	}
 }

@@ -18,4 +18,12 @@ class ResultatController extends AbstractController
             'row'=>$row
         ]);
     }
+
+	/**
+	 * @Route("/row/check/result/{id}", name="Resultat.check")
+	 * @param Row $row
+	 */
+    public function resultOfRow(Row $row){
+
+    }
 }

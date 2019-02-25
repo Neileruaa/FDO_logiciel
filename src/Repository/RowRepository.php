@@ -19,6 +19,24 @@ class RowRepository extends ServiceEntityRepository
         parent::__construct($registry, Row::class);
     }
 
+    public function findByIsDone(){
+    	return $this->createQueryBuilder('r')
+		    ->andWhere('r.isDone = :val')
+		    ->setParameter('val', true)
+		    ->getQuery()
+		    ->getResult()
+	    ;
+    }
+
+	public function findToDoRow(){
+		return $this->createQueryBuilder('r')
+			->andWhere('r.isDone = :val')
+			->setParameter('val', false)
+			->getQuery()
+			->getResult()
+			;
+	}
+
     // /**
     //  * @return Row[] Returns an array of Row objects
     //  */
