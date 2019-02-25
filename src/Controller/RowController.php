@@ -74,51 +74,6 @@ class RowController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/create/rows", name="Row.create")
-     * @param ObjectManager $manager
-     * @param Request $request
-     * @param SessionInterface $session
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function createNextRow(ObjectManager $manager, Request $request, SessionInterface $session){
-        $numTour=$request->get("numTour");
-        $competition=$session->get('competSelected');
-        $cr=$this->getDoctrine()->getRepository(Competition::class);
-        $dr=$this->getDoctrine()->getRepository(Dance::class);
-        $tr=$this->getDoctrine()->getRepository(Team::class);
-        $catr=$this->getDoctrine()->getRepository(Category::class);
-        $rows=$cr->getRows($session->get('competSelected'));
-
-        foreach ($rows as $row){
-            $newRow=new Row();
-            $dance=$dr->findBy(['nameDance'=>$row['nameDance']]);
-            $newRow->setDance($dance[0]);
-
-            $newRow->setNumTour($numTour);
-
-            $category=$catr->findBy(['nameCategory'=>$row['nameCategory']]);
-            $newRow->setCategory($category[0]);
-
-            $newRow->setFormation($row['size']);
-
-            $newRow->setPassageSimul(2);
-            $newRow->setNbJudge(3);
-
-            $teams=$tr->getTeamsByCat($row['nameDance'], $row['nameCategory'], $row['size'],$competition);
-            foreach ($teams as $team){
-                $t=$tr->find($team);
-                $newRow->addTeam($t);
-            }
-            $competition=$cr->find($competition);
-            $newRow->setCompetition($competition);
-            $newRow->setIsDone(false);
-            $newRow->setPiste("A");
-            $manager->persist($newRow);
-            $manager->flush();
-        }
-        return $this->redirectToRoute("Planning.actualPlanning");
-    }
 
     function array_kshift(&$arr){
         list($k) = array_keys($arr);
