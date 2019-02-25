@@ -80,9 +80,14 @@ class Row
     private $nbJudge;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Resultat", mappedBy="row")
+     * @ORM\OneToMany(targetEntity="App\Entity\Resultat", mappedBy="row", cascade={"remove"})
      */
     private $results;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $position;
 
     public function __construct()
     {
@@ -197,15 +202,15 @@ class Row
 	 * @return mixed
 	 */
 	public function getPassageSimul() {
-                                 		return $this->passageSimul;
-                                 	}
+                                          		return $this->passageSimul;
+                                          	}
 
 	/**
 	 * @param mixed $passageSimul
 	 */
 	public function setPassageSimul($passageSimul) {
-                                 		$this->passageSimul = $passageSimul;
-                                 	}
+                                          		$this->passageSimul = $passageSimul;
+                                          	}
 
     public function getCompetition(): ?Competition
     {
@@ -258,6 +263,18 @@ class Row
                 $result->setRow(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }
