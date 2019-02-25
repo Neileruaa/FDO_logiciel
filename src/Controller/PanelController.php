@@ -17,7 +17,7 @@ class PanelController extends AbstractController
 	public function firstPdfDomPDF(SessionInterface $session) {
 	    $compet=$this->getDoctrine()->getRepository(Competition::class)->find($session->get('competSelected'));
         $dompdf = new Dompdf();
-        $html = $this->renderView('pdf/test.html.twig',['rows'=>$this->getDoctrine()->getRepository(Row::class)->findBy(['competition'=>$compet])]);
+        $html = $this->renderView('pdf/test.html.twig',['rows'=>$this->getDoctrine()->getRepository(Row::class)->findToDoRow()]);
 		$dompdf->loadHtml($html);
 		$dompdf->setPaper('A4', 'portrait');
 		$dompdf->render();
