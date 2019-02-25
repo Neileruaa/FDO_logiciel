@@ -140,7 +140,8 @@ class RowController extends AbstractController
                                              CompetitionRepository $cr,
                                              DanceRepository $dr,
                                              TeamRepository $tr,
-                                             CategoryRepository $catr,RowRepository $rr){
+                                             CategoryRepository $catr,
+                                             RowRepository $rr){
         $parametersAsArray = array();
         if ($content = $request->getContent()){
             $parametersAsArray = json_decode($content, true);
@@ -151,31 +152,26 @@ class RowController extends AbstractController
         $idCompetition=$session->get('competSelected');
         $competition=$cr->find($idCompetition);
 
-
         $idRow = $parametersAsArray['rowId'];
-
         $row = $rr->find($idRow);
         $row->setIsDone(true);
-
         $dance = $row->getDance();
-
         $category = $row->getCategory();
-
         $formation = $row->getFormation();
-
         $piste = $row->getPiste();
-
         $passageSimul = $row->getPassageSimul();
-
         $nbJudge = $row->getNbJudge();
-
         $nbTeamsChoosen = $parametersAsArray['nbQualifie'];
-
         $notes = $parametersAsArray['notes'];
 
         dump($notes);
         arsort($notes);
         dump($notes);
+
+        //Creation d'entités Resultat
+	    foreach ($notes as $idTeam =>$note){
+
+	    }
 
         $teamsForNextRound = [];
         for ($i = 0; $i<$nbTeamsChoosen; $i++){
