@@ -23,7 +23,7 @@ class ResultatRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->andWhere('r.row = :row')
             ->setParameter('row', $idRow)
-            ->orderBy('r.note')
+            ->orderBy('r.note','DESC')
             ->getQuery()
             ->getResult()
             ;

@@ -179,6 +179,19 @@ class RowController extends AbstractController
 	    }
 	    $manager->flush();
 
+        //Creation d'entités Resultat
+        foreach ($notes as $idTeam =>$note){
+            $resultat = new Resultat();
+            $teamNotes = $tr->find($idTeam);
+            $resultat->setNote($note)
+                ->setTeam($teamNotes)
+                ->setRow($row)
+                ->setNbGardes($nbTeamsChoosen)
+            ;
+            $manager->persist($resultat);
+        }
+        $manager->flush();
+
         $teamsForNextRound = [];
         for ($i = 0; $i<$nbTeamsChoosen; $i++){
             $maxVal = $this->array_kshift($notes);
@@ -188,14 +201,14 @@ class RowController extends AbstractController
         $newRow=new Row();
 
         $newRow->setNumTour($numTour)
-        ->setDance($dance)
-        ->setCategory($category)
-        ->setFormation($formation)
-        ->setPiste($piste)
-        ->setIsDone(false)
-        ->setCompetition($competition)
-        ->setNbJudge($nbJudge)
-        ->setPassageSimul($passageSimul);
+            ->setDance($dance)
+            ->setCategory($category)
+            ->setFormation($formation)
+            ->setPiste($piste)
+            ->setIsDone(false)
+            ->setCompetition($competition)
+            ->setNbJudge($nbJudge)
+            ->setPassageSimul($passageSimul);
 
         //ajout des équipes
         $idDesEquipes = array_keys($teamsForNextRound);
