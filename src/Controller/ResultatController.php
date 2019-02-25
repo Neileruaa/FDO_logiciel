@@ -27,8 +27,6 @@ class ResultatController extends AbstractController
      */
     public function resultOfRow(Row $row){
         $resultats=$this->getDoctrine()->getRepository(Resultat::class)->findByRow($row);
-        //dump($resultats);
-        //die;
         return $this->render("resultat/resultats.html.twig", [
             'resultats'=>$resultats,
             'row'=>$row

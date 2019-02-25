@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Competition;
 use App\Entity\Dance;
+use App\Entity\Resultat;
 use App\Entity\Row;
 use App\Entity\Team;
 use App\Repository\TeamRepository;

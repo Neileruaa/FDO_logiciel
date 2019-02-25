@@ -167,19 +167,6 @@ class RowController extends AbstractController
         arsort($notes);
 
         //Creation d'entités Resultat
-	    foreach ($notes as $idTeam =>$note){
-			$resultat = new Resultat();
-		    $teamNotes = $tr->find($idTeam);
-		    $resultat->setNote($note)
-		        ->setTeam($teamNotes)
-			    ->setRow($row)
-			    ->setNbGardes($nbTeamsChoosen)
-		    ;
-			$manager->persist($resultat);
-	    }
-	    $manager->flush();
-
-        //Creation d'entités Resultat
         foreach ($notes as $idTeam =>$note){
             $resultat = new Resultat();
             $teamNotes = $tr->find($idTeam);

@@ -3,9 +3,10 @@
 {% block title %}Résultats{% endblock %}
 
 {% block body %}
-    <h1>Résultat <strong>{{ row.dance.nameDance }} {{ row.formation }} {{ row.category.nameCategory }}</strong></h1><br>
-    <h2>Tour <strong>{{ row.numTour }}</strong></h2>
+    <h1>Résultat </h1>
     <hr>
+    <h2><strong>{{ row.dance.nameDance }}</strong> | <strong>{{ row.formation }}</strong> | <strong>{{ row.category.nameCategory }}</strong></h2>
+    <h3>Tour <strong>{{ row.numTour }}</strong></h3><br>
     <div class="list-group">
 
     </div>
