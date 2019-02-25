@@ -40,6 +40,8 @@ class RowRepository extends ServiceEntityRepository
 
 	public function findRowsOrderedByPosition(){
 		return $this->createQueryBuilder('r')
+			->andWhere('r.isDone = :val')
+			->setParameter('val', false)
 			->orderBy('r.position')
 			->getQuery()
 			->getResult()
