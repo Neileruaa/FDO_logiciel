@@ -3,9 +3,30 @@
 {% block title %}Résultats{% endblock %}
 
 {% block body %}
+    <h1>Résultat <strong>{{ row.dance.nameDance }} {{ row.formation }} {{ row.category.nameCategory }}</strong></h1><br>
+    <h2>Tour <strong>{{ row.numTour }}</strong></h2>
+    <hr>
     <div class="list-group">
-        {% for resultats in resultat %}
-        <a href="#" class="list-group-item list-group-item-action list-group-item-light"><strong>Équipe {{ resultat.team.id }} : </strong></a>
-        {% endfor %}
+
     </div>
+    <table class="table table-striped">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Place</th>
+            <th scope="col">Équipe</th>
+            <th scope="col">Résultat</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set place=1 %}
+        {% for resultat in resultats %}
+            <tr>
+                <th scope="row">{{ place }}</th>
+                <td><strong>{{ resultat.team.id }}</strong></td>
+                <td><strong style="color: green">{{ resultat.note }}</strong></td>
+            </tr>
+            {% set place=place+1 %}
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

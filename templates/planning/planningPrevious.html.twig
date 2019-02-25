@@ -31,7 +31,7 @@
 					<td>{{ row.numTour }}</td>
 					<td>{{ row.piste }}</td>
 					<td>
-						<a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
+						<a href="{{ path('Resultat.check', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
 					</td>
 				</tr>
 			{% else %}
