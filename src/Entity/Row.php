@@ -79,9 +79,15 @@ class Row
      */
     private $nbJudge;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Resultat", mappedBy="row")
+     */
+    private $results;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->results = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,15 +197,15 @@ class Row
 	 * @return mixed
 	 */
 	public function getPassageSimul() {
-                  		return $this->passageSimul;
-                  	}
+                                 		return $this->passageSimul;
+                                 	}
 
 	/**
 	 * @param mixed $passageSimul
 	 */
 	public function setPassageSimul($passageSimul) {
-                  		$this->passageSimul = $passageSimul;
-                  	}
+                                 		$this->passageSimul = $passageSimul;
+                                 	}
 
     public function getCompetition(): ?Competition
     {
@@ -221,6 +227,37 @@ class Row
     public function setNbJudge(?int $nbJudge): self
     {
         $this->nbJudge = $nbJudge;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Resultat[]
+     */
+    public function getResults(): Collection
+    {
+        return $this->results;
+    }
+
+    public function addResult(Resultat $result): self
+    {
+        if (!$this->results->contains($result)) {
+            $this->results[] = $result;
+            $result->setRow($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResult(Resultat $result): self
+    {
+        if ($this->results->contains($result)) {
+            $this->results->removeElement($result);
+            // set the owning side to null (unless already changed)
+            if ($result->getRow() === $this) {
+                $result->setRow(null);
+            }
+        }
 
         return $this;
     }

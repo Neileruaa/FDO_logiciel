@@ -31,6 +31,11 @@ class Resultat
      */
     private $nbGardes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Row", inversedBy="results")
+     */
+    private $row;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Resultat
     public function setNbGardes($nbGardes): self
     {
         $this->nbGardes = $nbGardes;
+
+        return $this;
+    }
+
+    public function getRow(): ?Row
+    {
+        return $this->row;
+    }
+
+    public function setRow(?Row $row): self
+    {
+        $this->row = $row;
 
         return $this;
     }
