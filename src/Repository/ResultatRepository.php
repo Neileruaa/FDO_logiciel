@@ -19,6 +19,16 @@ class ResultatRepository extends ServiceEntityRepository
         parent::__construct($registry, Resultat::class);
     }
 
+    public function findByRow($idRow){
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.row = :row')
+            ->setParameter('row', $idRow)
+            ->orderBy('r.note')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Resultat[] Returns an array of Resultat objects
     //  */

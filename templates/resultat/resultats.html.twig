@@ -4,8 +4,8 @@
 
 {% block body %}
     <div class="list-group">
-        {% for team in teams%}
-        <a href="#" class="list-group-item list-group-item-action list-group-item-light"><strong>Équipe {{ team.id }} : </strong></a>
+        {% for resultats in resultat %}
+        <a href="#" class="list-group-item list-group-item-action list-group-item-light"><strong>Équipe {{ resultat.team.id }} : </strong></a>
         {% endfor %}
     </div>
 {% endblock %}
