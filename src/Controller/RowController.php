@@ -155,6 +155,7 @@ class RowController extends AbstractController
         $idRow = $parametersAsArray['rowId'];
 
         $row = $rr->find($idRow);
+        $row->setIsDone(true);
 
         $dance = $row->getDance();
 
