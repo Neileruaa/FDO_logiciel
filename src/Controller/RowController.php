@@ -92,7 +92,6 @@ class RowController extends AbstractController
 
         foreach ($rows as $row){
             $newRow=new Row();
-            //dump($row);
             $dance=$dr->findBy(['nameDance'=>$row['nameDance']]);
             $newRow->setDance($dance[0]);
 
@@ -165,9 +164,7 @@ class RowController extends AbstractController
         $nbTeamsChoosen = $parametersAsArray['nbQualifie'];
         $notes = $parametersAsArray['notes'];
 
-        dump($notes);
         arsort($notes);
-        dump($notes);
 
         //Creation d'entités Resultat
 	    foreach ($notes as $idTeam =>$note){
@@ -187,7 +184,6 @@ class RowController extends AbstractController
             $maxVal = $this->array_kshift($notes);
             $teamsForNextRound[array_keys($maxVal)[0]]=array_values($maxVal)[0];
         }
-        dump($teamsForNextRound);
 
         $newRow=new Row();
 

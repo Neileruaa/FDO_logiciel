@@ -35,9 +35,6 @@ class PlanningController extends AbstractController
         $test=$this->getDoctrine()->getRepository(Row::class)->findBy(["competition"=>$compet]);
         foreach ($test as $t){
             $teams=$t->getTeams();
-            foreach ($teams as $team){
-                dump($team);
-            }
         }
         //die();
         return $this->render('planning/index.html.twig', [
