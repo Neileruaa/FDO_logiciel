@@ -37,6 +37,14 @@ class RowRepository extends ServiceEntityRepository
 			;
 	}
 
+	public function findRowsOrderedByPosition(){
+		return $this->createQueryBuilder('r')
+			->orderBy('r.position')
+			->getQuery()
+			->getResult()
+			;
+	}
+
     // /**
     //  * @return Row[] Returns an array of Row objects
     //  */

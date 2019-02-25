@@ -50,7 +50,7 @@ class PlanningController extends AbstractController
      */
     public function testAjax(RowRepository $rowRepository){
 
-        $row= $rowRepository->findAll();
+        $row= $rowRepository->findRowsOrderedByPosition();
 
         return $this->json(['row'=>$row],Response::HTTP_OK, [], [
             ObjectNormalizer::GROUPS => ['planning'],
@@ -72,18 +72,19 @@ class PlanningController extends AbstractController
 		if ($content = $request->getContent()){
 			$parametersAsArray = json_decode($content, true);
 		}
-
 		//vide la table Row
-		$rows = $rowRepository->findAll();
-		foreach ($rows as $line){
-			$manager->remove($line);
-		}
-		$manager->flush();
+//		$rows = $rowRepository->findAll();
+//		foreach ($rows as $line){
+//			$manager->remove($line);
+//		}
+//		$manager->flush();
 
 		foreach ($parametersAsArray as $param){
+			$compteurPosition = 1;
 			foreach ($param as $rows){
-				$category= $categoryRepository->findOneBy(['nameCategory'=>$rows['category']['nameCategory']]);
-				$dance = $danceRepository->findOneBy(['nameDance'=>$rows['dance']['nameDance']]);
+				$idRow = $rows['id'];
+//				$category= $categoryRepository->findOneBy(['nameCategory'=>$rows['category']['nameCategory']]);
+//				$dance = $danceRepository->findOneBy(['nameDance'=>$rows['dance']['nameDance']]);
 				if ($rows['numTour'] == "1"){
 					$teams=$this->getDoctrine()->getRepository(Team::class)->getTeamsByCat($rows['dance']['nameDance'], $rows['category']['nameCategory'], $rows['formation'],$session->get('competSelected'));
 				}else{
@@ -92,22 +93,31 @@ class PlanningController extends AbstractController
 						array_push($teams, $team['id']);
 					}
 				}
-				$row = new Row();
-                $row->setDance($dance)
-                    ->setCompetition($compet)
-                    ->setCategory($category)
-                    ->setFormation($rows['formation'])
-                    ->setNumTour($rows['numTour'])
-                    ->setPiste($rows['piste'])
-                    ->setIsDone($rows['isDone'])
-                    ->setNbJudge($rows['nbJudge'])
-                    ->setPassageSimul($rows['passageSimul'])
-                ;
+				$row = $rowRepository->find($idRow);
+				$row->setPosition($compteurPosition)
+					->setPiste($rows['piste'])
+					->setNumTour($rows['numTour'])
+					->setNbJudge($rows['nbJudge'])
+					->setPassageSimul($rows['passageSimul'])
+				;
+//				$row = new Row();
+//                $row->setDance($dance)
+//                    ->setCompetition($compet)
+//                    ->setCategory($category)
+//                    ->setFormation($rows['formation'])
+//                    ->setNumTour($rows['numTour'])
+//                    ->setPiste($rows['piste'])
+//                    ->setIsDone($rows['isDone'])
+//                    ->setNbJudge($rows['nbJudge'])
+//	                ->setPosition($compteurPosition)
+//                    ->setPassageSimul($rows['passageSimul'])
+//                ;
 
-                foreach ($teams as $team){
-                    $row->addTeam($this->getDoctrine()->getRepository(Team::class)->find($team));
-                }
+//                foreach ($teams as $team){
+//                    $row->addTeam($this->getDoctrine()->getRepository(Team::class)->find($team));
+//                }
                 $manager->persist($row);
+                $compteurPosition += 1;
 			}
 		}
 		$manager->flush();
