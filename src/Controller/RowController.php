@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Competition;
 use App\Entity\Dance;
+use App\Entity\Resultat;
 use App\Entity\Row;
 use App\Entity\Team;
 use App\Repository\CategoryRepository;
@@ -170,8 +171,16 @@ class RowController extends AbstractController
 
         //Creation d'entités Resultat
 	    foreach ($notes as $idTeam =>$note){
-
+			$resultat = new Resultat();
+		    $teamNotes = $tr->find($idTeam);
+		    $resultat->setNote($note)
+		        ->setTeam($teamNotes)
+			    ->setRow($row)
+			    ->setNbGardes($nbTeamsChoosen)
+		    ;
+			$manager->persist($resultat);
 	    }
+	    $manager->flush();
 
         $teamsForNextRound = [];
         for ($i = 0; $i<$nbTeamsChoosen; $i++){

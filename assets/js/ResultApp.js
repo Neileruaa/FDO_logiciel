@@ -118,7 +118,7 @@ class ResultApp extends React.Component{
             nbQualifie: this.state.nbQualifie
         })
             .then(function (response) {
-                // window.location.href = "http://127.0.0.1:8000/planning/actuel";
+                window.location.href = "http://127.0.0.1:8000/planning/actuel";
             })
             .catch(function (error) {
                 console.log(error);
