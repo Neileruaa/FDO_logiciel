@@ -41,6 +41,8 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <script defer src="{{ asset('fontawesome/js/all.js') }}"></script>
+            {# important le jquery si permet de ne pas utiliser de cdn #}
+            <script src="{{ asset('jquery.js') }}"></script>
         {% endblock %}
     </body>
 </html>

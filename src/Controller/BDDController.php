@@ -12,9 +12,9 @@ class BDDController extends AbstractController
      */
     public function importer()
     {
-        $username="antoi";
-        $password="0704";
-        $database="fdo_logiciel";
+        $username="root";
+        $password="0710";
+        $database="projets4";
         $command='mysql -u '.$username.' -p'.$password.' -D '.$database.' -e "drop database '.$database.'"';
         shell_exec($command);
         $command='mysql -u '.$username.' -p'.$password.' -e "create database '.$database.'"';

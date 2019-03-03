@@ -1,0 +1,519 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ competition.title }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-7">
+            <strong>Final de {{ competition.title }} de la dance ... categorie ... </strong>
+            <table class="table table-bordered">
+                <caption>Final </caption>
+                <thead class="thead-dark">
+                <tr>
+                    <th>Equipes/Juges</th>
+                    {% set nbJuges=0 %}
+                    {% for judge in competition.judges if judge is not empty %}
+                        {% set nbJuges=nbJuges+1 %}
+                        <th id="{{ judge.firstNameJudge }}">{{ judge.firstNameJudge }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% set nbEquipes=0 %}
+                {% for team in competition.teams if team is not empty %}
+                    {% set nbEquipes=nbEquipes+1 %}
+                    <tr>
+                        <td><strong>{{ team.id }}</strong></td>
+                        {% for judge in competition.judges if judge is not empty %}
+                            <td>
+                                <select id="{{ team.id }}{{ judge.firstNameJudge }}" name="selectPlace" >
+                                    {% set place=1 %}
+                                    {% for team in competition.teams if team is not empty %}
+                                        <option value="{{ place }}">{{ place }}</option>
+                                        {% set place=place+1 %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% set tabJuges=[] %}
+            {% set tabEquipes=[] %}
+
+            {% set i=0 %}
+            {% for team in competition.teams if team is not empty %}
+                {% set tabEquipes = tabEquipes|merge([team.id]) %}
+                {% set i=i+1 %}
+            {% endfor %}
+
+            {% set i=0 %}
+            {% for judge in competition.judges if judge is not empty %}
+                {% set tabJuges = tabJuges|merge([judge.firstNameJudge]) %}
+                {% set i=i+1 %}
+            {% endfor %}
+
+            {% set tabJuges=tabJuges|json_encode()|raw %}
+            {% set tabEquipes=tabEquipes|json_encode()|raw %}
+
+            <button class="btn btn-info" name="valider"
+                onclick="calculeClassement( {{ tabJuges }} , {{ tabEquipes }} )">
+                calcule du classement</button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-7">
+            <strong>Resultat de la final</strong>
+            <table class="table table-bordered">
+                <caption>skating system </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="visibility:hidden; border: none;"> </th>
+                        <th colspan="{{ nbEquipes }}">places</th>
+                        <th rowspan="2" style="vertical-align: middle;">RANG</th>
+                    </tr>
+                    <tr>
+                        <th>Equipes</th>
+                        {% set numTeam=0 %}
+                        {% for team in competition.teams if team is not empty %}
+                            {% set numTeam=numTeam+1 %}
+                           <th>1
+                           {% if numTeam>1 %}
+                               - {{ numTeam }}
+                           {% endif %}
+                           </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% set numTeam=0 %}
+                {% for team in competition.teams if team is not empty %}
+                    <tr>
+                        <td><strong>{{ team.id }}</strong></td>
+                        {% set numTeam=numTeam+1 %}
+                        {% set index=0 %}
+                        {% for team in competition.teams if team is not empty %}
+                            {% set index=index+1 %}
+                            <td>
+                                <input id="p{{ index }}-{{ numTeam }}" type="text" style="width:2.5em;" disabled><br>
+                            </td>
+                        {% endfor %}
+                        <td><input id="res{{ team.id }}" type="text" style="color:red;width:2.5em;border:none;background: none;text-align: center;font-weight: bold;" disabled></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var resultatEquipes=[];
+        var resultatEquipesFinal=[];
+        var podium=[];
+        var valDefautPlace=0;
+        var col=0;
+        var egaliteTotal=[];
+        var majorite=0;
+        var cptRecurMajorite=0;
+        var auDessusMajorite=[];
+
+        var gagnants=[];
+
+        function calculeClassement(juges,equipes){
+            cptRecurMajorite=0;
+            gagnants=[];
+            majorite=parseInt(juges.length/2)+1;
+            console.log("majorite : "+majorite);
+
+            if (podium.length!=0) {
+                podium=[];
+                valDefautPlace=0;
+                col=0;
+                auDessusMajorite=[];
+            }
+            if(!initTabResultatEquipeFinal(juges,equipes)){
+                return false;
+            }
+            // calcule du classement
+
+            for (let i = 0; i < equipes.length; i++) {
+                var indexPlace=0;
+                for (let j = 0; j < equipes.length; j++) {
+                    indexPlace++;
+                    document.getElementById("p"+(j+1)+"-"+(i+1)).value=resultatEquipesFinal[i][j];
+                }
+            }
+
+            podium=new Array(equipes.length);
+            console.log(podium);
+
+            egaliteTotal=new Array(equipes.length);
+            while (valDefautPlace<equipes.length){
+                recur(equipes,col);
+            }
+            console.log(" --- PODIUM");
+            console.log(podium);
+            console.log(resultatEquipesFinal);
+            // update affichage avec podium
+            // faire une case en plus pour dire qui est à egalité ?
+            console.log(" --- EGALITE TOTAL");
+            console.log(egaliteTotal);
+            for(let i = 0; i < podium.length; i++) {
+                console.log("egaliteTotal[podium["+i+"]] = "+egaliteTotal[podium[i]]);
+                if (egaliteTotal[podium[i]-1] != null){
+                    document.getElementById("res"+podium[i]).value=egaliteTotal[podium[i]-1]+1.5;
+                }else{
+                    document.getElementById("res"+podium[i]).value=i+1;
+                }
+            }
+
+            return true;
+        }
+
+        function recur(equipes,colonne){
+            // system de col initial ?
+            for(let i = 0; i < equipes.length ; i++) {
+                console.log("equipe num :"+equipes[i]);
+                if(!scanValDejaEntree(podium,equipes[i])){ //equipes[i] in podium
+                    console.log("try : "+equipes[i]+" deja dans podium a la place: "+podium.indexOf(equipes[i]));
+                    continue; // on va voir à l'equipe suivante (iteration suivante)
+                }
+                compareResultat(equipes,colonne,equipes[i]);
+                var resComp=gagnants.slice();
+                console.log(" - resComp pour les equipes : "+equipes+" avec "+equipes[i]+" sur colonne "+colonne+": ");
+                console.log(resComp);
+                if (resComp.length==1){
+                    podium[valDefautPlace]=resComp[0]; // equipe inseré dans le podium
+                    // on retire l'equipes de la liste equipes PLUS BESOIN GRACE AU IF AVANT
+                    // on efface les colonnes inutiles du tableau resultatEquipeFinal
+                    effaceColonnes(resComp[0],colonne+cptRecurMajorite);
+
+                    valDefautPlace++;
+                    col++; // pas sur a cause recursivité VERIF c'est CORRECT
+                    console.log("INSERT PODIUM "+valDefautPlace+" resComp[0]= "+resComp[0]);
+                    if(auDessusMajorite.length>1){
+                        col--;
+                        cptRecurMajorite=0;
+                        console.log(" - au dessus majorite :"+auDessusMajorite);
+                        recur(auDessusMajorite,colonne);
+                        break;
+                    }
+                    cptRecurMajorite=0;
+                    break;
+                } else if(resComp.length>1){
+                    if (valDefautPlace==0 && colonne==0){ // si on est à la premiere colonne
+                        // on regarde colonne d'après de ceux à egalité
+                        console.log("recurssion avec :"+resComp+" sur la col :"+(colonne+1));
+                        recur(resComp,colonne+1);
+                        break;
+                    }else{
+                        // si algo de marquage ne donne rien on fait une recurtion
+                        console.log("marquage");
+                        marquageEquipe(resComp,colonne+cptRecurMajorite,true); // valDefautPlace ici est la colonne
+                        cptRecurMajorite=0;
+                        break;
+                        // premier int du tableau retourné par marquageEquipe indiquera si il y a encore egalité
+                        // ou non donc s'il y a egalité on fera la recursive
+                    }
+                }
+            }
+        }
+
+        function effaceColonnes(indexEquipe,colonne){
+            for(let i = 0; i < resultatEquipesFinal[0].length; i++) {
+                if (i<=colonne && resultatEquipesFinal[indexEquipe-1][i]!=0){
+                    document.getElementById("p"+(i+1)+"-"+indexEquipe).value=resultatEquipesFinal[indexEquipe-1][i];
+                }else{
+                    document.getElementById("p"+(i+1)+"-"+indexEquipe).value=null;
+                }
+            }
+        }
+
+        function compareResultat(equipes,colonne,indexEquipe){
+            var resIndex=resultatEquipesFinal[indexEquipe-1][colonne];
+            console.log("resIndex : "+resIndex+" pour equipe : "+indexEquipe+" a la colonne: "+colonne);
+            gagnants=[];
+            var totalStop=false;
+
+            gagnants.push(indexEquipe);
+
+
+            auDessusMajorite=[];
+            if(resIndex>=majorite){
+                auDessusMajorite.push(indexEquipe);
+            }
+
+            equipes.forEach(function(i) {
+                if ((i==indexEquipe) || (!scanValDejaEntree(podium,i))
+                    || (resIndex>resultatEquipesFinal[i-1][colonne] && !totalStop)
+                    ){
+                    //continue;
+                    if(resultatEquipesFinal[i-1][colonne]>=majorite && i!=indexEquipe){
+                        auDessusMajorite.push(i);
+                    }
+                    if (!scanValDejaEntree(podium,i)){console.log("scanval");}
+                    if (i==indexEquipe){console.log("index :"+i);}
+                    if (resIndex>resultatEquipesFinal[equipes.indexOf(i)][colonne] && !totalStop){console.log("resIndex ou totalStop");}
+                }else if(resIndex==resultatEquipesFinal[i-1][colonne] && !totalStop){
+
+                    console.log("equipe :"+i+" res :"+resultatEquipesFinal[i-1][colonne]);
+                    if(resultatEquipesFinal[i-1][colonne]>=majorite && i!=indexEquipe){
+                        auDessusMajorite.push(i);
+                    }
+                    gagnants.push(i);
+                }else if(!totalStop){ // si resIndex < resultatEquipesFinal[i-1][colonne]
+                    gagnants=[];
+                    //totalStop=true;//break;
+                    //compareResultat(equipes,colonne,i);
+                    resIndex=resultatEquipesFinal[i-1][colonne];
+                    if(resIndex>=majorite){
+                        auDessusMajorite.push(indexEquipe);
+                    }
+                    indexEquipe=i;
+                    gagnants.push(i);
+                    console.log(" - changement resIndex : "+resIndex+" pour equipe : "+indexEquipe+" a la colonne: "+colonne);
+                    //totalStop=true;//break;
+                }
+            });
+
+            //if(!totalStop){
+                if (gagnants.length>=1 && resIndex<majorite){
+                    cptRecurMajorite++;
+                    compareResultat(equipes,colonne+1,indexEquipe); // on continu de chercher
+                }else if(gagnants.length>=1 && resIndex>=majorite){
+
+                }else{
+                    //gagnants=[];
+                }
+            //}
+
+        }
+
+        function marquageEquipe(equipes,colonne,boolAffiche=true){
+            var somme=0;
+            var min=9999;
+            var equipesAEgaliteMeilleur=[];
+            var equipesAEgalite=[];
+            var equipesNonEgaux=[];
+            var tabSomme=[];
+            var gagnants=equipes;
+
+            cptRecurMajorite=0;
+
+            equipes.forEach(function(i) {
+                if(!scanValDejaEntree(podium,i)){ //equipes[i] in podium
+                    console.log("try2 : "+i+" deja dans podium ");
+                    // on va voir à l'equipe suivante (iteration suivante)
+                }else{
+                    for(let j = 0; j <= colonne; j++) {
+                        somme=somme+(j+1)*resultatEquipes[i-1][j];
+                    }
+                    if(boolAffiche){
+                        resultatEquipesFinal[i-1][colonne]=resultatEquipesFinal[i-1][colonne]+"("+somme+")";
+                    }
+                    tabSomme.push(somme);
+                    somme=0;
+                }
+            });
+
+            console.log("tabSomme : "+tabSomme);
+            for(let i = 0; i < tabSomme.length; i++) {
+                if (tabSomme[i]<min){
+                    if(equipesAEgaliteMeilleur.length>1){ // si plusieurs egalité non "meilleur"
+                        equipesAEgaliteMeilleur=equipesAEgaliteMeilleur.concat(equipesAEgalite);
+                        equipesAEgalite=equipesAEgaliteMeilleur;
+                    }
+                    equipesAEgaliteMeilleur=[]; // on remet a zero
+                    min=tabSomme[i];
+                    var equipeSauv1=gagnants[i];
+                    gagnants.splice(i,1); // on retire l'equipe a la place gagnants.indexOf(i)
+                    gagnants.unshift(equipeSauv1); // on met l'equipe i en premiere position
+                    var sommeSauv1=tabSomme[i];
+                    tabSomme.splice(i,1);
+                    tabSomme.unshift(sommeSauv1);
+                    equipesAEgaliteMeilleur.push(equipeSauv1);
+                }else if(tabSomme[i]==min){
+                    var equipeSauv=gagnants[i];
+                    console.log("equipeSauv : "+equipeSauv);
+                    gagnants.splice(i,1);
+                    gagnants.unshift(equipeSauv);
+                    var sommeSauv=tabSomme[i];
+                    tabSomme.splice(i,1);
+                    tabSomme.unshift(sommeSauv);
+                    equipesAEgaliteMeilleur.push(equipeSauv);
+                }else{
+                    var tab=tabSomme.slice(); // le retire du tabSomme pas bien
+                    tab.splice(i,1);
+                    if (!scanValDejaEntree(tab,i)){ //i in tab
+                        equipesAEgalite.push(gagnants[i]);
+                    }else{
+                        equipesNonEgaux.push(gagnants[i]);
+                    }
+                }
+            }
+
+            console.log("tabSomme : "+tabSomme);
+
+            console.log("egaliteMeilleur: ");
+            console.log(equipesAEgaliteMeilleur);
+            console.log("egalite: "+equipesAEgalite);
+            console.log("nonEgalite: "+equipesNonEgaux);
+            if (equipesAEgaliteMeilleur.length>1){
+                console.log("recur length : "+equipesAEgaliteMeilleur.length);
+                if (colonne+1>resultatEquipesFinal[0].length-1){
+                    console.log("INSERT :");
+                    var sauvValInsert=valDefautPlace;
+                    equipes.forEach(function(i) {
+                        if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
+                            console.log(" is "+i+" colonne : "+colonne);
+                            podium[sauvValInsert]=i;
+                            egaliteTotal[i-1]=valDefautPlace;
+                            effaceColonnes(i,colonne);
+                            sauvValInsert++;
+                        }
+                    });
+                    valDefautPlace=valDefautPlace+equipesAEgaliteMeilleur.length;
+                    col++;
+                }else{
+                    recur(equipesAEgaliteMeilleur,colonne+1);
+                }
+            }else if(equipesAEgaliteMeilleur.length==0){
+                console.log("egalite totale ?");
+                return;
+            }else{
+                console.log("INSERT :");
+                equipes.forEach(function(i) {
+                    if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
+                        console.log(" is "+i);
+                        podium[valDefautPlace]=i;
+                        effaceColonnes(i,colonne);
+                    }
+                });
+                valDefautPlace++;
+                col++;
+            }
+
+            if(equipesAEgalite.length==0 && equipesNonEgaux.length>0){
+                console.log("-------- marquage recurssion ");
+                col--;
+                marquageEquipe(equipesNonEgaux,colonne,false);
+            }else if(equipesAEgalite.length>0 && equipesNonEgaux.length==0){
+                // egalite
+                recur(equipesAEgalite,colonne+1);
+            }else if(equipesAEgalite.length>0 && equipesNonEgaux.length>0){ // si il y a des egalités et des equipes non egaux
+                recur(equipesAEgalite.concat(equipesNonEgaux),colonne);
+            }
+        }
+
+        function initTabResultatEquipeFinal(juges,equipes){
+            // si le tableau des juges est incorrecte par ex: un juge rentre 2 premiers, etc
+            // on initialise pas le tableau
+            if(!check(juges,equipes)){
+                return false;
+            }
+
+            resultatEquipesFinal= new Array(equipes.length);
+            for (let i = 0; i < equipes.length; i++) {
+                resultatEquipesFinal[i]=new Array(equipes.length);
+                for (let j = 0; j < equipes.length; j++) {
+                    resultatEquipesFinal[i][j]=0;
+                }
+            }
+
+            for (let i = 0; i < equipes.length; i++) {
+                for (let j = 0; j < juges.length; j++) {
+                    let valJugeI=parseInt(resultatEquipes[i][j]);
+                    // on fait -1 car on a les index du tableau vont de 0 à nbEquipes-1
+                    // et pas de 1 à nbEquipes
+                    resultatEquipesFinal[i][valJugeI-1]++;
+                }
+            }
+
+
+            var suiteResultatParJuges=resultatEquipes;
+            resultatEquipes=resultatEquipesFinal;
+            // on remet à zero
+            resultatEquipesFinal= new Array(equipes.length);
+            for (let i = 0; i < equipes.length; i++) {
+                resultatEquipesFinal[i]=new Array(equipes.length);
+                for (let j = 0; j < equipes.length; j++) {
+                    resultatEquipesFinal[i][j]=0;
+                }
+            }
+
+            for (let i = 0; i < equipes.length; i++) {
+                remplirResultatEquipesFinal(suiteResultatParJuges,i,juges.length,equipes.length,resultatEquipesFinal);
+            }
+            console.log("--- final :");
+            console.log(resultatEquipesFinal);
+            return true;
+        }
+
+        function remplirResultatEquipesFinal(resultatEquipes,indexEquipe,nbJuges,nbEquipes,resultatEquipesFinal){
+            for (let i = 0; i < nbJuges; i++) {
+                let valJugeI=parseInt(resultatEquipes[indexEquipe][i]);
+                resultatEquipesFinal[indexEquipe][valJugeI-1]++;
+                // on fait +1 a tout ceux d'après pour avoir le nb de fois que
+                // l'equipe a été dans le top 2, top 3 etc.
+                for (let j = valJugeI; j < nbEquipes; j++) {
+                    resultatEquipesFinal[indexEquipe][j]++;
+                }
+            }
+        }
+
+        function check(juges,equipes){
+            resultatEquipes= new Array(equipes.length);
+            for (let i = 0; i < equipes.length; i++) {
+                resultatEquipes[i]=new Array(equipes.length);
+                for (let j = 0; j < juges.length; j++) {
+                    resultatEquipes[i][j]=document.getElementById(""+equipes[i]+juges[j]+"").value;
+                }
+            }
+
+
+            var erreurJuges=[];
+            for (let i = 0; i < juges.length; i++) {
+                if(!verifEntreJugeCorrecte(resultatEquipes,i)){
+                    erreurJuges.push(document.getElementById(""+juges[i]+"").innerHTML);
+                }
+            }
+            if(erreurJuges.length===0){
+                return true;
+            }else{
+                alert("tableau incorrecte pour le juge "+erreurJuges.toString());
+                return false;
+            }
+        }
+
+        function verifEntreJugeCorrecte(resultatEquipes,indexJuge){
+            var valEntreeJuge=[];
+            for (let i = 0; i < resultatEquipes.length; i++) {
+                if(scanValDejaEntree(valEntreeJuge,parseInt(resultatEquipes[i][indexJuge],10))){
+                    valEntreeJuge[i]=parseInt(resultatEquipes[i][indexJuge],10);
+                }else if(!scanValDejaEntree(valEntreeJuge,parseInt(resultatEquipes[i][indexJuge],10))){
+                    return false;
+                }else{
+                    alert("une erreur inatendue est survenu");
+                    console.log("bogue");
+                }
+            }
+            valEntreeJuge=null;
+            return true;
+        }
+
+        function scanValDejaEntree(tab,val){
+            for (let i = 0; i < tab.length; i++) {
+                if(val==tab[i]){
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+{% endblock %}
