@@ -1,0 +1,149 @@
+<html>
+<head></head>
+<style>
+    td{
+    }
+    /*table{*/
+    /*border-collapse: collapse;*/
+    /*}*/
+    /*table, tr, td {*/
+    /*border: 1px solid black;*/
+    /*}*/
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .text-center {
+        text-align: center !important;
+    }
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table tbody + tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    .table .table {
+        background-color: #fff;
+    }
+
+    .table-sm th,
+    .table-sm td {
+        padding: 0.3rem;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+        border-bottom-width: 2px;
+    }
+
+    .table-borderless th,
+    .table-borderless td,
+    .table-borderless thead th,
+    .table-borderless tbody + tbody {
+        border: 0;
+    }
+    .table .thead-dark th {
+        color: #fff;
+        background-color: #212529;
+        border-color: #32383e;
+    }
+
+    .table .thead-light th {
+        color: #495057;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+
+    .table-dark {
+        color: #fff;
+        background-color: #212529;
+    }
+
+    .table-dark th,
+    .table-dark td,
+    .table-dark thead th {
+        border-color: #32383e;
+    }
+
+    .table-dark.table-bordered {
+        border: 0;
+    }
+
+    .table-dark.table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .table-dark.table-hover tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.075);
+    }
+
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    .table-responsive > .table-bordered {
+        border: 0;
+    }
+</style>
+<body>
+    <div>
+        <fieldset style="text-align: center">Résultats
+            <h4>Tour n°{{ row.numTour }}</h4>
+            <h4>{{ row.dance.nameDance }}</h4>
+            <h4>Catégorie {{ row.category }}</h4>
+        </fieldset>
+        <table class="table table-striped">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Place</th>
+                <th scope="col">Équipe</th>
+                <th scope="col">Résultat</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set place=1 %}
+            {% for resultat in resultats %}
+                <tr>
+                    <th scope="row">{{ place }}</th>
+                    <td><strong>{{ resultat.team.id }}</strong></td>
+                    <td><strong style="color: green">{{ resultat.note }}</strong></td>
+                </tr>
+                {% set place=place+1 %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
