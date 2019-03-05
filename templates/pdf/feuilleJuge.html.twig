@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+    <style type="text/css">
+        div{
+            border: gray solid 3px;
+            width: 1000px;
+        }
+        input{
+            margin-left: 0
+
+        }
+        th.mid{
+            padding-bottom: 30px;
+            padding-right: 80px;
+        }
+        th.bottom{
+            padding-bottom: 100px;
+        }
+        table.t1,table.t2{
+            width: 1000px;
+        }
+        p.juge{
+            padding-bottom:40px;
+            margin-top:0px;
+        }
+        th{
+            border: black solid 1px;
+        }
+        th.top{
+            border-bottom-width: 4px;
+            text-align: left;
+        }
+        th.num{
+            border-bottom-width: 4px;
+        }
+        th.n1{
+            border-right-width: 4px;
+
+        }
+        th.n30{
+            border-right-width: 4px;
+        }
+        table{
+            border-collapse: collapse;
+        }
+
+
+
+
+    </style>
+    <title>Feuille de juge</title>
+</head>
+<body>
+<div>
+    <table class="t1">
+        <tr>
+            <th class="discipline top">Discipline</th>
+            <th class="top">
+                <label>{{ rows.getFormation() }}</label>
+            </th>
+            <th class="top">
+                <label>{{ rows.getDance().nameDance }}</label>
+            </th >
+            <th class="top">Catégorie</th>
+            <th class="top">
+                <label>{{ rows.getCategory() }}</label>
+            </th >
+            <th class="top">Tour</th>
+            <th class="top">
+                <label>{{ rows.getNumTour() }}</label>
+            </th>
+            <th class="top" >
+                <p class="top juge">
+                    Nom du juge:
+                </P>
+            </th>
+        </tr>
+    </table>
+    <table class="t2">
+        <tr>
+        <th class="mid n1"></th>
+            {% for team in rows.getTeams() %}
+        <th class="num mid">N° {{ team.getId() }}</th>
+            {% endfor %}
+
+        </tr>
+        <tr>
+            <th class="n30 mid">Technique /10</th>
+            {% for team in rows.getTeams() %}
+                <th class="mid"></th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th class="n30 mid">Charisme /10</th>
+            {% for team in rows.getTeams() %}
+                <th class="mid"></th>
+            {% endfor %}
+
+        </tr>
+        <tr>
+            <th class="n30 mid">Thème /10</th>
+            {% for team in rows.getTeams() %}
+                <th class="mid"></th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th class="n30 mid">Total /30</th>
+            {% for team in rows.getTeams() %}
+                <th class="mid"></th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th class="n30 mid">Place</th>
+            {% for team in rows.getTeams() %}
+                <th class="mid"></th>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+</body>
+</html>

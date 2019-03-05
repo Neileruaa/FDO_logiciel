@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Resultat;
 use App\Entity\Row;
+use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,6 +31,22 @@ class ResultatController extends AbstractController
         return $this->render("resultat/resultats.html.twig", [
             'resultats'=>$resultats,
             'row'=>$row
+        ]);
+    }
+
+    /**
+     * @Route("/row/feuilleJuge/{id}", name="Resultat.feuilleJuge")
+     * @param Row $row
+     */
+    public function feuilleJuge(Row $row){
+        $dompdf = new Dompdf();
+        $html = $this->renderView('pdf/feuilleJuge.html.twig',['rows'=>$row]);
+        dump($html);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => 0
         ]);
     }
 }
