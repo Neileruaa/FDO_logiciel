@@ -34,6 +34,7 @@
                         <td>
                             <a href="#" class="btn btn-info"><i class="fas fa-calendar-alt"></i> Voir planning équipes</a>
                             <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
+                            <a href="{{ path('Resultat.feuilleJuge', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Feuille de juge</a>
                         </td>
                     </tr>
                     {% else %}
