@@ -3,11 +3,12 @@
 {% block title %}Résultats{% endblock %}
 
 {% block body %}
-    <h1>Résultat </h1>
+    <h1>Résultats</h1>
     <hr>
     <h2><strong>{{ row.dance.nameDance }}</strong> | <strong>{{ row.formation }}</strong> | <strong>{{ row.category.nameCategory }}</strong></h2>
     <h3>Tour <strong>{{ row.numTour }}</strong></h3><br>
     <a href="{{ path('Resultat.testpdf',{id:row.id}) }}" target="_blank" class="btn btn-info">Imprimer les résultats</a>
+    <br><br>
 
     <div class="list-group">
 
@@ -24,7 +25,7 @@
         {% set place=1 %}
         {% for resultat in resultats %}
             <tr>
-                <th scope="row">{{ place }}</th>
+                <th scope="row">{% if place<=row.nbChoosen %}<span style="color: red">{{ place }}</span>{% else %}{{ place }}{% endif %}</th>
                 <td><strong>{{ resultat.team.id }}</strong></td>
                 <td><strong style="color: green">{{ resultat.note }}</strong></td>
             </tr>
