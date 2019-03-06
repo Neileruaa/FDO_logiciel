@@ -43,7 +43,7 @@ class ResultatController extends AbstractController
         $alphas = range('A', 'Z');
         $html = $this->renderView('pdf/feuilleJuge.html.twig',['rows'=>$row,'alpha'=>$alphas]);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream("mypdf.pdf", [
             "Attachment" => 0

@@ -10,32 +10,26 @@
             -webkit-overflow-scrolling: touch;
             -ms-overflow-style: -ms-autohiding-scrollbar;
         }
-        div{
-            border: gray solid 3px;
-            width: 1000px;
-        }
         input{
             margin-left: 0
 
         }
-        th.mid{
-            padding-bottom: 30px;
-            padding-right: 80px;
-        }
+
         th.bottom{
-            padding-bottom: 100px;
+            padding-bottom: 100%;
         }
         table.t1,table.t2{
-            width: 1000px;
+            width: 100%;
         }
         p.juge{
-            padding-bottom:40px;
-            margin-top:0px;
+            padding-bottom:4%;
+            margin-top:0;
         }
         th{
             border: black solid 1px;
         }
         th.top{
+            height: 1%;
             border-bottom-width: 4px;
             text-align: left;
         }
@@ -48,6 +42,7 @@
         }
         th.n30{
             border-right-width: 4px;
+            width: 8%;
         }
         th.bg{
             background-color: lightgrey;
@@ -61,6 +56,16 @@
         hr{
             margin-top: 0;
         }
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .text-center {
+            text-align: center !important;
+        }
 
 
 
@@ -69,8 +74,10 @@
     <title>Feuille de juge</title>
 </head>
 <body>
-{% for i in 1..rows.nbJudge %}
-<div style="page-break-after: always;">
+<div class="container text-center">
+
+{% for i in 0..rows.NbJudge-1 %}
+
     <table class="t1">
         <tr>
             <th class="top"><img src="Images/logo_fdo.jpg"></th>
@@ -81,12 +88,10 @@
             <th class="top">
                 <label>{{ rows.getDance().nameDance }}</label>
             </th >
-            <th class="top"><span style="text-decoration: underline;">Catégorie:</span></th>
-            <th class="top">
+            <th class="top"><span style="text-decoration: underline;">Catégorie:</span>
                 <label>{{ rows.getCategory() }}</label>
             </th >
-            <th class="top"><span style="text-decoration: underline;">Tour:</span></th>
-            <th class="top">
+            <th class="top"><span style="text-decoration: underline;">Tour:</span>
                 <label>{{ rows.getNumTour() }}</label>
             </th>
             <th class="top" >
@@ -141,9 +146,13 @@
             {% endfor %}
         </tr>
     </table>
-</div>
     <br>
-{% endfor %}
+    {% if i%2 != 0 and i<rows.NbJudge-1 and i!=0%}
+        <div style="page-break-after: always">
 
+        </div>
+    {%endif %}
+{% endfor %}
+    </div>
 </body>
 </html>
