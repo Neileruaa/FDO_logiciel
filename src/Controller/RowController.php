@@ -117,6 +117,7 @@ class RowController extends AbstractController
         $passageSimul = $row->getPassageSimul();
         $nbJudge = $row->getNbJudge();
         $nbTeamsChoosen = $parametersAsArray['nbQualifie'];
+        $row->setNbChoosen($nbTeamsChoosen);
         $notes = $parametersAsArray['notes'];
 
         arsort($notes);
