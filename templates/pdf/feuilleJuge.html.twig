@@ -3,6 +3,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head>
     <style type="text/css">
+        .table-responsive {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
         div{
             border: gray solid 3px;
             width: 1000px;
@@ -48,6 +55,12 @@
         table{
             border-collapse: collapse;
         }
+        p{
+            margin-bottom: 0;
+        }
+        hr{
+            margin-top: 0;
+        }
 
 
 
@@ -56,14 +69,8 @@
     <title>Feuille de juge</title>
 </head>
 <body>
-{{ rows.getNbJudge }}
-<?php
-    $nbJuge = {{ rows.getNbJudge }};
-    for($i =0; $i<$nbJuge;$i++){
-
-?>
-TEST1
-<div>
+{% for i in 1..rows.nbJudge %}
+<div style="page-break-after: always;">
     <table class="t1">
         <tr>
             <th class="top"><img src="Images/logo_fdo.jpg"></th>
@@ -84,7 +91,12 @@ TEST1
             </th>
             <th class="top" >
                 <p class="top juge">
-                    <span style="text-decoration: underline;">Nom du Juge:</span>
+                    <span style="text-decoration: underline;">Nom du Juge :</span>
+                </p>
+            <hr>
+                <p class="top juge">
+                    <span style="text-decoration: underline;">Lettre Juge: </span>
+                    <label>{{ alpha[i] }}</label>
                 </P>
             </th>
         </tr>
@@ -130,9 +142,8 @@ TEST1
         </tr>
     </table>
 </div>
-TEST
-<?php
-    }
-?>
+    <br>
+{% endfor %}
+
 </body>
 </html>
