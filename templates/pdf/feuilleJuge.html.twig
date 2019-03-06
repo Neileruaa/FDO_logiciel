@@ -42,6 +42,9 @@
         th.n30{
             border-right-width: 4px;
         }
+        th.bg{
+            background-color: lightgrey;
+        }
         table{
             border-collapse: collapse;
         }
@@ -53,62 +56,70 @@
     <title>Feuille de juge</title>
 </head>
 <body>
+{{ rows.getNbJudge }}
+<?php
+    $nbJuge = {{ rows.getNbJudge }};
+    for($i =0; $i<$nbJuge;$i++){
+
+?>
+TEST1
 <div>
     <table class="t1">
         <tr>
-            <th class="discipline top">Discipline</th>
+            <th class="top"><img src="Images/logo_fdo.jpg"></th>
+            <th class="discipline top"><span style="text-decoration: underline;">Discipline:</span></th>
             <th class="top">
                 <label>{{ rows.getFormation() }}</label>
             </th>
             <th class="top">
                 <label>{{ rows.getDance().nameDance }}</label>
             </th >
-            <th class="top">Catégorie</th>
+            <th class="top"><span style="text-decoration: underline;">Catégorie:</span></th>
             <th class="top">
                 <label>{{ rows.getCategory() }}</label>
             </th >
-            <th class="top">Tour</th>
+            <th class="top"><span style="text-decoration: underline;">Tour:</span></th>
             <th class="top">
                 <label>{{ rows.getNumTour() }}</label>
             </th>
             <th class="top" >
                 <p class="top juge">
-                    Nom du juge:
+                    <span style="text-decoration: underline;">Nom du Juge:</span>
                 </P>
             </th>
         </tr>
     </table>
     <table class="t2">
         <tr>
-        <th class="mid n1"></th>
+        <th class="mid n1">Dossards</th>
             {% for team in rows.getTeams() %}
         <th class="num mid">N° {{ team.getId() }}</th>
             {% endfor %}
 
         </tr>
         <tr>
-            <th class="n30 mid">Technique /10</th>
+            <th class="n30 mid bg">Technique /10</th>
             {% for team in rows.getTeams() %}
-                <th class="mid"></th>
+                <th class="mid bg"></th>
             {% endfor %}
         </tr>
         <tr>
-            <th class="n30 mid">Charisme /10</th>
+            <th class="n30 mid bg">Charisme /10</th>
             {% for team in rows.getTeams() %}
-                <th class="mid"></th>
+                <th class="mid bg"></th>
             {% endfor %}
 
         </tr>
         <tr>
-            <th class="n30 mid">Thème /10</th>
+            <th class="n30 mid bg">Thème /10</th>
             {% for team in rows.getTeams() %}
-                <th class="mid"></th>
+                <th class="mid bg"></th>
             {% endfor %}
         </tr>
         <tr>
-            <th class="n30 mid">Total /30</th>
+            <th class="n30 mid bg">Total /30</th>
             {% for team in rows.getTeams() %}
-                <th class="mid"></th>
+                <th class="mid bg"></th>
             {% endfor %}
         </tr>
         <tr>
@@ -119,5 +130,9 @@
         </tr>
     </table>
 </div>
+TEST
+<?php
+    }
+?>
 </body>
 </html>

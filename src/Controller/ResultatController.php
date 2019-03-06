@@ -39,9 +39,8 @@ class ResultatController extends AbstractController
      * @param Row $row
      */
     public function feuilleJuge(Row $row){
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf(array('enable_remote' => true,'page-break-before'=> 'always', 'page-break-before'=>'always','page-break-inside'=>'avoid','page-break-after'=>'always'));
         $html = $this->renderView('pdf/feuilleJuge.html.twig',['rows'=>$row]);
-        dump($html);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
