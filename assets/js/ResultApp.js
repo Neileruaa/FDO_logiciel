@@ -5,6 +5,7 @@ import axios from "axios";
 import ShowResult from './Components/ShowResult'
 // import _ from 'lodash';
 import _ from 'underscore';
+import ModalError from './Components/ModalError';
 
 class ResultApp extends React.Component{
     constructor(props){
@@ -14,7 +15,8 @@ class ResultApp extends React.Component{
             sheet: [],
             notes: {},
             nbQualifie: 2,
-            nextRound:""
+            nextRound:"",
+            showModalError: false
         };
 
         this.hotTableComponent = React.createRef();
@@ -111,19 +113,32 @@ class ResultApp extends React.Component{
     }
 
     createNextRound(){
-        axios.post('http://127.0.0.1:8000/create/rows/afterResult', {
-            nextRound: this.state.nextRound,
-            rowId : document.getElementById("resultatApp").getAttribute("data-row-id"),
-            notes: this.state.notes,
-            nbQualifie: this.state.nbQualifie
-        })
-            .then(function (response) {
-                window.location.href = "http://127.0.0.1:8000/planning/actuel";
+        if (this.state.nextRound !== ""){
+            axios.post('http://127.0.0.1:8000/create/rows/afterResult', {
+                nextRound: this.state.nextRound,
+                rowId : document.getElementById("resultatApp").getAttribute("data-row-id"),
+                notes: this.state.notes,
+                nbQualifie: this.state.nbQualifie
             })
-            .catch(function (error) {
-                console.log(error);
-            });
+                .then(function (response) {
+                    window.location.href = "http://127.0.0.1:8000/planning/actuel";
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        } else {
+            this.showModal();
+        }
+
     }
+
+    showModal = () => {
+        this.setState({showModalError: true})
+    };
+
+    hideModal = () => {
+        this.setState({showModalError: false})
+    };
 
     render() {
 
@@ -135,6 +150,11 @@ class ResultApp extends React.Component{
 
         return(
             <div className="hot-app">
+                <ModalError
+                    handleClose={this.hideModal}
+                    show={this.state.showModalError}
+                    title={"Erreur tour suivant"}
+                    content={"Il vous est impossible de choisir ce tour suivant. Veuillez en choisir un autre."}/>
                 <h1>Affichage des résultats</h1>
                 <HotTable
                     data={this.state.sheet}
@@ -172,7 +192,7 @@ class ResultApp extends React.Component{
                         <option value="Finale" >Finale</option>
                     </select>
                 </div>
-                <button onClick={this.createNextRound} className="btn btn-success">Valider ces résultats</button>
+                <button onClick={this.createNextRound} data-target="#ModalError" className="btn btn-success">Valider ces résultats</button>
                 <ShowResult
                     notes={this.state.notes}
                 />
