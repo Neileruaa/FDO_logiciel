@@ -33,7 +33,12 @@
                         <td>{{ row.piste }}</td>
                         <td>
                             <a href="#" class="btn btn-info"><i class="fas fa-calendar-alt"></i> Voir planning équipes</a>
-                            <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
+
+                            {% if row.numTour=="Finale" %}
+                                <a href="{{ path('Final.index', {'rowId': row.id}) }}" class="btn btn-info"><i class="fas fa-trophy"></i> Skating System</a>
+                            {% else  %}
+                                <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
+                            {% endif %}
                             <a href="{{ path('Resultat.feuilleJuge', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Feuille de juge</a>
                         </td>
                     </tr>

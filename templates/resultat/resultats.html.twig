@@ -7,6 +7,8 @@
     <hr>
     <h2><strong>{{ row.dance.nameDance }}</strong> | <strong>{{ row.formation }}</strong> | <strong>{{ row.category.nameCategory }}</strong></h2>
     <h3>Tour <strong>{{ row.numTour }}</strong></h3><br>
+    <a href="{{ path('Resultat.testpdf',{id:row.id}) }}" target="_blank" class="btn btn-info">Imprimer les résultats</a>
+
     <div class="list-group">
 
     </div>

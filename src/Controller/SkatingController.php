@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Competition;
 use App\Entity\Judge;
+use App\Entity\Row;
 use App\Entity\Team;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,29 +24,14 @@ class SkatingController extends AbstractController
 {
 
     /**
-     * @Route("/tour", name="Final.index")
+     * @Route("/final/{rowId}", name="Final.index", methods={"GET"})
      */
-    public function initFinal(Request $request)
+    public function initFinal(Request $request,$rowId)
     {
-        $compet=$this->getDoctrine()->getRepository(Competition::class)->find($this->get("session")->get('competSelected'));
-
-        $teams=$compet->getTeams();
-        $judges=$compet->getJudges();
+        $row=$this->getDoctrine()->getRepository(Row::class)->find($rowId);
 
         return $this->render('skatingSystem/tourFinal.html.twig', [
-            'competition' => $compet,/*
-            'judges' => $judges,
-            'teams' => $teams*/
+            'row' => $row
         ]);
-    }
-
-    /**
-     * @Route("/tour/choice/{idJudge}/{idTeam}", name="Tour.choice", methods={"GET"})
-     */
-    public function judgeChoice(Request $request)
-    {
-        $compet=$this->getDoctrine()->getRepository(Competition::class)->find($this->get("session")->get('competSelected'));
-
-        $this->redirectToRoute("Final.index");
     }
 }
