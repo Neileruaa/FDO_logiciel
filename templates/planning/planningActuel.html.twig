@@ -9,7 +9,7 @@
         <a class="btn btn-warning float-right" href="{{ path('Planning.index') }}"><i class="fas fa-calendar-plus"></i> Modifier le planning</a><br><br>
         <a class="btn btn-primary float-right" href="{{ path('Planning.previousPlanning') }}"><i class="fas fa-calendar-check"></i> Tours passés</a><br><br>
         <div class="alert alert-info" role="alert">
-            Vous pouvez toujours en faire un nouveau dans l'onglet "création"
+            Vous pouvez toujours créer un nouveau planning dans l'onglet <a href="{{ path('Planning.index') }}">création</a>
         </div>
 
         <table class="table">
@@ -32,8 +32,6 @@
                         <td>{{ row.numTour }}</td>
                         <td>{{ row.piste }}</td>
                         <td>
-                            <a href="#" class="btn btn-info"><i class="fas fa-calendar-alt"></i> Voir planning équipes</a>
-
                             {% if row.numTour=="Finale" %}
                                 <a href="{{ path('Final.index', {'rowId': row.id}) }}" class="btn btn-info"><i class="fas fa-trophy"></i> Skating System</a>
                             {% else  %}
