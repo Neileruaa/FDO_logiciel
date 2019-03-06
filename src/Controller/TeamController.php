@@ -29,6 +29,7 @@ class TeamController extends AbstractController
     {
         $manager->detach($competition);
         $session->set('competSelected', $competition->getId());
+        $session->set('selection', false);
         $teams=$competition->getTeams();
         return $this->render('team/appel.html.twig', [
             'teams'=>$teams,
@@ -61,7 +62,7 @@ class TeamController extends AbstractController
         $rowController->deleteRows($manager, $session, $cr, $rr);
         $rowController->insertRows($manager, $session, $cr, $rr, $dr, $tr, $catr);
 
-
+        $session->set('selection', true);
         return $this->redirectToRoute("Planning.index");
     }
 }

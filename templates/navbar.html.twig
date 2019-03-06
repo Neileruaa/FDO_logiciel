@@ -11,16 +11,18 @@
 				<li class="nav-item">
 					<a class="nav-link js-scroll-trigger" href="{{ path('Home.index') }}"><i class="fas fa-home"></i> Compétitions</a>
 				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fas fa-calendar-alt"></i> <strong>Planning</strong>
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="{{ path('Planning.index') }}"><i class="fas fa-calendar-plus"></i> Création planning</a>
-						<a class="dropdown-item" href="{{ path('Planning.actualPlanning') }}"><i class="fas fa-calendar-alt"></i> Planning actuel</a>
-						<a class="dropdown-item" href="{{ path('Planning.previousPlanning') }}"><i class="fas fa-calendar-check"></i> Tours passés</a>
-					</div>
-				</li>
+				{% if app.session.get('selection')==true %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-calendar-alt"></i> <strong>Planning</strong>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="{{ path('Planning.index') }}"><i class="fas fa-calendar-plus"></i> Création planning</a>
+							<a class="dropdown-item" href="{{ path('Planning.actualPlanning') }}"><i class="fas fa-calendar-alt"></i> Planning actuel</a>
+							<a class="dropdown-item" href="{{ path('Planning.previousPlanning') }}"><i class="fas fa-calendar-check"></i> Tours passés</a>
+						</div>
+					</li>
+				{% endif %}
 				<li class="nav-item">
 					<a class="nav-link js-scroll-trigger" href="{{ path('Import') }}"><i class="fas fa-download"></i> Importer</a>
 				</li>
