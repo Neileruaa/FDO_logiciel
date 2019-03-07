@@ -1,7 +1,7 @@
 [Desktop Entry]
 Comment=Mise à jour du programme TV dans Kodi
 Terminal=true
-Name=FDO
+Name=Compétitions logiciel
 Exec=sh /home/antoi/PhpstormProjects/logiciel.sh
 Type=Application
 Icon=/home/antoi/PhpstormProjects/logiciel.png
