@@ -89,6 +89,11 @@ class Row
      */
     private $position;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbChoosen;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -202,15 +207,15 @@ class Row
 	 * @return mixed
 	 */
 	public function getPassageSimul() {
-                                          		return $this->passageSimul;
-                                          	}
+                                                   		return $this->passageSimul;
+                                                   	}
 
 	/**
 	 * @param mixed $passageSimul
 	 */
 	public function setPassageSimul($passageSimul) {
-                                          		$this->passageSimul = $passageSimul;
-                                          	}
+                                                   		$this->passageSimul = $passageSimul;
+                                                   	}
 
     public function getCompetition(): ?Competition
     {
@@ -275,6 +280,18 @@ class Row
     public function setPosition(?int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    public function getNbChoosen(): ?int
+    {
+        return $this->nbChoosen;
+    }
+
+    public function setNbChoosen(?int $nbChoosen): self
+    {
+        $this->nbChoosen = $nbChoosen;
 
         return $this;
     }
