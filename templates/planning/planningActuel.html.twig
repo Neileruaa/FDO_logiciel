@@ -29,7 +29,7 @@
                         <th scope="row">{{ row.dance.nameDance }}</th>
                         <td>{{ row.formation }}</td>
                         <td>{{ row.category.nameCategory }}</td>
-                        <td>{{ row.numTour }}</td>
+                        <td style="{% if row.numTour == 'Finale' %}color: red{% endif %}">{{ row.numTour }}</td>
                         <td>{{ row.piste }}</td>
                         <td>
                             {% if row.numTour=="Finale" %}
