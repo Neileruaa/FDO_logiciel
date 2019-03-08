@@ -1,7 +1,7 @@
 [Desktop Entry]
-Comment=Mise à jour du programme TV dans Kodi
+Comment=Application de gestion de compétitions de danses
 Terminal=true
 Name=Compétitions logiciel
-Exec=sh /home/antoi/PhpstormProjects/logiciel.sh
+Exec=sh /home/antoi/PhpstormProjects/FDO_logiciel/logiciel.sh
 Type=Application
-Icon=/home/antoi/PhpstormProjects/logiciel.png
+Icon=/home/antoi/PhpstormProjects/FDO_logiciel/logiciel.png
