@@ -173,8 +173,13 @@ class ResultApp extends React.Component{
                         }
                     }
                 />
-                <button onClick={this.doCalc} className="btn btn-outline-primary">Calculer les moyennes</button>
                 <br/>
+                <ShowResult
+                    notes={this.state.notes}
+                />
+                <br/>
+                <button onClick={this.doCalc} className="btn btn-outline-primary">Calculer les moyennes</button>
+                <hr/>
                 <div>
                     <label htmlFor="chooseNbQualifie">Choisir nombres de personnes qualifiés : {this.state.nbQualifie}</label>
                     <input id="chooseNbQualifie" type="range" value={this.state.nbQualifie} className="custom-range" onChange={this.handleRangeNbQualifie} min="2"/>
@@ -192,10 +197,8 @@ class ResultApp extends React.Component{
                         <option value="Finale" >Finale</option>
                     </select>
                 </div>
+                <br/>
                 <button onClick={this.createNextRound} data-target="#ModalError" className="btn btn-success">Valider ces résultats</button>
-                <ShowResult
-                    notes={this.state.notes}
-                />
             </div>
         );
     }

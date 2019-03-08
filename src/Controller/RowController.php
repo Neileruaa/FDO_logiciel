@@ -143,7 +143,7 @@ class RowController extends AbstractController
 
         $newRow=new Row();
 
-        $newRow->setNumTour($numTour)
+        $newRow
             ->setDance($dance)
             ->setCategory($category)
             ->setFormation($formation)
@@ -158,6 +158,11 @@ class RowController extends AbstractController
         foreach ($idDesEquipes as $idEquipe){
             $equipe = $tr->find($idEquipe);
             $newRow->addTeam($equipe);
+        }
+        if (sizeof($idDesEquipes) == 2){
+            $newRow->setNumTour("Finale");
+        }else{
+            $newRow->setNumTour($numTour);
         }
         $manager->persist($newRow);
         $manager->flush();

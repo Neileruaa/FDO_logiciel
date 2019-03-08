@@ -29,7 +29,7 @@
                         <th scope="row">{{ row.dance.nameDance }}</th>
                         <td>{{ row.formation }}</td>
                         <td>{{ row.category.nameCategory }}</td>
-                        <td>{{ row.numTour }}</td>
+                        <td style="{% if row.numTour == 'Finale' %}color: red{% endif %}">{{ row.numTour }}</td>
                         <td>{{ row.piste }}</td>
                         <td>
                             {% if row.numTour=="Finale" %}
@@ -37,7 +37,7 @@
                             {% else  %}
                                 <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
                             {% endif %}
-                            <a href="{{ path('Resultat.feuilleJuge', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Feuille de juge</a>
+                            <a href="{{ path('Resultat.feuilleJuge', {'id': row.id}) }}" target="_blank" class="btn btn-info"><i class="fas fa-poll"></i> Feuille de juge</a>
                         </td>
                     </tr>
                     {% else %}
