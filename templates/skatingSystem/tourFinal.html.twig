@@ -47,9 +47,10 @@
 
             {% set tabEquipes=[] %}
 
-            {% set i=0 %}
+            {% set i=1 %}
             {% for team in row.teams if team is not empty %}
                 {% set tabEquipes = tabEquipes|merge([team.id]) %}
+                {#{% set tabEquipes = tabEquipes|merge([i]) %}#}
                 {% set i=i+1 %}
             {% endfor %}
 
@@ -92,10 +93,10 @@
                         <td><strong>{{ team.id }}</strong></td>
                         {% set numTeam=numTeam+1 %}
                         {% set index=0 %}
-                        {% for team in row.teams if team is not empty %}
+                        {% for t in row.teams if t is not empty %}
                             {% set index=index+1 %}
                             <td>
-                                <input id="p{{ index }}-{{ numTeam }}" type="text" style="width:2.5em;" disabled><br>
+                                <input id="p{{ index }}-{{ team.id }}" type="text" style="width:2.5em;" disabled><br>
                             </td>
                         {% endfor %}
                         <td><input id="res{{ team.id }}" type="text" style="color:red;width:2.5em;border:none;background: none;text-align: center;font-weight: bold;" disabled></td>
@@ -144,7 +145,7 @@
                 var indexPlace=0;
                 for (let j = 0; j < equipes.length; j++) {
                     indexPlace++;
-                    document.getElementById("p"+(j+1)+"-"+(i+1)).value=resultatEquipesFinal[i][j];
+                    document.getElementById("p"+(j+1)+"-"+equipes[i]).value=resultatEquipesFinal[i][j];
                 }
             }
 
@@ -163,9 +164,9 @@
             console.log(" --- EGALITE TOTAL");
             console.log(egaliteTotal);
             for(let i = 0; i < podium.length; i++) {
-                console.log("egaliteTotal[podium["+i+"]] = "+egaliteTotal[podium[i]]);
-                if (egaliteTotal[podium[i]-1] != null){
-                    document.getElementById("res"+podium[i]).value=egaliteTotal[podium[i]-1]+1.5;
+                console.log("egaliteTotal[podium["+i+"]] = "+egaliteTotal[equipes.indexOf(podium[i])]);
+                if (egaliteTotal[equipes.indexOf(podium[i])] != null){
+                    document.getElementById("res"+podium[i]).value=egaliteTotal[equipes.indexOf(podium[i])]+1.5;
                 }else{
                     document.getElementById("res"+podium[i]).value=i+1;
                 }
@@ -190,7 +191,7 @@
                     podium[valDefautPlace]=resComp[0]; // equipe inseré dans le podium
                     // on retire l'equipes de la liste equipes PLUS BESOIN GRACE AU IF AVANT
                     // on efface les colonnes inutiles du tableau resultatEquipeFinal
-                    effaceColonnes(resComp[0],colonne+cptRecurMajorite);
+                    effaceColonnes(equipes,resComp[0],colonne+cptRecurMajorite);
 
                     valDefautPlace++;
                     col++; // pas sur a cause recursivité VERIF c'est CORRECT
@@ -223,10 +224,10 @@
             }
         }
 
-        function effaceColonnes(indexEquipe,colonne){
+        function effaceColonnes(equipes,indexEquipe,colonne){
             for(let i = 0; i < resultatEquipesFinal[0].length; i++) {
-                if (i<=colonne && resultatEquipesFinal[indexEquipe-1][i]!=0){
-                    document.getElementById("p"+(i+1)+"-"+indexEquipe).value=resultatEquipesFinal[indexEquipe-1][i];
+                if (i<=colonne && resultatEquipesFinal[equipes.indexOf(indexEquipe)][i]!=0){
+                    document.getElementById("p"+(i+1)+"-"+indexEquipe).value=resultatEquipesFinal[equipes.indexOf(indexEquipe)][i];
                 }else{
                     document.getElementById("p"+(i+1)+"-"+indexEquipe).value=null;
                 }
@@ -234,7 +235,7 @@
         }
 
         function compareResultat(equipes,colonne,indexEquipe){
-            var resIndex=resultatEquipesFinal[indexEquipe-1][colonne];
+            var resIndex=resultatEquipesFinal[(equipes.indexOf(indexEquipe))][colonne];
             console.log("resIndex : "+resIndex+" pour equipe : "+indexEquipe+" a la colonne: "+colonne);
             gagnants=[];
             var totalStop=false;
@@ -249,19 +250,19 @@
 
             equipes.forEach(function(i) {
                 if ((i==indexEquipe) || (!scanValDejaEntree(podium,i))
-                    || (resIndex>resultatEquipesFinal[i-1][colonne] && !totalStop)
+                    || (resIndex>resultatEquipesFinal[equipes.indexOf(i)][colonne] && !totalStop)
                     ){
                     //continue;
-                    if(resultatEquipesFinal[i-1][colonne]>=majorite && i!=indexEquipe){
+                    if(resultatEquipesFinal[equipes.indexOf(i)][colonne]>=majorite && i!=equipes.indexOf(indexEquipe)){
                         auDessusMajorite.push(i);
                     }
                     if (!scanValDejaEntree(podium,i)){console.log("scanval");}
                     if (i==indexEquipe){console.log("index :"+i);}
                     if (resIndex>resultatEquipesFinal[equipes.indexOf(i)][colonne] && !totalStop){console.log("resIndex ou totalStop");}
-                }else if(resIndex==resultatEquipesFinal[i-1][colonne] && !totalStop){
+                }else if(resIndex==resultatEquipesFinal[equipes.indexOf(i)][colonne] && !totalStop){
 
-                    console.log("equipe :"+i+" res :"+resultatEquipesFinal[i-1][colonne]);
-                    if(resultatEquipesFinal[i-1][colonne]>=majorite && i!=indexEquipe){
+                    console.log("equipe :"+i+" res :"+resultatEquipesFinal[equipes.indexOf(i)][colonne]);
+                    if(resultatEquipesFinal[equipes.indexOf(i)][colonne]>=majorite && i!=indexEquipe){
                         auDessusMajorite.push(i);
                     }
                     gagnants.push(i);
@@ -269,7 +270,7 @@
                     gagnants=[];
                     //totalStop=true;//break;
                     //compareResultat(equipes,colonne,i);
-                    resIndex=resultatEquipesFinal[i-1][colonne];
+                    resIndex=resultatEquipesFinal[equipes.indexOf(i)][colonne];
                     if(resIndex>=majorite){
                         auDessusMajorite.push(indexEquipe);
                     }
@@ -283,6 +284,7 @@
             //if(!totalStop){
                 if (gagnants.length>=1 && resIndex<majorite){
                     cptRecurMajorite++;
+                    console.log("recur compare");
                     compareResultat(equipes,colonne+1,indexEquipe); // on continu de chercher
                 }else if(gagnants.length>=1 && resIndex>=majorite){
 
@@ -310,10 +312,10 @@
                     // on va voir à l'equipe suivante (iteration suivante)
                 }else{
                     for(let j = 0; j <= colonne; j++) {
-                        somme=somme+(j+1)*resultatEquipes[i-1][j];
+                        somme=somme+(j+1)*resultatEquipes[equipes.indexOf(i)][j];
                     }
                     if(boolAffiche){
-                        resultatEquipesFinal[i-1][colonne]=resultatEquipesFinal[i-1][colonne]+"("+somme+")";
+                        resultatEquipesFinal[equipes.indexOf(i)][colonne]=resultatEquipesFinal[equipes.indexOf(i)][colonne]+"("+somme+")";
                     }
                     tabSomme.push(somme);
                     somme=0;
@@ -371,8 +373,8 @@
                         if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
                             console.log(" is "+i+" colonne : "+colonne);
                             podium[sauvValInsert]=i;
-                            egaliteTotal[i-1]=valDefautPlace;
-                            effaceColonnes(i,colonne);
+                            egaliteTotal[equipes.indexOf(i)]=valDefautPlace;
+                            effaceColonnes(equipes,i,colonne);
                             sauvValInsert++;
                         }
                     });
@@ -390,7 +392,7 @@
                     if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
                         console.log(" is "+i);
                         podium[valDefautPlace]=i;
-                        effaceColonnes(i,colonne);
+                        effaceColonnes(equipes,i,colonne);
                     }
                 });
                 valDefautPlace++;
