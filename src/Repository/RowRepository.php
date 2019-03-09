@@ -48,6 +48,20 @@ class RowRepository extends ServiceEntityRepository
 			;
 	}
 
+	public function findSameRows($dance, $cat,$form,$val){
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.dance =:dance')
+            ->andWhere('r.category =:cat')
+            ->andWhere('r.formation =:form')
+            ->andWhere('r.nbChoosen !=:val')
+            ->setParameter('dance',$dance)
+            ->setParameter('cat',$cat)
+            ->setParameter('form',$form)
+            ->setParameter('val',$val)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Row[] Returns an array of Row objects
     //  */

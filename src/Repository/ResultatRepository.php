@@ -29,6 +29,17 @@ class ResultatRepository extends ServiceEntityRepository
             ;
     }
 
+    public function getResultsFromRow($r){
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.row=:row')
+            //->andWhere('r.team=:team')
+            ->setParameter("row",$r)
+            //->setParameter("team",$t)
+            ->orderBy('r.note','ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Resultat[] Returns an array of Resultat objects
     //  */

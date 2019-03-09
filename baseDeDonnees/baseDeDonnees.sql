@@ -3,7 +3,7 @@
 -- Host: localhost	Database: mogi6927_fdo
 -- ------------------------------------------------------
 -- Server version 	10.3.13-MariaDB
--- Date: Fri, 08 Mar 2019 09:47:36 +0100
+-- Date: Sat, 09 Mar 2019 16:27:58 +0100
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -103,12 +103,12 @@ CREATE TABLE `competition_team` (
 LOCK TABLES `competition_team` WRITE;
 /*!40000 ALTER TABLE `competition_team` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `competition_team` VALUES (2,88),(2,89),(2,90),(2,91),(2,92),(2,93),(2,94),(2,95),(2,96),(2,97),(2,98),(2,99),(2,100),(2,101),(2,107),(2,108),(2,109),(2,110),(2,111),(2,112);
+INSERT INTO `competition_team` VALUES (2,88),(2,89),(2,90),(2,91),(2,92),(2,93),(2,94),(2,95),(2,96),(2,97),(2,98),(2,99),(2,100),(2,101),(2,107),(2,108),(2,109),(2,110),(2,111),(2,112),(10,107),(10,108),(10,109),(10,110),(10,111),(10,112),(10,113),(10,114),(10,115),(10,116),(10,117),(10,118);
 /*!40000 ALTER TABLE `competition_team` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition_team` with 20 row(s)
+-- Dumped table `competition_team` with 32 row(s)
 --
 
 --
@@ -127,9 +127,10 @@ CREATE TABLE `club` (
   `password` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_club` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)',
+  `reset_password_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_B8EE387227D818F7` (`email_club`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +140,7 @@ CREATE TABLE `club` (
 LOCK TABLES `club` WRITE;
 /*!40000 ALTER TABLE `club` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `club` VALUES (4,'Test Développeurs','test','90000','0652671234','test','$2y$13$Ub0PfcQjhIm4nLGebiIC2uPRJ9ofxCTomaRjfXDY98a67rfhvx96q','test@gmail.com','\"ROLE_ADMIN\"'),(6,'SLS DANSE COMPAGNIE','SENOZAN','71260','0672624806','AUGIER Nathalie et Philippe','$2y$13$cEhwwNRIbr/DXdZvvxMHt.07K6.IjBm6VNvMTdBFmW8OAyaK5Sv8G','slsdansecompagnie71260bord@orange.fr','\"ROLE_USER\"'),(7,'SHUFFLE DANCE SHOW','Belfort','90000','0685206074','Claudine WEBER','$2y$13$92gfpRWum9ZeJNKMfDphuOEHjcS1ZEGRziHfRYORzLO297mr122yi','danseweber@orange.fr','\"ROLE_ADMIN\"'),(10,'Rillieux Danse Club','Rillieux-la-Pape','69140','0478970644','Alain LOPEZ','$2y$13$xvZzgX6IsrD7BXCA5nLJAuHW1pEJ.EJau01XREAyDkqfausxczNhK','lopez@numericable.com','\"ROLE_USER\"');
+INSERT INTO `club` VALUES (4,'Test Développeurs','test','90000','0652671234','test','$2y$13$Ub0PfcQjhIm4nLGebiIC2uPRJ9ofxCTomaRjfXDY98a67rfhvx96q','test@gmail.com','\"ROLE_ADMIN\"',NULL),(6,'SLS DANSE COMPAGNIE','SENOZAN','71260','0672624806','AUGIER Nathalie et Philippe','$2y$13$cEhwwNRIbr/DXdZvvxMHt.07K6.IjBm6VNvMTdBFmW8OAyaK5Sv8G','slsdansecompagnie71260bord@orange.fr','\"ROLE_USER\"',NULL),(7,'SHUFFLE DANCE SHOW','Belfort','90000','0685206074','Claudine WEBER','$2y$13$92gfpRWum9ZeJNKMfDphuOEHjcS1ZEGRziHfRYORzLO297mr122yi','danseweber@orange.fr','\"ROLE_ADMIN\"',NULL),(10,'Rillieux Danse Club','Rillieux-la-Pape','69140','0478970644','Alain LOPEZ','$2y$13$xvZzgX6IsrD7BXCA5nLJAuHW1pEJ.EJau01XREAyDkqfausxczNhK','lopez@numericable.com','\"ROLE_USER\"',NULL);
 /*!40000 ALTER TABLE `club` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -164,7 +165,7 @@ CREATE TABLE `team` (
   KEY `IDX_C4E0A61F12469DE2` (`category_id`),
   CONSTRAINT `FK_C4E0A61F12469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FK_C4E0A61F61190A32` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,12 +175,12 @@ CREATE TABLE `team` (
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `team` VALUES (68,10,2,1,'duo'),(69,10,2,1,'solo'),(70,10,2,1,'solo'),(71,10,3,1,'solo'),(72,10,3,1,'solo'),(73,10,3,1,'duo'),(74,10,2,1,'duo'),(75,10,3,1,'smallGroup'),(76,10,2,1,'solo'),(77,10,2,1,'solo'),(78,10,3,1,'solo'),(79,10,2,1,'duo'),(80,10,2,1,'solo'),(81,10,2,1,'solo'),(82,10,3,1,'solo'),(83,10,2,1,'duo'),(84,10,3,1,'duo'),(85,10,2,1,'duo'),(86,10,1,1,'solo'),(87,10,1,1,'duo'),(88,7,3,1,'duo'),(89,7,3,1,'duo'),(90,7,3,1,'solo'),(91,7,3,1,'solo'),(92,7,3,1,'solo'),(93,7,2,1,'solo'),(94,7,2,1,'solo'),(95,7,2,1,'solo'),(96,7,1,1,'solo'),(97,7,2,1,'duo'),(98,7,2,1,'duo'),(99,7,3,1,'solo'),(100,7,2,1,'duo'),(101,7,1,1,'duo'),(107,4,3,1,'solo'),(108,4,3,1,'solo'),(109,4,3,1,'solo'),(110,4,3,1,'solo'),(111,4,3,1,'solo'),(112,4,3,1,'solo');
+INSERT INTO `team` VALUES (68,10,2,1,'duo'),(69,10,2,1,'solo'),(70,10,2,1,'solo'),(71,10,3,1,'solo'),(72,10,3,1,'solo'),(73,10,3,1,'duo'),(74,10,2,1,'duo'),(75,10,3,1,'smallGroup'),(76,10,2,1,'solo'),(77,10,2,1,'solo'),(78,10,3,1,'solo'),(79,10,2,1,'duo'),(80,10,2,1,'solo'),(81,10,2,1,'solo'),(82,10,3,1,'solo'),(83,10,2,1,'duo'),(84,10,3,1,'duo'),(85,10,2,1,'duo'),(86,10,1,1,'solo'),(87,10,1,1,'duo'),(88,7,3,1,'duo'),(89,7,3,1,'duo'),(90,7,3,1,'solo'),(91,7,3,1,'solo'),(92,7,3,1,'solo'),(93,7,2,1,'solo'),(94,7,2,1,'solo'),(95,7,2,1,'solo'),(96,7,1,1,'solo'),(97,7,2,1,'duo'),(98,7,2,1,'duo'),(99,7,3,1,'solo'),(100,7,2,1,'duo'),(101,7,1,1,'duo'),(107,4,3,1,'solo'),(108,4,3,1,'solo'),(109,4,3,1,'solo'),(110,4,3,1,'solo'),(111,4,3,1,'solo'),(112,4,3,1,'solo'),(113,4,3,1,'solo'),(114,4,3,1,'solo'),(115,4,3,1,'solo'),(116,4,3,1,'solo'),(117,4,3,1,'solo'),(118,4,3,1,'solo');
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team` with 40 row(s)
+-- Dumped table `team` with 46 row(s)
 --
 
 --
@@ -234,12 +235,12 @@ CREATE TABLE `team_dance` (
 LOCK TABLES `team_dance` WRITE;
 /*!40000 ALTER TABLE `team_dance` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `team_dance` VALUES (68,1),(69,1),(70,1),(71,1),(72,1),(73,1),(74,1),(75,1),(76,2),(77,2),(78,2),(79,2),(80,5),(81,5),(82,5),(83,5),(84,5),(85,5),(86,5),(87,11),(88,11),(89,11),(90,5),(91,2),(92,2),(93,10),(94,5),(95,5),(96,5),(97,5),(98,5),(99,5),(100,2),(101,5),(107,2),(108,2),(109,2),(110,2),(111,2),(112,2);
+INSERT INTO `team_dance` VALUES (68,1),(69,1),(70,1),(71,1),(72,1),(73,1),(74,1),(75,1),(76,2),(77,2),(78,2),(79,2),(80,5),(81,5),(82,5),(83,5),(84,5),(85,5),(86,5),(87,11),(88,11),(89,11),(90,5),(91,2),(92,2),(93,10),(94,5),(95,5),(96,5),(97,5),(98,5),(99,5),(100,2),(101,5),(107,2),(108,2),(109,2),(110,2),(111,2),(112,2),(113,1),(114,1),(115,1),(116,1),(117,1),(118,1);
 /*!40000 ALTER TABLE `team_dance` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team_dance` with 40 row(s)
+-- Dumped table `team_dance` with 46 row(s)
 --
 
 --
@@ -266,12 +267,12 @@ CREATE TABLE `team_dancer` (
 LOCK TABLES `team_dancer` WRITE;
 /*!40000 ALTER TABLE `team_dancer` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `team_dancer` VALUES (68,60),(68,61),(69,59),(70,60),(71,61),(72,62),(73,63),(73,64),(74,65),(74,66),(75,59),(75,60),(75,61),(75,62),(75,63),(75,64),(75,65),(75,67),(76,59),(77,60),(78,62),(79,60),(79,62),(80,59),(81,60),(82,62),(83,60),(83,61),(84,67),(84,68),(85,69),(85,70),(86,71),(87,72),(87,73),(88,91),(88,119),(89,117),(89,118),(90,76),(91,87),(92,101),(93,105),(94,89),(95,146),(96,128),(97,137),(97,159),(98,89),(98,155),(99,93),(100,138),(100,160),(101,128),(101,144),(107,164),(108,165),(109,166),(110,167),(111,169),(112,168);
+INSERT INTO `team_dancer` VALUES (68,60),(68,61),(69,59),(70,60),(71,61),(72,62),(73,63),(73,64),(74,65),(74,66),(75,59),(75,60),(75,61),(75,62),(75,63),(75,64),(75,65),(75,67),(76,59),(77,60),(78,62),(79,60),(79,62),(80,59),(81,60),(82,62),(83,60),(83,61),(84,67),(84,68),(85,69),(85,70),(86,71),(87,72),(87,73),(88,91),(88,119),(89,117),(89,118),(90,76),(91,87),(92,101),(93,105),(94,89),(95,146),(96,128),(97,137),(97,159),(98,89),(98,155),(99,93),(100,138),(100,160),(101,128),(101,144),(107,164),(108,165),(109,166),(110,167),(111,169),(112,168),(113,164),(114,165),(115,166),(116,167),(117,168),(118,169);
 /*!40000 ALTER TABLE `team_dancer` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `team_dancer` with 61 row(s)
+-- Dumped table `team_dancer` with 67 row(s)
 --
 
 --
@@ -430,12 +431,12 @@ CREATE TABLE `competition_dance` (
 LOCK TABLES `competition_dance` WRITE;
 /*!40000 ALTER TABLE `competition_dance` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `competition_dance` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(6,1),(6,2),(6,3),(6,4),(6,5),(6,6),(6,7),(6,8),(6,9),(6,10),(6,11),(6,13),(7,1),(7,2),(7,3),(7,4),(7,5),(7,6),(7,7),(7,8),(7,9),(7,10),(7,11),(7,13),(8,1),(8,2),(8,3),(8,4),(8,5),(8,6),(8,7),(8,8),(8,9),(8,11),(8,13),(9,1),(9,2),(9,3),(9,4),(9,5),(9,6),(9,7),(9,8),(9,9),(9,10),(9,11),(9,13);
+INSERT INTO `competition_dance` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(6,1),(6,2),(6,3),(6,4),(6,5),(6,6),(6,7),(6,8),(6,9),(6,10),(6,11),(6,13),(7,1),(7,2),(7,3),(7,4),(7,5),(7,6),(7,7),(7,8),(7,9),(7,10),(7,11),(7,13),(8,1),(8,2),(8,3),(8,4),(8,5),(8,6),(8,7),(8,8),(8,9),(8,11),(8,13),(9,1),(9,2),(9,3),(9,4),(9,5),(9,6),(9,7),(9,8),(9,9),(9,10),(9,11),(9,13),(10,1),(10,2);
 /*!40000 ALTER TABLE `competition_dance` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition_dance` with 58 row(s)
+-- Dumped table `competition_dance` with 60 row(s)
 --
 
 --
@@ -454,7 +455,7 @@ CREATE TABLE `ticket` (
   PRIMARY KEY (`id`),
   KEY `IDX_97A0ADA3F675F31B` (`author_id`),
   CONSTRAINT `FK_97A0ADA3F675F31B` FOREIGN KEY (`author_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,12 +496,12 @@ CREATE TABLE `competition_judge` (
 LOCK TABLES `competition_judge` WRITE;
 /*!40000 ALTER TABLE `competition_judge` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `competition_judge` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,12),(2,13),(2,14);
+INSERT INTO `competition_judge` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,12),(2,13),(2,14),(10,1),(10,2),(10,3);
 /*!40000 ALTER TABLE `competition_judge` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition_judge` with 13 row(s)
+-- Dumped table `competition_judge` with 16 row(s)
 --
 
 --
@@ -578,7 +579,7 @@ CREATE TABLE `competition` (
   PRIMARY KEY (`id`),
   KEY `IDX_B50A2CB1FDD8E52A` (`club_organizer_id`),
   CONSTRAINT `FK_B50A2CB1FDD8E52A` FOREIGN KEY (`club_organizer_id`) REFERENCES `club` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -588,12 +589,12 @@ CREATE TABLE `competition` (
 LOCK TABLES `competition` WRITE;
 /*!40000 ALTER TABLE `competition` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `competition` VALUES (2,4,'2019-03-30','SENNECEY LE GRAND','GYMNASE NIEPCE (derrière la piscine) Rue des Muriers',71640,'COUPE DE BOURGOGNE',1000,'SELECTIF'),(6,6,'2019-04-06','VIRE','VIRE',71,'SELECTIF FDO',1000,'selectif'),(7,4,'2019-04-20','HADOL','hadol',88999,'coupe des vosges',1000,'20/04/2019'),(8,4,'2019-05-18','ANNEMASSE','Halle des sports',74999,'COUPE DES ALPES',1000,'Coupes des Alpes'),(9,7,'2019-06-01','BELFORT','Gymnase LE PHARE',90000,'COUPE DE FRANCE FDO',1000,'COUPE DE FRANCE FDO');
+INSERT INTO `competition` VALUES (2,4,'2019-03-30','SENNECEY LE GRAND','GYMNASE NIEPCE (derrière la piscine) Rue des Muriers',71640,'COUPE DE BOURGOGNE',1000,'SELECTIF'),(6,6,'2019-04-06','VIRE','VIRE',71,'SELECTIF FDO',1000,'selectif'),(7,4,'2019-04-20','HADOL','hadol',88999,'coupe des vosges',1000,'20/04/2019'),(8,4,'2019-05-18','ANNEMASSE','Halle des sports',74999,'COUPE DES ALPES',1000,'Coupes des Alpes'),(9,7,'2019-06-01','BELFORT','Gymnase LE PHARE',90000,'COUPE DE FRANCE FDO',1000,'COUPE DE FRANCE FDO'),(10,4,'2019-03-29','Test','test',68000,'Compétition Test',34,'Test');
 /*!40000 ALTER TABLE `competition` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 
--- Dumped table `competition` with 5 row(s)
+-- Dumped table `competition` with 6 row(s)
 --
 
 --
@@ -639,4 +640,4 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on: Fri, 08 Mar 2019 09:47:36 +0100
+-- Dump completed on: Sat, 09 Mar 2019 16:27:58 +0100
