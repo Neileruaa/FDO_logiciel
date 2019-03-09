@@ -108,7 +108,7 @@ class SkatingController extends AbstractController
 
         $session->set('resultats', $resultats);
 
-        return $this->render('resultat/resultatsFinal.html.twig',[
+        return $this->render('resultatsFinale.html.twig',[
             'resultats'=>$resultats,
             'row'=>$row
         ]);
