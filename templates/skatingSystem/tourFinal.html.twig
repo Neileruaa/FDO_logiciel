@@ -163,14 +163,22 @@
             // faire une case en plus pour dire qui est à egalité ?
             //console.log(" --- EGALITE TOTAL");
             //console.log(egaliteTotal);
+
+            var tableauPodium=new Array(equipes.length);
             for(let i = 0; i < podium.length; i++) {
                 //console.log("egaliteTotal[podium["+i+"]] = "+egaliteTotal[equipes.indexOf(podium[i])]);
+                tableauPodium[i]=new Array(2);
+                tableauPodium[i][0]=equipes[i];
                 if (egaliteTotal[equipes.indexOf(podium[i])] != null){
                     document.getElementById("res"+podium[i]).value=egaliteTotal[equipes.indexOf(podium[i])]+1.5;
+                    tableauPodium[i][1]=egaliteTotal[equipes.indexOf(podium[i])]+1.5;
                 }else{
                     document.getElementById("res"+podium[i]).value=i+1;
+                    tableauPodium[i][1]=i+1;
                 }
             }
+            console.log(tableauPodium);
+
             $.post( "{{ path('Final.classement') }}", { finale: podium, rowId: row} )
             .done(function( data ) {
                 classement=data.classement;
