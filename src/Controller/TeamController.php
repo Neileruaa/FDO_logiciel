@@ -50,6 +50,13 @@ class TeamController extends AbstractController
         $tr=$this->getDoctrine()->getRepository(Team::class);
         $catr=$this->getDoctrine()->getRepository(Category::class);
 
+        $resultats=$this->getDoctrine()->getRepository(Resultat::class)->findAll();
+
+        foreach ($resultats as $resultat){
+            $manager->remove($resultat);
+            $manager->flush();
+        }
+
         $teams=$this->getDoctrine()->getRepository(Competition::class)->find($competition)->getTeams();
         foreach ($teams as $team){
             $idTeam=$team->getId();

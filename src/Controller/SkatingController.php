@@ -16,6 +16,7 @@ use App\Entity\Team;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Dompdf\Dompdf;
+use phpDocumentor\Reflection\Types\This;
 use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,37 +52,71 @@ class SkatingController extends AbstractController
         $row=$this->getDoctrine()->getRepository(Row::class)->find($rowId);
         $rows=$this->getDoctrine()->getRepository(Row::class)->findSameRows($row->getDance(), $row->getCategory(), $row->getFormation(),'Finale');
         $results=[];
-
         $classement=[];
-        foreach ($rows as $r) {
-            $teamRetenues=$r->getNbChoosen();
-            $resultatsTmp=$this->getDoctrine()->getRepository(Resultat::class)->getResultsFromRow($r);
-            for ($i=0; $i<(sizeof($resultatsTmp)-$teamRetenues);$i++){
-                array_push($results,$resultatsTmp[$i]);
-            }
-        }
-        foreach ($results as $r) {
-            $l = [$r->getNote(), $r->getTeam()->getId()];
-            array_push($classement,$l);
-        }
 
-        for ($i=sizeof($resultsFin)-1;$i>=0;$i--){
-            $l=[strval($classement[sizeof($classement)-1][0]+1),intval($resultsFin[$i])];
-            array_push($classement,$l);
-        }
-        //if (sizeof($classement)<=3){
-            for ($i=0;$i<sizeof($classement);$i++){
-                $team=$this->getDoctrine()->getRepository(Team::class)->find($classement[$i][1]);
-                $res=new Resultat();
-                $res->setNote($classement[$i][0]);
-                $res->setRow($row);
-                $res->setTeam($team);
-                $team->addResultat($res);
-                $manager->persist($res);
-                $manager->persist($team);
+        if (sizeof($rows)==0){
+            $allResults=$this->getDoctrine()->getRepository(Resultat::class)->findAll();
+            foreach ($allResults as $each){
+                $manager->remove($each);
                 $manager->flush();
             }
+            $cmpt=sizeof($resultsFin);
+            $resultatsTmp=[];
+            foreach ($resultsFin as $res){
+                $r=new Resultat();
+                $r->setTeam($this->getDoctrine()->getRepository(Team::class)->find($res));
+                $r->setNote($cmpt);
+                $r->setRow($row);
+                array_push($resultatsTmp,$r);
+                $cmpt--;
+            }
+            for ($i=0; $i<(sizeof($resultatsTmp));$i++){
+                array_push($results,$resultatsTmp[$i]);
+            }
+            foreach ($results as $r) {
+                $l = [$r->getNote(), $r->getTeam()->getId()];
+                array_push($classement,$l);
+            }
+        }
+        else{
+            $allResults=$this->getDoctrine()->getRepository(Resultat::class)->findBy(['row'=>$row]);
+            foreach ($allResults as $each){
+                $manager->remove($each);
+                $manager->flush();
+            }
+            foreach ($rows as $r) {
+                $teamRetenues=$r->getNbChoosen();
+                $resultatsTmp=$this->getDoctrine()->getRepository(Resultat::class)->getResultsFromRow($r);
+                for ($i=0; $i<(sizeof($resultatsTmp)-$teamRetenues);$i++){
+                    array_push($results,$resultatsTmp[$i]);
+                }
+            }
+            foreach ($results as $r) {
+                $l = [$r->getNote(), $r->getTeam()->getId()];
+                array_push($classement,$l);
+            }
 
+            for ($i=sizeof($resultsFin)-1;$i>=0;$i--){
+                $l=[strval($classement[sizeof($classement)-1][0]+1),intval($resultsFin[$i])];
+                array_push($classement,$l);
+            }
+        }
+
+        //if (sizeof($classement)<=3){
+        for ($i=0;$i<sizeof($classement);$i++){
+            $team=$this->getDoctrine()->getRepository(Team::class)->find($classement[$i][1]);
+            $res=new Resultat();
+            $res->setNote($classement[$i][0]);
+            $res->setRow($row);
+            $res->setTeam($team);
+            $team->addResultat($res);
+            dump($res);
+            $manager->persist($res);
+            $manager->persist($team);
+            $manager->flush();
+        }
+
+        dump($classement);
         //}
         return $this->json(["classement"=>$classement,
                 "row"=>$rowId
@@ -94,16 +129,19 @@ class SkatingController extends AbstractController
         //$row=$this->getDoctrine()->getRepository(Row::class)->find($request->get('row'));
         $rows=$this->getDoctrine()->getRepository(Row::class)->findSameRows($row->getDance(),$row->getCategory(),$row->getFormation(),9);
         array_push($rows,$this->getDoctrine()->getRepository(Row::class)->findOneBy(['dance'=>$row->getDance(), 'category'=>$row->getCategory(), 'formation'=>$row->getFormation(), 'numTour'=>"Finale"]));
+        //dump($rows);die;
         $resultatsTmp=[];
         $resultats=[];
 
         foreach ($rows as $r){
-            if ($r->getNumTour()=='Finale') $resultatsTmp=$r->getResults();
+            if ($r->getNumTour()=='Finale'){ $resultatsTmp=$r->getResults();}
         }
+
         foreach ($resultatsTmp as $r){
             $l=[$r->getNote(),$r->getTeam()->getId()];
             array_push($resultats,$l);
         }
+
         arsort($resultats);
 
         $session->set('resultats', $resultats);
