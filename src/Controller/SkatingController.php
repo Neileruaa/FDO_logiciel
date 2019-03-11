@@ -54,8 +54,10 @@ class SkatingController extends AbstractController
         $results=[];
         $classement=[];
 
+        //si on est passé directement à une finale
         if (sizeof($rows)==0){
-            $allResults=$this->getDoctrine()->getRepository(Resultat::class)->findAll();
+            //ici on drop les resultats de la finale courantes pour ne pas multiplier les resultats
+            $allResults=$this->getDoctrine()->getRepository(Resultat::class)->findBy(['row'=>$row]);
             foreach ($allResults as $each){
                 $manager->remove($each);
                 $manager->flush();
