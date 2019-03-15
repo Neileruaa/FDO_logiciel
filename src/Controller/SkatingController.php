@@ -86,18 +86,21 @@ class SkatingController extends AbstractController
                 $manager->remove($each);
                 $manager->flush();
             }
+            dump($rows);
             foreach ($rows as $r) {
                 $teamRetenues=$r->getNbChoosen();
                 $resultatsTmp=$this->getDoctrine()->getRepository(Resultat::class)->getResultsFromRow($r);
+                dump($resultatsTmp);
                 for ($i=0; $i<(sizeof($resultatsTmp)-$teamRetenues);$i++){
                     array_push($results,$resultatsTmp[$i]);
                 }
             }
+            dump($results);
             foreach ($results as $r) {
                 $l = [$r->getNote(), $r->getTeam()->getId()];
                 array_push($classement,$l);
             }
-
+            dump($classement);
             for ($i=sizeof($resultsFin)-1;$i>=0;$i--){
                 $l=[strval($classement[sizeof($classement)-1][0]+1),intval($resultsFin[$i])];
                 array_push($classement,$l);

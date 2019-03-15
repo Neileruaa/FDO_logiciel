@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Competition;
+use App\Entity\Sauvegarde;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -19,9 +20,13 @@ class CompetitionController extends AbstractController
      */
     public function index(Request $request, SessionInterface $session)
     {
+        $sauvegardes=$this->getDoctrine()->getRepository(Sauvegarde::class)->findAll();
+        if (sizeof($sauvegardes)>0){
+            $session->set('competSelected', $sauvegardes[0]->getIdCompetition());
+            $session->set('selection', true);
+
+        }
         $competitions=$this->getDoctrine()->getRepository(Competition::class)->findAll();
-
-
         return $this->render('home/index.html.twig', [
             'competitions' => $competitions,
         ]);

@@ -7,6 +7,7 @@ use App\Entity\Competition;
 use App\Entity\Dance;
 use App\Entity\Resultat;
 use App\Entity\Row;
+use App\Entity\Sauvegarde;
 use App\Entity\Team;
 use App\Repository\TeamRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -28,6 +29,17 @@ class TeamController extends AbstractController
     public function appel(Competition $competition, ObjectManager $manager, Request $request, SessionInterface $session)
     {
         $manager->detach($competition);
+
+        $sauvegardes=$this->getDoctrine()->getRepository(Sauvegarde::class)->findAll();
+        foreach ($sauvegardes as $s) {
+            $manager->remove($s);
+        }
+        $sauvegarde= new Sauvegarde();
+        $sauvegarde->setIdCompetition($competition->getId());
+        $manager->persist($sauvegarde);
+        $manager->flush();
+
+
         $session->set('competSelected', $competition->getId());
         $session->set('selection', false);
         $teams=$competition->getTeams();
