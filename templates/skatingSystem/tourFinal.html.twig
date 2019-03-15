@@ -123,8 +123,11 @@
         var cptRecurMajorite=0;
         var auDessusMajorite=[];
 
+        var equipesGlobal=[];
+
         var gagnants=[];
         function calculeClassement(juges,equipes,row){
+            equipesGlobal=equipes;
             cptRecurMajorite=0;
             gagnants=[];
             majorite=parseInt(juges.length/2)+1;
@@ -161,14 +164,14 @@
             //console.log(resultatEquipesFinal);
             // update affichage avec podium
             // faire une case en plus pour dire qui est à egalité ?
-            //console.log(" --- EGALITE TOTAL");
-            //console.log(egaliteTotal);
+            console.log(" --- EGALITE TOTAL");
+            console.log(egaliteTotal);
 
             var tableauPodium=new Array(equipes.length);
             for(let i = 0; i < podium.length; i++) {
                 //console.log("egaliteTotal[podium["+i+"]] = "+egaliteTotal[equipes.indexOf(podium[i])]);
                 tableauPodium[i]=new Array(2);
-                tableauPodium[i][0]=equipes[i];
+                tableauPodium[i][0]=podium[i];
                 if (egaliteTotal[equipes.indexOf(podium[i])] != null){
                     document.getElementById("res"+podium[i]).value=egaliteTotal[equipes.indexOf(podium[i])]+1.5;
                     tableauPodium[i][1]=egaliteTotal[equipes.indexOf(podium[i])]+1.5;
@@ -179,6 +182,7 @@
             }
             console.log(tableauPodium);
 
+            console.log(podium);
             $.post( "{{ path('Final.classement') }}", { finale: podium, rowId: row} )
             .done(function( data ) {
                 classement=data.classement;
@@ -194,28 +198,28 @@
         function recur(equipes,colonne){
             // system de col initial ?
             for(let i = 0; i < equipes.length ; i++) {
-                //console.log("equipe num :"+equipes[i]);
+                console.log("equipe num :"+equipes[i]);
                 if(!scanValDejaEntree(podium,equipes[i])){ //equipes[i] in podium
-                    //console.log("try : "+equipes[i]+" deja dans podium a la place: "+podium.indexOf(equipes[i]));
+                    console.log("try : "+equipes[i]+" deja dans podium a la place: "+podium.indexOf(equipes[i]));
                     continue; // on va voir à l'equipe suivante (iteration suivante)
                 }
                 compareResultat(equipes,colonne,equipes[i]);
                 var resComp=gagnants.slice();
-                //console.log(" - resComp pour les equipes : "+equipes+" avec "+equipes[i]+" sur colonne "+colonne+": ");
-                //console.log(resComp);
+                console.log(" - resComp pour les equipes : "+equipes+" avec "+equipes[i]+" sur colonne "+colonne+": ");
+                console.log(resComp);
                 if (resComp.length==1){
                     podium[valDefautPlace]=resComp[0]; // equipe inseré dans le podium
                     // on retire l'equipes de la liste equipes PLUS BESOIN GRACE AU IF AVANT
                     // on efface les colonnes inutiles du tableau resultatEquipeFinal
-                    effaceColonnes(equipes,resComp[0],colonne+cptRecurMajorite);
+                    effaceColonnes(equipesGlobal,resComp[0],colonne+cptRecurMajorite);
 
                     valDefautPlace++;
                     col++; // pas sur a cause recursivité VERIF c'est CORRECT
-                    //console.log("INSERT PODIUM "+valDefautPlace+" resComp[0]= "+resComp[0]);
+                    console.log("INSERT PODIUM "+valDefautPlace+" resComp[0]= "+resComp[0]);
                     if(auDessusMajorite.length>1){
                         col--;
                         cptRecurMajorite=0;
-                        //console.log(" - au dessus majorite :"+auDessusMajorite);
+                        console.log(" - au dessus majorite :"+auDessusMajorite);
                         recur(auDessusMajorite,colonne);
                         break;
                     }
@@ -224,12 +228,13 @@
                 } else if(resComp.length>1){
                     if (valDefautPlace==0 && colonne==0){ // si on est à la premiere colonne
                         // on regarde colonne d'après de ceux à egalité
-                        //console.log("recurssion avec :"+resComp+" sur la col :"+(colonne+1));
+                        console.log("recurssion avec :"+resComp+" sur la col :"+(colonne+1));
                         recur(resComp,colonne+1);
+
                         break;
                     }else{
                         // si algo de marquage ne donne rien on fait une recurtion
-                        //console.log("marquage");
+                        console.log("marquage");
                         marquageEquipe(resComp,colonne+cptRecurMajorite,true); // valDefautPlace ici est la colonne
                         cptRecurMajorite=0;
                         break;
@@ -251,8 +256,8 @@
         }
 
         function compareResultat(equipes,colonne,indexEquipe){
-            var resIndex=resultatEquipesFinal[(equipes.indexOf(indexEquipe))][colonne];
-            //console.log("resIndex : "+resIndex+" pour equipe : "+indexEquipe+" a la colonne: "+colonne);
+            var resIndex=resultatEquipesFinal[(equipesGlobal.indexOf(indexEquipe))][colonne];
+            console.log("resIndex : "+resIndex+" pour equipe : "+indexEquipe+" a la colonne: "+colonne);
             gagnants=[];
             var totalStop=false;
 
@@ -266,22 +271,20 @@
 
             equipes.forEach(function(i) {
                 if ((i==indexEquipe) || (!scanValDejaEntree(podium,i))
-                    || (resIndex>resultatEquipesFinal[equipes.indexOf(i)][colonne] && !totalStop)
+                    || (resIndex>resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne] && !totalStop)
                     ){
                     //continue;
-                    if(resultatEquipesFinal[equipes.indexOf(i)][colonne]>=majorite && i!=equipes.indexOf(indexEquipe)){
+                    if(resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne]>=majorite && i!=equipesGlobal.indexOf(indexEquipe)){
                         auDessusMajorite.push(i);
                     }
-                    if (!scanValDejaEntree(podium,i)){//console.log("scanval");
-                         }
-                    if (i==indexEquipe){//console.log("index :"+i);
-                         }
-                    if (resIndex>resultatEquipesFinal[equipes.indexOf(i)][colonne] && !totalStop){//console.log("resIndex ou totalStop");
+                    if (!scanValDejaEntree(podium,i)){console.log("scanval");}
+                    if (i==indexEquipe){console.log("index :"+i);}
+                    if (resIndex>resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne] && !totalStop){console.log("resIndex ou totalStop");
                     }
-                }else if(resIndex==resultatEquipesFinal[equipes.indexOf(i)][colonne] && !totalStop){
-
-                    //console.log("equipe :"+i+" res :"+resultatEquipesFinal[equipes.indexOf(i)][colonne]);
-                    if(resultatEquipesFinal[equipes.indexOf(i)][colonne]>=majorite && i!=indexEquipe){
+                }else if(resIndex==resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne] && !totalStop){
+                    console.log("equipe.indexOf(i) donne : "+equipesGlobal.indexOf(i)); // BOGUE FAIRE METHODE FINDVAL je pense
+                    console.log("equipe :"+i+" res :"+resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne]);
+                    if(resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne]>=majorite && i!=indexEquipe){
                         auDessusMajorite.push(i);
                     }
                     gagnants.push(i);
@@ -289,13 +292,13 @@
                     gagnants=[];
                     //totalStop=true;//break;
                     //compareResultat(equipes,colonne,i);
-                    resIndex=resultatEquipesFinal[equipes.indexOf(i)][colonne];
+                    resIndex=resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne];
                     if(resIndex>=majorite){
                         auDessusMajorite.push(indexEquipe);
                     }
                     indexEquipe=i;
                     gagnants.push(i);
-                    //console.log(" - changement resIndex : "+resIndex+" pour equipe : "+indexEquipe+" a la colonne: "+colonne);
+                    console.log(" - changement resIndex : "+resIndex+" pour equipe : "+indexEquipe+" a la colonne: "+colonne);
                     //totalStop=true;//break;
                 }
             });
@@ -303,7 +306,7 @@
             //if(!totalStop){
                 if (gagnants.length>=1 && resIndex<majorite){
                     cptRecurMajorite++;
-                    //console.log("recur compare");
+                    console.log("recur compare");
                     compareResultat(equipes,colonne+1,indexEquipe); // on continu de chercher
                 }else if(gagnants.length>=1 && resIndex>=majorite){
 
@@ -327,21 +330,21 @@
 
             equipes.forEach(function(i) {
                 if(!scanValDejaEntree(podium,i)){ //equipes[i] in podium
-                    //console.log("try2 : "+i+" deja dans podium ");
+                    console.log("try2 : "+i+" deja dans podium ");
                     // on va voir à l'equipe suivante (iteration suivante)
                 }else{
                     for(let j = 0; j <= colonne; j++) {
-                        somme=somme+(j+1)*resultatEquipes[equipes.indexOf(i)][j];
+                        somme=somme+(j+1)*resultatEquipes[equipesGlobal.indexOf(i)][j];
                     }
                     if(boolAffiche){
-                        resultatEquipesFinal[equipes.indexOf(i)][colonne]=resultatEquipesFinal[equipes.indexOf(i)][colonne]+"("+somme+")";
+                        resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne]=resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne]+"("+somme+")";
                     }
                     tabSomme.push(somme);
                     somme=0;
                 }
             });
 
-            //console.log("tabSomme : "+tabSomme);
+            console.log("tabSomme : "+tabSomme);
             for(let i = 0; i < tabSomme.length; i++) {
                 if (tabSomme[i]<min){
                     if(equipesAEgaliteMeilleur.length>1){ // si plusieurs egalité non "meilleur"
@@ -359,7 +362,7 @@
                     equipesAEgaliteMeilleur.push(equipeSauv1);
                 }else if(tabSomme[i]==min){
                     var equipeSauv=gagnants[i];
-                    //console.log("equipeSauv : "+equipeSauv);
+                    console.log("equipeSauv : "+equipeSauv);
                     gagnants.splice(i,1);
                     gagnants.unshift(equipeSauv);
                     var sommeSauv=tabSomme[i];
@@ -377,23 +380,23 @@
                 }
             }
 
-            //console.log("tabSomme : "+tabSomme);
+            console.log("tabSomme : "+tabSomme);
 
-            //console.log("egaliteMeilleur: ");
-            //console.log(equipesAEgaliteMeilleur);
-            //console.log("egalite: "+equipesAEgalite);
-            //console.log("nonEgalite: "+equipesNonEgaux);
+            console.log("egaliteMeilleur: ");
+            console.log(equipesAEgaliteMeilleur);
+            console.log("egalite: "+equipesAEgalite);
+            console.log("nonEgalite: "+equipesNonEgaux);
             if (equipesAEgaliteMeilleur.length>1){
-                //console.log("recur length : "+equipesAEgaliteMeilleur.length);
+                console.log("recur length : "+equipesAEgaliteMeilleur.length);
                 if (colonne+1>resultatEquipesFinal[0].length-1){
-                    //console.log("INSERT :");
+                    console.log("INSERT :");
                     var sauvValInsert=valDefautPlace;
                     equipes.forEach(function(i) {
                         if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
-                            //console.log(" is "+i+" colonne : "+colonne);
+                            console.log(" is "+i+" colonne : "+colonne);
                             podium[sauvValInsert]=i;
-                            egaliteTotal[equipes.indexOf(i)]=valDefautPlace;
-                            effaceColonnes(equipes,i,colonne);
+                            egaliteTotal[equipesGlobal.indexOf(i)]=valDefautPlace;
+                            effaceColonnes(equipesGlobal,i,colonne);
                             sauvValInsert++;
                         }
                     });
@@ -403,15 +406,15 @@
                     recur(equipesAEgaliteMeilleur,colonne+1);
                 }
             }else if(equipesAEgaliteMeilleur.length==0){
-                //console.log("egalite totale ?");
+                console.log("egalite totale ?");
                 return;
             }else{
-                //console.log("INSERT :");
+                console.log("INSERT :");
                 equipes.forEach(function(i) {
                     if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
-                        //console.log(" is "+i);
+                        console.log(" is "+i);
                         podium[valDefautPlace]=i;
-                        effaceColonnes(equipes,i,colonne);
+                        effaceColonnes(equipesGlobal,i,colonne);
                     }
                 });
                 valDefautPlace++;
@@ -419,7 +422,7 @@
             }
 
             if(equipesAEgalite.length==0 && equipesNonEgaux.length>0){
-                //console.log("-------- marquage recurssion ");
+                console.log("-------- marquage recurssion ");
                 col--;
                 marquageEquipe(equipesNonEgaux,colonne,false);
             }else if(equipesAEgalite.length>0 && equipesNonEgaux.length==0){
@@ -469,8 +472,8 @@
             for (let i = 0; i < equipes.length; i++) {
                 remplirResultatEquipesFinal(suiteResultatParJuges,i,juges.length,equipes.length,resultatEquipesFinal);
             }
-            //console.log("--- final :");
-            //console.log(resultatEquipesFinal);
+            console.log("--- final :");
+            console.log(resultatEquipesFinal);
             return true;
         }
 
