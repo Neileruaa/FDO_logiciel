@@ -180,10 +180,10 @@
                     tableauPodium[i][1]=i+1;
                 }
             }
-            console.log(tableauPodium);
+            //console.log(tableauPodium);
 
             console.log(podium);
-            $.post( "{{ path('Final.classement') }}", { finale: podium, rowId: row} )
+            $.post( "{{ path('Final.classement') }}", { finale: tableauPodium, rowId: row} )
             .done(function( data ) {
                 classement=data.classement;
                 row=data.row;

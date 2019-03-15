@@ -17,20 +17,17 @@
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>
-            <th scope="col">Place</th>
-            <th scope="col">Équipe</th>
-            <th scope="col">Résultat</th>
+            <th scope="col" style="color: black; font-size: 23px;">Place</th>
+            <th scope="col" style="color: black;font-size: 23px;">Équipe</th>
         </tr>
         </thead>
         <tbody>
         {% set place=1 %}
-        {% for resultat in resultats %}
-            <tr>
-                <th scope="row">{{ place }}</th>
+        {% for resultat in resultats|reverse %}
+            <tr {% if (resultat[0]|number_format )<=3 %} style="color: red;" {% endif %}>
+                <th scope="row">{{ resultat[0]|number_format }}</th>
                 <td><strong>{{ resultat[1] }}</strong></td>
-                <td><strong style="color: green">{{ resultat[0] }}</strong></td>
             </tr>
-            {% set place=place+1 %}
         {% endfor %}
         </tbody>
     </table>
