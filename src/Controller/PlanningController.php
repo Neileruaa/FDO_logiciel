@@ -91,9 +91,13 @@ class PlanningController extends AbstractController
 					}
 				}
 				$row = $rowRepository->find($idRow);
+				if (sizeof($teams) <=2){
+				    $row->setNumTour("Finale");
+                } else {
+                    $row->setNumTour($rows['numTour']);
+                }
 				$row->setPosition($compteurPosition)
 					->setPiste($rows['piste'])
-					->setNumTour($rows['numTour'])
 					->setNbJudge($rows['nbJudge'])
 					->setPassageSimul($rows['passageSimul'])
 				;
