@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tours passés{% endblock %}
+{% block title %}Tours terminés{% endblock %}
 
 
 {% block body %}
 	<div>
-		<h1>Derniers tours</h1>
+		<h1>Tours terminés</h1>
 		<a class="btn btn-primary float-right" href="{{ path('Planning.actualPlanning') }}"><i class="fas fa-calendar"></i> Planning actuel</a><br><br>
 		<div class="alert alert-info" role="alert">
-			Consulter les informations des derniers tours
+			Consulter les informations des tours terminés.
 		</div>
 
 		<table class="table">

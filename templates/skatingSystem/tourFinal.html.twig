@@ -3,109 +3,106 @@
 {% block title %}{{ row.competition.title }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-            <strong>Final de {{ row.competition.title }} de la dance {{ row.dance.nameDance }} categorie {{ row.category }} </strong>
-            <table class="table table-bordered table-responsive">
-                <caption>Final </caption>
-                <thead class="thead-dark">
-                <tr>
-                    <th>Equipes/Juges</th>
+    <h1>Finale</h1>
+    <hr>
+    <h2><strong>{{ row.dance.nameDance }}</strong> | <strong>{{ row.formation }}</strong></h2>
+    <h3><strong>{{ row.category.nameCategory }}</strong></h3><br>
+    <table class="table table-responsive">
+        <thead class="thead-dark">
+        <tr>
+            <th>Équipes/Juges</th>
 
-                    {% set tabJuges=[] %}
-                    {% set alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'] %}
-                    {% set i=0 %}
-                    {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
-                        {% set tabJuges = tabJuges|merge([alphabet[judge]]) %}
-                        <th id="{{ alphabet[judge] }}">{{ alphabet[judge] }}</th>
-                        {% set i=i+1 %}
-                    {% endfor %}
-
-                </tr>
-                </thead>
-                <tbody>
-                {% set nbEquipes=0 %}
-                {% for team in row.teams if team is not empty %}
-                    {% set nbEquipes=nbEquipes+1 %}
-                    <tr>
-                        <td><strong>{{ team.numDossard }}</strong></td>
-                        {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
-                            <td>
-                                <select id="{{ team.id }}{{ alphabet[judge] }}" name="selectPlace" >
-                                    {% set place=1 %}
-                                    {% for team in row.teams if team is not empty %}
-                                        <option value="{{ place }}">{{ place }}</option>
-                                        {% set place=place+1 %}
-                                    {% endfor %}
-                                </select>
-                            </td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-
-            {% set tabEquipes=[] %}
-
-            {% set i=1 %}
-            {% for team in row.teams if team is not empty %}
-                {% set tabEquipes = tabEquipes|merge([team.id]) %}
-                {#{% set tabEquipes = tabEquipes|merge([i]) %}#}
+            {% set tabJuges=[] %}
+            {% set alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'] %}
+            {% set i=0 %}
+            {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
+                {% set tabJuges = tabJuges|merge([alphabet[judge]]) %}
+                <th id="{{ alphabet[judge] }}">{{ alphabet[judge] }}</th>
                 {% set i=i+1 %}
             {% endfor %}
 
-            {% set tabJuges=tabJuges|json_encode()|raw %}
-            {% set tabEquipes=tabEquipes|json_encode()|raw %}
-
-            <button class="btn btn-info" name="valider"
-                onclick="calculeClassement( {{ tabJuges }} , {{ tabEquipes }} , {{ row.id }})">
-                calcule du classement</button>
-
-    </div>
-    <br>
-    <div class="row">
-            <strong>Resultat de la final</strong>
-            <table class="table table-responsive">
-                <caption>skating system </caption>
-                <thead class="thead-dark">
-                    <tr>
-                        <th style="visibility:hidden; border: none;"> </th>
-                        <th colspan="{{ nbEquipes }}">places</th>
-                        <th rowspan="2" style="vertical-align: middle;">RANG</th>
-                    </tr>
-                    <tr>
-                        <th>Equipes</th>
-                        {% set numTeam=0 %}
-                        {% for team in row.teams if team is not empty %}
-                            {% set numTeam=numTeam+1 %}
-                           <th>1
-                           {% if numTeam>1 %}
-                               - {{ numTeam }}
-                           {% endif %}
-                           </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                {% set numTeam=0 %}
-                {% for team in row.teams if team is not empty %}
-                    <tr>
-                        <td><strong>{{ team.numDossard }}</strong></td>
-                        {% set numTeam=numTeam+1 %}
-                        {% set index=0 %}
-                        {% for t in row.teams if t is not empty %}
-                            {% set index=index+1 %}
-                            <td>
-                                <input id="p{{ index }}-{{ team.id }}" type="text" style="width:2.5em;" disabled><br>
-                            </td>
-                        {% endfor %}
-                        <td><input id="res{{ team.id }}" type="text" style="color:red;width:2.5em;border:none;background: none;text-align: center;font-weight: bold;" disabled></td>
-                    </tr>
+        </tr>
+        </thead>
+        <tbody>
+        {% set nbEquipes=0 %}
+        {% for team in row.teams if team is not empty %}
+            {% set nbEquipes=nbEquipes+1 %}
+            <tr>
+                <td><strong>{{ team.numDossard }}</strong></td>
+                {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
+                    <td>
+                        <select id="{{ team.id }}{{ alphabet[judge] }}" name="selectPlace" >
+                            {% set place=1 %}
+                            {% for team in row.teams if team is not empty %}
+                                <option value="{{ place }}">{{ place }}</option>
+                                {% set place=place+1 %}
+                            {% endfor %}
+                        </select>
+                    </td>
                 {% endfor %}
-                </tbody>
-            </table>
-        <a id="impression" href="{{ path('Final.resultats',{id: row.id}) }}" style="display: none;margin: auto;" class="btn btn-info">Résultats</a>
-    </div>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    {% set tabEquipes=[] %}
+
+    {% set i=1 %}
+    {% for team in row.teams if team is not empty %}
+        {% set tabEquipes = tabEquipes|merge([team.id]) %}
+        {#{% set tabEquipes = tabEquipes|merge([i]) %}#}
+        {% set i=i+1 %}
+    {% endfor %}
+
+    {% set tabJuges=tabJuges|json_encode()|raw %}
+    {% set tabEquipes=tabEquipes|json_encode()|raw %}
+
+    <button class="btn btn-info" name="valider"
+            onclick="calculeClassement( {{ tabJuges }} , {{ tabEquipes }} , {{ row.id }})">
+        Calculer</button>
+    <hr><br>
+
+    <h2>Résultats</h2>
+    <table class="table table-responsive">
+        <thead class="thead-dark">
+        <tr>
+            <th style="visibility:hidden; border: none;"> </th>
+            <th colspan="{{ nbEquipes }}">places</th>
+            <th rowspan="2" style="vertical-align: middle;">RANG</th>
+        </tr>
+        <tr>
+            <th>Équipes</th>
+            {% set numTeam=0 %}
+            {% for team in row.teams if team is not empty %}
+                {% set numTeam=numTeam+1 %}
+                <th>1
+                    {% if numTeam>1 %}
+                        - {{ numTeam }}
+                    {% endif %}
+                </th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% set numTeam=0 %}
+        {% for team in row.teams if team is not empty %}
+            <tr>
+                <td><strong>{{ team.numDossard }}</strong></td>
+                {% set numTeam=numTeam+1 %}
+                {% set index=0 %}
+                {% for t in row.teams if t is not empty %}
+                    {% set index=index+1 %}
+                    <td>
+                        <input id="p{{ index }}-{{ team.id }}" type="text" style="width:2.5em;" disabled><br>
+                    </td>
+                {% endfor %}
+                <td><input id="res{{ team.id }}" type="text" style="color:red;width:2.5em;border:none;background: none;text-align: center;font-weight: bold;" disabled></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a id="impression" href="{{ path('Final.resultats',{id: row.id}) }}" style="display: none;margin: auto;" class="btn btn-success">Résultats</a>
 
 {% endblock %}
 
@@ -508,7 +505,7 @@
             if(erreurJuges.length===0){
                 return true;
             }else{
-                alert("tableau incorrecte pour le juge "+erreurJuges.toString());
+                alert("Tableau incorrecte pour le juge "+erreurJuges.toString());
                 return false;
             }
         }
@@ -521,7 +518,7 @@
                 }else if(!scanValDejaEntree(valEntreeJuge,parseInt(resultatEquipes[i][indexJuge],10))){
                     return false;
                 }else{
-                    alert("une erreur inatendue est survenu");
+                    alert("Une erreur inatendue est survenue !");
                     //console.log("bogue");
                 }
             }
