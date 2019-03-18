@@ -138,14 +138,24 @@ class SkatingController extends AbstractController
                 "row"=>$rowId
             ]);
     }
+
     /**
      * @Route("/final/resultats/{id}", name="Final.resultats", requirements={"page"="\d+"})
+     * @param Request $request
+     * @param Row $row
+     * @param SessionInterface $session
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function pdfClassement(Request $request, Row $row, SessionInterface $session){
+    public function pdfClassement(Request $request, Row $row, SessionInterface $session, ObjectManager $manager){
         //$row=$this->getDoctrine()->getRepository(Row::class)->find($request->get('row'));
         $rows=$this->getDoctrine()->getRepository(Row::class)->findSameRows($row->getDance(),$row->getCategory(),$row->getFormation(),9);
         array_push($rows,$this->getDoctrine()->getRepository(Row::class)->findOneBy(['dance'=>$row->getDance(), 'category'=>$row->getCategory(), 'formation'=>$row->getFormation(), 'numTour'=>"Finale"]));
         //dump($rows);die;
+        $row->setIsDone(true);
+        $manager->persist($row);
+        $manager->flush();
+
         $resultatsTmp=[];
         $resultats=[];
 
@@ -154,7 +164,7 @@ class SkatingController extends AbstractController
         }
 
         foreach ($resultatsTmp as $r){
-            $l=[$r->getNote(),$r->getTeam()->getId()];
+            $l=[$r->getNote(),$r->getTeam()->getNumDossard()];
             array_push($resultats,$l);
         }
 

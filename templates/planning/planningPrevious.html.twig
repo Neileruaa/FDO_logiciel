@@ -28,11 +28,17 @@
 					<th scope="row">{{ row.dance.nameDance }}</th>
 					<td>{{ row.formation }}</td>
 					<td>{{ row.category.nameCategory }}</td>
-					<td>{{ row.numTour }}</td>
+					<td{% if row.numTour=="Finale" %} style="color: red" {% endif %}>{{ row.numTour }}</td>
 					<td>{{ row.piste }}</td>
-					<td>
-						<a href="{{ path('Resultat.check', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
-					</td>
+					{% if row.numTour=="Finale" %}
+						<td>
+							<a href="{{ path('Final.resultats', {'id': row.id}) }}" class="btn btn-danger"><i class="fas fa-poll"></i> Classement finale</a>
+						</td>
+					{% else %}
+						<td>
+							<a href="{{ path('Resultat.check', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
+						</td>
+					{% endif %}
 				</tr>
 			{% else %}
 				<tr>

@@ -27,14 +27,6 @@
                                 Pas de dances renseignée pour cette compétition
                             {% endfor %}
                         </li>
-                        <li class="list-group-item"><strong>Liste des juges de la compétition : </strong><br>
-                            {% for judge in competition.judges %}
-                            {{ judge.id }} : {{ judge.nameJudge }} {{ judge.firstNameJudge }}
-                                <br>
-                            {% else %}
-                                Pas de juge inscrit pour cette compétition
-                            {% endfor %}
-                        </li>
                     </ul>
                     <p class="card-text">{{ competition.description }}</p>
                     <a href="#" data-toggle="modal" data-target="#delete{{ competition.id }}" class="btn btn-success"><i class="fas fa-mouse-pointer"></i> Sélectionner</a>

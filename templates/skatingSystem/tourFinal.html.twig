@@ -27,7 +27,7 @@
                 {% for team in row.teams if team is not empty %}
                     {% set nbEquipes=nbEquipes+1 %}
                     <tr>
-                        <td><strong>{{ team.id }}</strong></td>
+                        <td><strong>{{ team.numDossard }}</strong></td>
                         {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
                             <td>
                                 <select id="{{ team.id }}{{ alphabet[judge] }}" name="selectPlace" >
@@ -90,7 +90,7 @@
                 {% set numTeam=0 %}
                 {% for team in row.teams if team is not empty %}
                     <tr>
-                        <td><strong>{{ team.id }}</strong></td>
+                        <td><strong>{{ team.numDossard }}</strong></td>
                         {% set numTeam=numTeam+1 %}
                         {% set index=0 %}
                         {% for t in row.teams if t is not empty %}

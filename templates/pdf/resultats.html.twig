@@ -138,7 +138,7 @@
             {% for resultat in resultats %}
                 <tr>
                     <th scope="row">{% if place<=row.nbChoosen %}<span style="color: red">{{ place }}</span>{% else %}{{ place }}{% endif %}</th>
-                    <td><strong>{{ resultat.team.id }}</strong></td>
+                    <td><strong>{{ resultat.team.numDossard }}</strong></td>
                     <td><strong style="color: green">{{ resultat.note }}</strong></td>
                 </tr>
                 {% set place=place+1 %}
