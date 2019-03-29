@@ -115,7 +115,7 @@
 
         </tr>
         <tr>
-            <th class="n30 mid bg">Technique /10</th>
+            <th class="n30 mid bg">Technique /{% if rows.getDance().nameDance=="dance show" %}12{% else %}10{% endif %}</th>
             {% for team in rows.getTeams() %}
                 <th class="mid bg"></th>
             {% endfor %}
@@ -128,7 +128,7 @@
 
         </tr>
         <tr>
-            <th class="n30 mid bg">Thème /10</th>
+            <th class="n30 mid bg">Thème /{% if rows.getDance().nameDance=="dance show" %}8{% else %}10{% endif %}</th>
             {% for team in rows.getTeams() %}
                 <th class="mid bg"></th>
             {% endfor %}

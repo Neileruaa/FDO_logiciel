@@ -134,7 +134,7 @@
         </thead>
         <tbody>
         {% set place=4 %}
-        {% for resultat in resultats|reverse %}
+        {% for resultat in resultats %}
             <tr>
                 <th scope="row">{{ resultat[0]|number_format }}</th>
                 <td><strong>{{ resultat[1] }}</strong></td>
