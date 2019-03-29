@@ -56,6 +56,13 @@ class PlanningController extends AbstractController
 
     /**
      * @Route("/planning/validation", name="Planning.validation", methods={"POST"})
+     * @param Request $request
+     * @param SessionInterface $session
+     * @param ObjectManager $manager
+     * @param CategoryRepository $categoryRepository
+     * @param DanceRepository $danceRepository
+     * @param RowRepository $rowRepository
+     * @return Response
      */
 	public function validationRows(Request $request,
                                  SessionInterface $session,

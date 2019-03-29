@@ -167,7 +167,7 @@ class SkatingController extends AbstractController
             $l=[$r->getNote(),$r->getTeam()->getNumDossard()];
             array_push($resultats,$l);
         }
-
+        asort($resultats);
         $session->set('resultats', $resultats);
 
         return $this->render('resultat/resultatsFinale.html.twig',[
@@ -189,7 +189,7 @@ class SkatingController extends AbstractController
                 array_push($resultats,$podium[$i]);
             }
         }
-
+        asort($resultats);
         $dompdf = new Dompdf();
         $html = $this->renderView('pdf/classementPodium.html.twig',['row'=>$row ,'resultats'=>$resultats]);
         $dompdf->loadHtml($html);
@@ -214,7 +214,7 @@ class SkatingController extends AbstractController
                 array_push($resultats,$podium[$i]);
             }
         }
-
+        asort($resultats);
         $dompdf = new Dompdf();
         $html = $this->renderView('pdf/classementNonPodium.html.twig',['row'=>$row ,'resultats'=>$resultats]);
         $dompdf->loadHtml($html);
