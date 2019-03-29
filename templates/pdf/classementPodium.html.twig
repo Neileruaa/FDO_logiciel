@@ -136,7 +136,7 @@
         {% set place=1 %}
         {% for resultat in resultats %}
             <tr>
-                <th scope="row">{{ place }}</th>
+                <th scope="row">{{ resultat[0]|number_format }}</th>
                 <td><strong>{{ resultat[1] }}</strong></td>
             </tr>
             {% set place=place+1 %}

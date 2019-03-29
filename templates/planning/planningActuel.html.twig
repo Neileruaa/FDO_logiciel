@@ -9,7 +9,7 @@
         <a class="btn btn-warning float-right" href="{{ path('Planning.index') }}"><i class="fas fa-calendar-plus"></i>
             Modifier le planning</a><br><br>
         <a class="btn btn-primary float-right" href="{{ path('Planning.previousPlanning') }}"><i
-                    class="fas fa-calendar-check"></i> Tours passés</a><br><br>
+                    class="fas fa-calendar-check"></i> Tours terminés</a><br><br>
         <div class="alert alert-info" role="alert">
             Vous pouvez toujours créer un nouveau planning dans l'onglet <a
                     href="{{ path('Planning.index') }}">création</a>
@@ -41,7 +41,7 @@
                             <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
                         {% endif %}
                         <a href="{{ path('Resultat.feuilleJuge', {'id': row.id}) }}" target="_blank"
-                           class="btn btn-info"><i class="fas fa-poll"></i> Feuille de juge</a>
+                           class="btn btn-info"><i class="fas fa-poll"></i> Feuilles de juge</a>
                     </td>
                 </tr>
             {% else %}

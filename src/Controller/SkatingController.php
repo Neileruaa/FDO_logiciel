@@ -62,15 +62,16 @@ class SkatingController extends AbstractController
                 $manager->remove($each);
                 $manager->flush();
             }
-            $cmpt=sizeof($resultsFin);
+            //$cmpt=sizeof($resultsFin);
             $resultatsTmp=[];
             foreach ($resultsFin as $res){
+                //dump($res[1]);
                 $r=new Resultat();
-                $r->setTeam($this->getDoctrine()->getRepository(Team::class)->find($res));
-                $r->setNote($cmpt);
+                $r->setTeam($this->getDoctrine()->getRepository(Team::class)->find($res[0]));
+                $r->setNote($res[1]);
                 $r->setRow($row);
                 array_push($resultatsTmp,$r);
-                $cmpt--;
+                //$cmpt--;
             }
             for ($i=0; $i<(sizeof($resultatsTmp));$i++){
                 array_push($results,$resultatsTmp[$i]);
@@ -86,52 +87,75 @@ class SkatingController extends AbstractController
                 $manager->remove($each);
                 $manager->flush();
             }
+            //dump($rows);
             foreach ($rows as $r) {
                 $teamRetenues=$r->getNbChoosen();
                 $resultatsTmp=$this->getDoctrine()->getRepository(Resultat::class)->getResultsFromRow($r);
+                dump($resultatsTmp);
+                //dump($resultatsTmp);
                 for ($i=0; $i<(sizeof($resultatsTmp)-$teamRetenues);$i++){
                     array_push($results,$resultatsTmp[$i]);
                 }
             }
+            //dump($results);
+            $cmptPlace=sizeof($results)+sizeof($resultsFin);
             foreach ($results as $r) {
-                $l = [$r->getNote(), $r->getTeam()->getId()];
+                $l = [$cmptPlace, $r->getTeam()->getId()];
+                $cmptPlace--;
                 array_push($classement,$l);
             }
-
+            dump($classement);
             for ($i=sizeof($resultsFin)-1;$i>=0;$i--){
-                $l=[strval($classement[sizeof($classement)-1][0]+1),intval($resultsFin[$i])];
+                $l=[intval($resultsFin[$i][1]),intval($resultsFin[$i][0])];
+                //dump($l);
                 array_push($classement,$l);
             }
         }
 
+        for ($i=0;$i<sizeof($classement);$i++){
+            if (is_float(intval($classement[$i][0]))){
+                dump($classement[$i][0]);die;
+            }
+        }
+
+        //dump($classement);
         //if (sizeof($classement)<=3){
         for ($i=0;$i<sizeof($classement);$i++){
             $team=$this->getDoctrine()->getRepository(Team::class)->find($classement[$i][1]);
+            //dump($classement[$i][1]);
             $res=new Resultat();
             $res->setNote($classement[$i][0]);
             $res->setRow($row);
             $res->setTeam($team);
             $team->addResultat($res);
-            dump($res);
             $manager->persist($res);
             $manager->persist($team);
             $manager->flush();
         }
 
-        dump($classement);
         //}
         return $this->json(["classement"=>$classement,
                 "row"=>$rowId
             ]);
     }
+
     /**
      * @Route("/final/resultats/{id}", name="Final.resultats", requirements={"page"="\d+"})
+     * @param Request $request
+     * @param Row $row
+     * @param SessionInterface $session
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function pdfClassement(Request $request, Row $row, SessionInterface $session){
+    public function pdfClassement(Request $request, Row $row, SessionInterface $session, ObjectManager $manager){
         //$row=$this->getDoctrine()->getRepository(Row::class)->find($request->get('row'));
         $rows=$this->getDoctrine()->getRepository(Row::class)->findSameRows($row->getDance(),$row->getCategory(),$row->getFormation(),9);
         array_push($rows,$this->getDoctrine()->getRepository(Row::class)->findOneBy(['dance'=>$row->getDance(), 'category'=>$row->getCategory(), 'formation'=>$row->getFormation(), 'numTour'=>"Finale"]));
         //dump($rows);die;
+        $row->setIsDone(true);
+        $manager->persist($row);
+        $manager->flush();
+
         $resultatsTmp=[];
         $resultats=[];
 
@@ -140,12 +164,10 @@ class SkatingController extends AbstractController
         }
 
         foreach ($resultatsTmp as $r){
-            $l=[$r->getNote(),$r->getTeam()->getId()];
+            $l=[$r->getNote(),$r->getTeam()->getNumDossard()];
             array_push($resultats,$l);
         }
-
-        arsort($resultats);
-
+        asort($resultats);
         $session->set('resultats', $resultats);
 
         return $this->render('resultat/resultatsFinale.html.twig',[
@@ -157,16 +179,17 @@ class SkatingController extends AbstractController
     /**
      * @Route("/final/imprimer/podium/{id}", name="Final.imprimer.podium")
      * @param Row $row
-     * @param Request $request
+     * @param SessionInterface $session
      */
     public function printPodium(Row $row, SessionInterface $session){
         $podium=$session->get('resultats');
-
         $resultats=[];
-        array_push($resultats,$podium[0]);
-        array_push($resultats,$podium[1]);
-        array_push($resultats,$podium[2]);
-
+        for($i=0;$i<sizeof($podium);$i++){
+            if (intval($podium[$i][0])<=3){
+                array_push($resultats,$podium[$i]);
+            }
+        }
+        asort($resultats);
         $dompdf = new Dompdf();
         $html = $this->renderView('pdf/classementPodium.html.twig',['row'=>$row ,'resultats'=>$resultats]);
         $dompdf->loadHtml($html);
@@ -179,14 +202,19 @@ class SkatingController extends AbstractController
 
     /**
      * @Route("/final/imprimer/resultats/{id}", name="Final.imprimer.resultats")
+     * @param Row $row
+     * @param SessionInterface $session
      */
     public function printResultatsFinal(Row $row, SessionInterface $session){
         $podium=$session->get('resultats');
+        //dump($podium);die;
         $resultats=[];
-        for ($i=3;$i<sizeof($podium);$i++){
-            array_push($resultats,$podium[$i]);
+        for ($i=0;$i<sizeof($podium);$i++){
+            if (intval($podium[$i][0])>3){
+                array_push($resultats,$podium[$i]);
+            }
         }
-
+        asort($resultats);
         $dompdf = new Dompdf();
         $html = $this->renderView('pdf/classementNonPodium.html.twig',['row'=>$row ,'resultats'=>$resultats]);
         $dompdf->loadHtml($html);

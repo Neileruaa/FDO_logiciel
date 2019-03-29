@@ -73,6 +73,16 @@ class Team
      */
     private $resultats;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numDossard;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nombreDeDanceurs;
+
 
     public function __construct()
     {
@@ -84,6 +94,24 @@ class Team
         $this->rows = new ArrayCollection();
         $this->resultats = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreDeDanceurs()
+    {
+        return $this->nombreDeDanceurs;
+    }
+
+    /**
+     * @param mixed $nombreDeDancer
+     */
+    public function setNombreDeDanceurs($nombreDeDanceurs): void
+    {
+        $this->nombreDeDanceurs = $nombreDeDanceurs;
+    }
+
+
 
     public function getId(): ?int
     {
@@ -291,4 +319,21 @@ class Team
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNumDossard()
+    {
+        return $this->numDossard;
+    }
+
+    /**
+     * @param mixed $numDossard
+     */
+    public function setNumDossard($numDossard): void
+    {
+        $this->numDossard = $numDossard;
+    }
+
 }

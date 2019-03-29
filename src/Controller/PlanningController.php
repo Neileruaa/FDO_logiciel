@@ -56,6 +56,13 @@ class PlanningController extends AbstractController
 
     /**
      * @Route("/planning/validation", name="Planning.validation", methods={"POST"})
+     * @param Request $request
+     * @param SessionInterface $session
+     * @param ObjectManager $manager
+     * @param CategoryRepository $categoryRepository
+     * @param DanceRepository $danceRepository
+     * @param RowRepository $rowRepository
+     * @return Response
      */
 	public function validationRows(Request $request,
                                  SessionInterface $session,
@@ -91,9 +98,13 @@ class PlanningController extends AbstractController
 					}
 				}
 				$row = $rowRepository->find($idRow);
+				if (sizeof($teams) <=2){
+				    $row->setNumTour("Finale");
+                } else {
+                    $row->setNumTour($rows['numTour']);
+                }
 				$row->setPosition($compteurPosition)
 					->setPiste($rows['piste'])
-					->setNumTour($rows['numTour'])
 					->setNbJudge($rows['nbJudge'])
 					->setPassageSimul($rows['passageSimul'])
 				;
