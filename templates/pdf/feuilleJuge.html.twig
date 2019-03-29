@@ -106,48 +106,59 @@
             </th>
         </tr>
     </table>
+    {% set indice = 0 %}
+    {% for i in range(0,(rows.teams|length/8)|round(0,'floor')) %}
     <table class="t2">
         <tr>
         <th class="mid n1">Dossards</th>
-            {% for team in rows.getTeams() %}
-        <th class="num mid">N° {{ team.numDossard }}</th>
-            {% endfor %}
+            {% set break = 0 %}
+            {% set nbFor =0 %}
+                {% for team in rows.teams if  break==0 and indice<rows.teams|length  %}
+                    <th class="num mid">N°{{ rows.teams[indice].numDossard }}</th>
+                    {% set nbFor = nbFor+1 %}
+                    {% set indice = indice +1 %}
+                    {% if indice%8==0 %}
+                        {% set break = 1 %}
+                    {% endif %}
+                {% endfor %}
 
         </tr>
         <tr>
             <th class="n30 mid bg">Technique /{% if rows.getDance().nameDance=="dance show" %}12{% else %}10{% endif %}</th>
-            {% for team in rows.getTeams() %}
+            {% for i in 1..nbFor   %}
                 <th class="mid bg"></th>
             {% endfor %}
         </tr>
         <tr>
             <th class="n30 mid bg">Charisme /10</th>
-            {% for team in rows.getTeams() %}
+            {% for i in 1..nbFor   %}
                 <th class="mid bg"></th>
             {% endfor %}
 
         </tr>
         <tr>
             <th class="n30 mid bg">Thème /{% if rows.getDance().nameDance=="dance show" %}8{% else %}10{% endif %}</th>
-            {% for team in rows.getTeams() %}
+            {% for i in 1..nbFor   %}
                 <th class="mid bg"></th>
             {% endfor %}
+
         </tr>
         <tr>
             <th class="n30 mid bg">Total /30</th>
-            {% for team in rows.getTeams() %}
+            {% for i in 1..nbFor   %}
                 <th class="mid bg"></th>
             {% endfor %}
         </tr>
         <tr>
             <th class="n30 mid">Place</th>
-            {% for team in rows.getTeams() %}
+            {% for i in 1..nbFor   %}
                 <th class="mid"></th>
             {% endfor %}
         </tr>
     </table>
+    {% endfor %}
     <br>
-    {% if i%2 != 0 and i<rows.NbJudge-1 and i!=0%}
+    {% if i%2 != 0 and i<rows.NbJudge-1 and i!=0 or (rows.teams|length/8)|round(0,'floor')!=0 %}
         <div style="page-break-after: always">
 
         </div>
