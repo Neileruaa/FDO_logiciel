@@ -17,6 +17,9 @@ class CompetitionController extends AbstractController
 {
     /**
      * @Route("/", name="Home.index")
+     * @param Request $request
+     * @param SessionInterface $session
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request, SessionInterface $session)
     {
@@ -24,7 +27,6 @@ class CompetitionController extends AbstractController
         if (sizeof($sauvegardes)>0){
             $session->set('competSelected', $sauvegardes[0]->getIdCompetition());
             $session->set('selection', true);
-
         }
         $competitions=$this->getDoctrine()->getRepository(Competition::class)->findAll();
         return $this->render('home/index.html.twig', [
