@@ -150,7 +150,7 @@
                 recur(equipes,col);
             }
             // update affichage avec podium
-
+            console.log(equipes);
             var tableauPodium=new Array(equipes.length);
             for(let i = 0; i < podium.length; i++) {
                 tableauPodium[i]=new Array(2);
@@ -197,16 +197,10 @@
                     cptRecurMajorite=0;
                     break;
                 } else if(resComp.length>1){
-                    if (valDefautPlace==0 && colonne==0){ // si on est à la premiere colonne
-                        // on regarde colonne d'après de ceux à egalité
-                        recur(resComp,colonne+1);
-                        break;
-                    }else{
-                        // si le marquage ne donne rien on fait une recurtion
-                        marquageEquipe(resComp,colonne+cptRecurMajorite,true);
-                        cptRecurMajorite=0;
-                        break;
-                    }
+                    // si le marquage ne donne rien on fait une recurtion
+                    marquageEquipe(resComp,colonne+cptRecurMajorite,true);
+                    cptRecurMajorite=0;
+                    break;
                 }
             }
         }
@@ -261,6 +255,7 @@
             if (gagnants.length>=1 && resIndex<majorite){
                 cptRecurMajorite++;
                 console.log("recur compare");
+                console.log(resIndex);
                 compareResultat(equipes,colonne+1,indexEquipe); // on continu de chercher
             }
 
