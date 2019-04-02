@@ -246,7 +246,7 @@
                         auDessusMajorite.push(i);
                     }
                     gagnants.push(i);
-                }else if(!totalStop){ // si resIndex < resultatEquipesFinal[i-1][colonne]
+                }else if(!totalStop){
                     gagnants=[];
                     resIndex=resultatEquipesFinal[equipesGlobal.indexOf(i)][colonne];
                     if(resIndex>=majorite){
@@ -257,17 +257,12 @@
                 }
             });
 
-            //if(!totalStop){
+
             if (gagnants.length>=1 && resIndex<majorite){
                 cptRecurMajorite++;
                 console.log("recur compare");
                 compareResultat(equipes,colonne+1,indexEquipe); // on continu de chercher
-            }else if(gagnants.length>=1 && resIndex>=majorite){
-
-            }else{
-                //gagnants=[];
             }
-            //}
 
         }
 
