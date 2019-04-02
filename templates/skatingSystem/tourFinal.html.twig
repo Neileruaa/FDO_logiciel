@@ -202,12 +202,10 @@
                         recur(resComp,colonne+1);
                         break;
                     }else{
-                        // si algo de marquage ne donne rien on fait une recurtion
-                        marquageEquipe(resComp,colonne+cptRecurMajorite,true); // valDefautPlace ici est la colonne
+                        // si le marquage ne donne rien on fait une recurtion
+                        marquageEquipe(resComp,colonne+cptRecurMajorite,true);
                         cptRecurMajorite=0;
                         break;
-                        // premier int du tableau retourné par marquageEquipe indiquera si il y a encore egalité
-                        // ou non donc s'il y a egalité on fera la recursive
                     }
                 }
             }
