@@ -155,7 +155,7 @@ class ResultApp extends React.Component{
                     show={this.state.showModalError}
                     title={"Erreur tour suivant"}
                     content={"Il vous est impossible de choisir ce tour suivant. Veuillez en choisir un autre."}/>
-                <h1>Affichage des résultats</h1>
+                <h1>Calcul des résultats</h1>
                 <HotTable
                     data={this.state.sheet}
                     stretchH="all"
@@ -181,11 +181,12 @@ class ResultApp extends React.Component{
                 <button onClick={this.doCalc} className="btn btn-outline-primary">Calculer les moyennes</button>
                 <hr/>
                 <div>
-                    <label htmlFor="chooseNbQualifie">Choisir nombres de personnes qualifiés : {this.state.nbQualifie}</label>
+                    <label htmlFor="chooseNbQualifie">Nombre d'équipes qualifiées : {this.state.nbQualifie}</label>
                     <input id="chooseNbQualifie" type="range" value={this.state.nbQualifie} className="custom-range" onChange={this.handleRangeNbQualifie} min="2"/>
                 </div>
                 <div>
-                    <label htmlFor="choisirPiste">Choisir un type de tour:</label>
+                    <label htmlFor="choisirPiste">Type de tour:</label>
+                    <br/>
                     <select name="piste" id="choisirPiste" value={tour} onChange={this.handleSelectNextRound}>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -198,7 +199,7 @@ class ResultApp extends React.Component{
                     </select>
                 </div>
                 <br/>
-                <button onClick={this.createNextRound} data-target="#ModalError" className="btn btn-success">Valider ces résultats</button>
+                <button onClick={this.createNextRound} data-target="#ModalError" className="btn btn-success">Valider</button>
             </div>
         );
     }
