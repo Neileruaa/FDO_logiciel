@@ -9,7 +9,7 @@
     {% if competitions is not empty %}
     <div class="row">
     {% for competition in competitions %}
-        {% include 'home/_confirmation.html.twig' with {"id": competition.id, "message": "Êtes-vous sûr(e) de vouloir sélectionner la compétition : "~competition.title~" ? Tout avancement d'autres compétition sera écrasé par le nouveau.", "path": path('Team.appel', {id: competition.id}) } %}
+        {% include 'home/_confirmation.html.twig' with {"id": competition.id, "message": "Êtes-vous sûr(e) de vouloir sélectionner la compétition : "~competition.title~" ? Tout avancement d'autres compétitions sera écrasé par le nouveau.", "path": path('Team.appel', {id: competition.id}) } %}
         <div class="col-lg-4 mb-4">
             <div class="card">
                 <div class="card-body">
