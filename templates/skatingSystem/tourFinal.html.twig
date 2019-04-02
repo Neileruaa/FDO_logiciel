@@ -264,7 +264,7 @@
         function marquageEquipe(equipes,colonne,boolAffiche=true){
             var somme=0;
             var min=9999;
-            var equipesAEgaliteMeilleur=[];
+            var equipesAEgaliteMeilleures=[];
             var equipesAEgalite=[];
             var equipesNonEgaux=[];
             var tabSomme=[];
@@ -287,11 +287,11 @@
 
             for(let i = 0; i < tabSomme.length; i++) {
                 if (tabSomme[i]<min){
-                    if(equipesAEgaliteMeilleur.length>1){ // si plusieurs egalité non "meilleur"
-                        equipesAEgaliteMeilleur=equipesAEgaliteMeilleur.concat(equipesAEgalite);
-                        equipesAEgalite=equipesAEgaliteMeilleur;
+                    if(equipesAEgaliteMeilleures.length>1){ // si plusieurs egalité non "meilleur"
+                        equipesAEgaliteMeilleures=equipesAEgaliteMeilleures.concat(equipesAEgalite);
+                        equipesAEgalite=equipesAEgaliteMeilleures;
                     }
-                    equipesAEgaliteMeilleur=[]; // on remet a zero
+                    equipesAEgaliteMeilleures=[]; // on remet a zero
                     min=tabSomme[i];
                     var equipeSauv1=gagnants[i];
                     gagnants.splice(i,1); // on retire l'equipe a la place gagnants.indexOf(i)
@@ -299,7 +299,7 @@
                     var sommeSauv1=tabSomme[i];
                     tabSomme.splice(i,1);
                     tabSomme.unshift(sommeSauv1);
-                    equipesAEgaliteMeilleur.push(equipeSauv1);
+                    equipesAEgaliteMeilleures.push(equipeSauv1);
                 }else if(tabSomme[i]==min){
                     var equipeSauv=gagnants[i];
                     gagnants.splice(i,1);
@@ -307,7 +307,7 @@
                     var sommeSauv=tabSomme[i];
                     tabSomme.splice(i,1);
                     tabSomme.unshift(sommeSauv);
-                    equipesAEgaliteMeilleur.push(equipeSauv);
+                    equipesAEgaliteMeilleures.push(equipeSauv);
                 }else{
                     var tab=tabSomme.slice(); // le retire du tabSomme pas bien
                     tab.splice(i,1);
@@ -320,27 +320,27 @@
             }
 
 
-            if (equipesAEgaliteMeilleur.length>1){
+            if (equipesAEgaliteMeilleures.length>1){
                 if (colonne+1>resultatEquipesFinal[0].length-1){
                     var sauvValInsert=valDefautPlace;
                     equipes.forEach(function(i) {
-                        if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
+                        if (!scanValDejaEntree(equipesAEgaliteMeilleures,i)){ //i in equipesAEgaliteMeilleur
                             podium[sauvValInsert]=i;
                             egaliteTotal[equipesGlobal.indexOf(i)]=valDefautPlace;
                             effaceColonnes(equipesGlobal,i,colonne);
                             sauvValInsert++;
                         }
                     });
-                    valDefautPlace=valDefautPlace+equipesAEgaliteMeilleur.length;
+                    valDefautPlace=valDefautPlace+equipesAEgaliteMeilleures.length;
                     col++;
                 }else{
-                    recur(equipesAEgaliteMeilleur,colonne+1);
+                    recur(equipesAEgaliteMeilleures,colonne+1);
                 }
-            }else if(equipesAEgaliteMeilleur.length==0){
+            }else if(equipesAEgaliteMeilleures.length==0){
                 return;
             }else{
                 equipes.forEach(function(i) {
-                    if (!scanValDejaEntree(equipesAEgaliteMeilleur,i)){ //i in equipesAEgaliteMeilleur
+                    if (!scanValDejaEntree(equipesAEgaliteMeilleures,i)){ //i in equipesAEgaliteMeilleur
                         podium[valDefautPlace]=i;
                         effaceColonnes(equipesGlobal,i,colonne);
                     }
