@@ -8,7 +8,7 @@ function ShowResult(props){
         <li key={index}>Equipe {note} = <span>{notes[note]}</span></li>
     );
     return(
-        <ol>{listNotes}</ol>
+        <ul>{listNotes}</ul>
     )
 }
 

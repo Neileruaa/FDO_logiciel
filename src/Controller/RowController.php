@@ -181,11 +181,8 @@ class RowController extends AbstractController
 		$numTeams = [];
 
 		foreach ($teams as $team){
-			array_push($numTeams,$team->getId());
+			array_push($numTeams,$team->getNumDossard());
 		}
 		return $this->json(["Res"=>$numTeams]);
     }
-
-
-
 }
