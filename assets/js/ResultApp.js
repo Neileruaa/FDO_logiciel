@@ -47,7 +47,7 @@ class ResultApp extends React.Component{
         });
 
 
-        const  nbJudge = document.getElementById("resultatApp").getAttribute("data-row-nbJudge");
+        const nbJudge = document.getElementById("resultatApp").getAttribute("data-row-nbJudge");
 
         let judges = [""];
         

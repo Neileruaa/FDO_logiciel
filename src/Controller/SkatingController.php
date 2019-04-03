@@ -164,12 +164,11 @@ class SkatingController extends AbstractController
         }
 
         foreach ($resultatsTmp as $r){
-            $l=[$r->getNote(),$r->getTeam()->getNumDossard()];
+            $l=[$r->getNote(),$r->getTeam()->getId()];
             array_push($resultats,$l);
         }
         asort($resultats);
         $session->set('resultats', $resultats);
-
         return $this->render('resultat/resultatsFinale.html.twig',[
             'resultats'=>$resultats,
             'row'=>$row
