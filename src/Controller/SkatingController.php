@@ -77,7 +77,7 @@ class SkatingController extends AbstractController
                 array_push($results,$resultatsTmp[$i]);
             }
             foreach ($results as $r) {
-                $l = [$r->getNote(), $r->getTeam()->getId()];
+                $l = [$r->getNote(), $r->getTeam()->getNumDossard()];
                 array_push($classement,$l);
             }
         }
@@ -104,7 +104,7 @@ class SkatingController extends AbstractController
                 array_push($classement,$l);
             }
             for ($i=sizeof($resultsFin)-1;$i>=0;$i--){
-                $l=[intval($resultsFin[$i][1]),intval($resultsFin[$i][0])];
+                $l=[intval($resultsFin[$i][1]),intval($this->getDoctrine()->getRepository(Team::class)->find($resultsFin[$i][0])->getNumDossard())];
                 //dump($l);
                 array_push($classement,$l);
             }
