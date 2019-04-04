@@ -125,7 +125,7 @@ class RowController extends AbstractController
         //Creation d'entités Resultat
         foreach ($notes as $idTeam =>$note){
             $resultat = new Resultat();
-            $teamNotes = $tr->find($idTeam);
+            $teamNotes = $tr->findOneBy(['numDossard'=>$idTeam]);
             $resultat->setNote($note)
                 ->setTeam($teamNotes)
                 ->setRow($row)
@@ -140,7 +140,7 @@ class RowController extends AbstractController
             $maxVal = $this->array_kshift($notes);
             $teamsForNextRound[array_keys($maxVal)[0]]=array_values($maxVal)[0];
         }
-
+        dump($teamsForNextRound);
         $newRow=new Row();
 
         $newRow
@@ -156,7 +156,9 @@ class RowController extends AbstractController
         //ajout des équipes
         $idDesEquipes = array_keys($teamsForNextRound);
         foreach ($idDesEquipes as $idEquipe){
-            $equipe = $tr->find($idEquipe);
+            dump($idEquipe);
+            $equipe = $tr->findOneBy(['numDossard'=>$idEquipe]);
+            dump($equipe);
             $newRow->addTeam($equipe);
         }
         if (sizeof($idDesEquipes) == 2){

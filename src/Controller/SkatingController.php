@@ -47,7 +47,7 @@ class SkatingController extends AbstractController
      */
     public function classementFinal(Request $request, ObjectManager $manager){
         $resultsFin=$request->get('finale');
-
+        dump($resultsFin);
         $rowId=$request->get('rowId');
         $row=$this->getDoctrine()->getRepository(Row::class)->find($rowId);
         $rows=$this->getDoctrine()->getRepository(Row::class)->findSameRows($row->getDance(), $row->getCategory(), $row->getFormation(),'Finale');
@@ -91,7 +91,6 @@ class SkatingController extends AbstractController
             foreach ($rows as $r) {
                 $teamRetenues=$r->getNbChoosen();
                 $resultatsTmp=$this->getDoctrine()->getRepository(Resultat::class)->getResultsFromRow($r);
-                dump($resultatsTmp);
                 //dump($resultatsTmp);
                 for ($i=0; $i<(sizeof($resultatsTmp)-$teamRetenues);$i++){
                     array_push($results,$resultatsTmp[$i]);
@@ -100,11 +99,10 @@ class SkatingController extends AbstractController
             //dump($results);
             $cmptPlace=sizeof($results)+sizeof($resultsFin);
             foreach ($results as $r) {
-                $l = [$cmptPlace, $r->getTeam()->getId()];
+                $l = [$cmptPlace, $r->getTeam()->getNumDossard()];
                 $cmptPlace--;
                 array_push($classement,$l);
             }
-            dump($classement);
             for ($i=sizeof($resultsFin)-1;$i>=0;$i--){
                 $l=[intval($resultsFin[$i][1]),intval($resultsFin[$i][0])];
                 //dump($l);
@@ -121,7 +119,8 @@ class SkatingController extends AbstractController
         //dump($classement);
         //if (sizeof($classement)<=3){
         for ($i=0;$i<sizeof($classement);$i++){
-            $team=$this->getDoctrine()->getRepository(Team::class)->find($classement[$i][1]);
+            dump($classement);
+            $team=$this->getDoctrine()->getRepository(Team::class)->findOneBy(["numDossard"=>$classement[$i][1]]);
             //dump($classement[$i][1]);
             $res=new Resultat();
             $res->setNote($classement[$i][0]);
@@ -164,7 +163,7 @@ class SkatingController extends AbstractController
         }
 
         foreach ($resultatsTmp as $r){
-            $l=[$r->getNote(),$r->getTeam()->getId()];
+            $l=[$r->getNote(),$r->getTeam()->getNumDossard()];
             array_push($resultats,$l);
         }
         asort($resultats);
