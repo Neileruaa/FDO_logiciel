@@ -66,41 +66,43 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
 
 const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, handleSelectPassageSimul, handleSelectNumTour, handleSelectNbJudge}) => {
     return (
-        <table className="sortable table-responsive table-striped table-hover">
-            <thead>
-                <tr key="id">
-                    <th scope="col">Danse</th>
-                    <th scope="col">Catégorie</th>
-                    <th scope="col">Âge</th>
-                    <th scope="col">Tour</th>
-                    <th scope="col">Pistes</th>
-                    <th scope="col">Équipes simultanées</th>
-                    <th scope="col">Nombre de juges</th>
-                    <th scope="col">Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                {todo.map(({id, dance, category, formation, numTour, piste, passageSimul, nbJudge}, index) => (
-                    <SortableItem
-                        key={`item-${index}`}
-                        id={id}
-                        index={index}
-                        dance={dance}
-                        formation={formation}
-                        category={category}
-                        numTour={numTour}
-                        piste={piste}
-                        passageSimul={passageSimul}
-                        nbJudge={nbJudge}
-                        removeRow={removeRow}
-                        handleSelectPassageSimul={handleSelectPassageSimul}
-                        handleSelectPiste={handleSelectPiste}
-                        handleSelectNumTour={handleSelectNumTour}
-                        handleSelectNbJudge={handleSelectNbJudge}
-                    />
-                ))}
-            </tbody>
-        </table>
+        <div className="table-responsive">
+            <table className="sortable table table-striped table-hover">
+                <thead>
+                    <tr key="id">
+                        <th scope="col">Danse</th>
+                        <th scope="col">Catégorie</th>
+                        <th scope="col">Âge</th>
+                        <th scope="col">Tour</th>
+                        <th scope="col">Pistes</th>
+                        <th scope="col">Équipes simultanées</th>
+                        <th scope="col">Nombre de juges</th>
+                        <th scope="col">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {todo.map(({id, dance, category, formation, numTour, piste, passageSimul, nbJudge}, index) => (
+                        <SortableItem
+                            key={`item-${index}`}
+                            id={id}
+                            index={index}
+                            dance={dance}
+                            formation={formation}
+                            category={category}
+                            numTour={numTour}
+                            piste={piste}
+                            passageSimul={passageSimul}
+                            nbJudge={nbJudge}
+                            removeRow={removeRow}
+                            handleSelectPassageSimul={handleSelectPassageSimul}
+                            handleSelectPiste={handleSelectPiste}
+                            handleSelectNumTour={handleSelectNumTour}
+                            handleSelectNbJudge={handleSelectNbJudge}
+                        />
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 });
 

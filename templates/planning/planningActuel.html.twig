@@ -14,45 +14,46 @@
             Vous pouvez toujours créer un nouveau planning dans l'onglet <a
                     href="{{ path('Planning.index') }}">création</a>
         </div>
-
-        <table class="table-responsive">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Dance</th>
-                <th scope="col">Catégorie</th>
-                <th scope="col">Age</th>
-                <th scope="col">Tour</th>
-                <th scope="col">Pistes</th>
-                <th scope="col">Options</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for row in rows if rows is not empty %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
                 <tr>
-                    <th scope="row">{{ row.dance.nameDance }}</th>
-                    <td>{{ row.formation }}</td>
-                    <td>{{ row.category.nameCategory }}</td>
-                    <td style="{% if row.numTour == 'Finale' %}color: red{% endif %}">{{ row.numTour }}</td>
-                    <td>{{ row.piste }}</td>
-                    <td>
-                        {% if row.numTour=="Finale" %}
-                            <a href="{{ path('Final.index', {'rowId': row.id}) }}" class="btn btn-danger"><i class="fas fa-poll"></i> Résultats</a>
-                        {% else %}
-                            <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
-                        {% endif %}
-                        <a href="{{ path('Resultat.feuilleJuge', {'id': row.id}) }}" target="_blank"
-                           class="btn btn-info"><i class="fas fa-poll"></i> Feuilles de juge</a>
-                    </td>
+                    <th scope="col">Dance</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Tour</th>
+                    <th scope="col">Pistes</th>
+                    <th scope="col">Options</th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td scope="row" colspan="6">
-                        Vous devez créer un planning dans l'onglet approprié.
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for row in rows if rows is not empty %}
+                    <tr>
+                        <th scope="row">{{ row.dance.nameDance }}</th>
+                        <td>{{ row.formation }}</td>
+                        <td>{{ row.category.nameCategory }}</td>
+                        <td style="{% if row.numTour == 'Finale' %}color: red{% endif %}">{{ row.numTour }}</td>
+                        <td>{{ row.piste }}</td>
+                        <td>
+                            {% if row.numTour=="Finale" %}
+                                <a href="{{ path('Final.index', {'rowId': row.id}) }}" class="btn btn-danger"><i class="fas fa-poll"></i> Résultats</a>
+                            {% else %}
+                                <a href="{{ path('Resultat.index', {'id': row.id}) }}" class="btn btn-info"><i class="fas fa-poll"></i> Résultats</a>
+                            {% endif %}
+                            <a href="{{ path('Resultat.feuilleJuge', {'id': row.id}) }}" target="_blank"
+                               class="btn btn-info"><i class="fas fa-poll"></i> Feuilles de juge</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td scope="row" colspan="6">
+                            Vous devez créer un planning dans l'onglet approprié.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
         <a href="{{ path('Panel.testPdf') }}" target="_blank" class="btn btn-info"><i class="fas fa-calendar-alt"></i>
             Planning compétition <i class="fas fa-calendar-alt"></i></a>
     </div>

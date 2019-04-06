@@ -14,23 +14,25 @@
     <div class="list-group">
 
     </div>
-    <table class="table-responsive table-striped">
-        <thead class="thead-light">
-        <tr>
-            <th scope="col" style="color: black; font-size: 23px;">Place</th>
-            <th scope="col" style="color: black;font-size: 23px;">Équipe</th>
-            <th scope="col" style="color: black;font-size: 23px;">Club</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% set place=1 %}
-        {% for resultat in resultats %}
-            <tr {% if (resultat[0]|number_format )<=3 %} style="color: red;" {% endif %}>
-                <th scope="row">{{ resultat[0]|number_format }}</th>
-                <td><strong>{{ resultat[1] }}</strong></td>
-                <td><strong>{{ resultat[2].username }}</strong></td>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col" style="color: black; font-size: 23px;">Place</th>
+                <th scope="col" style="color: black;font-size: 23px;">Équipe</th>
+                <th scope="col" style="color: black;font-size: 23px;">Club</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% set place=1 %}
+            {% for resultat in resultats %}
+                <tr {% if (resultat[0]|number_format )<=3 %} style="color: red;" {% endif %}>
+                    <th scope="row">{{ resultat[0]|number_format }}</th>
+                    <td><strong>{{ resultat[1] }}</strong></td>
+                    <td><strong>{{ resultat[2].username }}</strong></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

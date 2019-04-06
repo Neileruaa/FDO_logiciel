@@ -7,41 +7,43 @@
     <hr>
     <h2><strong>{{ row.dance.nameDance }}</strong> | <strong>{{ row.formation }}</strong></h2>
     <h3><strong>{{ row.category.nameCategory }}</strong></h3><br>
-    <table class="table table-responsive">
-        <thead class="thead-dark">
-        <tr>
-            <th>Équipes/Juges</th>
-
-            {% set tabJuges=[] %}
-            {% set alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'] %}
-            {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
-                {% set tabJuges = tabJuges|merge([alphabet[judge]]) %}
-                <th id="{{ alphabet[judge] }}">{{ alphabet[judge] }}</th>
-            {% endfor %}
-
-        </tr>
-        </thead>
-        <tbody>
-        {% set nbEquipes=0 %}
-        {% for team in row.teams if team is not empty %}
-            {% set nbEquipes=nbEquipes+1 %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
             <tr>
-                <td><strong>{{ team.numDossard }}</strong></td>
+                <th>Équipes/Juges</th>
+
+                {% set tabJuges=[] %}
+                {% set alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'] %}
                 {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
-                    <td>
-                        <select id="{{ team.id }}{{ alphabet[judge] }}" name="selectPlace" >
-                            {% set place=1 %}
-                            {% for team in row.teams if team is not empty %}
-                                <option value="{{ place }}">{{ place }}</option>
-                                {% set place=place+1 %}
-                            {% endfor %}
-                        </select>
-                    </td>
+                    {% set tabJuges = tabJuges|merge([alphabet[judge]]) %}
+                    <th id="{{ alphabet[judge] }}">{{ alphabet[judge] }}</th>
                 {% endfor %}
+
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% set nbEquipes=0 %}
+            {% for team in row.teams if team is not empty %}
+                {% set nbEquipes=nbEquipes+1 %}
+                <tr>
+                    <td><strong>{{ team.numDossard }}</strong></td>
+                    {% for judge in range(0,row.nbJudge-1) if judge is not empty %}
+                        <td>
+                            <select id="{{ team.id }}{{ alphabet[judge] }}" name="selectPlace" >
+                                {% set place=1 %}
+                                {% for team in row.teams if team is not empty %}
+                                    <option value="{{ place }}">{{ place }}</option>
+                                    {% set place=place+1 %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 
     {% set tabEquipes=[] %}
@@ -59,44 +61,46 @@
     <hr><br>
 
     <h2>Résultats</h2>
-    <table class="table table-responsive">
-        <thead class="thead-dark">
-        <tr>
-            <th style="visibility:hidden; border: none;"> </th>
-            <th colspan="{{ nbEquipes }}">places</th>
-            <th rowspan="2" style="vertical-align: middle;">RANG</th>
-        </tr>
-        <tr>
-            <th>Équipes</th>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th style="visibility:hidden; border: none;"> </th>
+                <th colspan="{{ nbEquipes }}">places</th>
+                <th rowspan="2" style="vertical-align: middle;">RANG</th>
+            </tr>
+            <tr>
+                <th>Équipes</th>
+                {% set numTeam=0 %}
+                {% for team in row.teams if team is not empty %}
+                    {% set numTeam=numTeam+1 %}
+                    <th>1
+                        {% if numTeam>1 %}
+                            - {{ numTeam }}
+                        {% endif %}
+                    </th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
             {% set numTeam=0 %}
             {% for team in row.teams if team is not empty %}
-                {% set numTeam=numTeam+1 %}
-                <th>1
-                    {% if numTeam>1 %}
-                        - {{ numTeam }}
-                    {% endif %}
-                </th>
+                <tr>
+                    <td><strong>{{ team.numDossard }}</strong></td>
+                    {% set numTeam=numTeam+1 %}
+                    {% set index=0 %}
+                    {% for t in row.teams if t is not empty %}
+                        {% set index=index+1 %}
+                        <td>
+                            <input id="p{{ index }}-{{ team.id }}" type="text" style="width:2.5em;" disabled><br>
+                        </td>
+                    {% endfor %}
+                    <td><input id="res{{ team.id }}" type="text" style="color:red;width:2.5em;border:none;background: none;text-align: center;font-weight: bold;" disabled></td>
+                </tr>
             {% endfor %}
-        </tr>
-        </thead>
-        <tbody>
-        {% set numTeam=0 %}
-        {% for team in row.teams if team is not empty %}
-            <tr>
-                <td><strong>{{ team.numDossard }}</strong></td>
-                {% set numTeam=numTeam+1 %}
-                {% set index=0 %}
-                {% for t in row.teams if t is not empty %}
-                    {% set index=index+1 %}
-                    <td>
-                        <input id="p{{ index }}-{{ team.id }}" type="text" style="width:2.5em;" disabled><br>
-                    </td>
-                {% endfor %}
-                <td><input id="res{{ team.id }}" type="text" style="color:red;width:2.5em;border:none;background: none;text-align: center;font-weight: bold;" disabled></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
     <a id="impression" href="{{ path('Final.resultats',{id: row.id}) }}" style="display: none;margin: auto;" class="btn btn-success">Résultats</a>
 
 {% endblock %}
