@@ -66,7 +66,7 @@ const SortableItem = SortableElement(({id,dance, category, formation, numTour, p
 
 const SortableList = SortableContainer(({todo, removeRow, handleSelectPiste, handleSelectPassageSimul, handleSelectNumTour, handleSelectNbJudge}) => {
     return (
-        <table className="sortable table table-striped table-hover">
+        <table className="sortable table-responsive table-striped table-hover">
             <thead>
                 <tr key="id">
                     <th scope="col">Danse</th>

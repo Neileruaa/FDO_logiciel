@@ -13,12 +13,13 @@
     <div class="list-group">
 
     </div>
-    <table class="table table-striped">
+    <table class="table-responsive table-striped">
         <thead class="thead-light">
         <tr>
             <th scope="col">Place</th>
             <th scope="col">Équipe</th>
             <th scope="col">Résultat</th>
+            <th scope="col">Club</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
                 <th scope="row">{% if place<=row.nbChoosen %}<span style="color: red">{{ place }}</span>{% else %}{{ place }}{% endif %}</th>
                 <td><strong>{{ resultat.team.numDossard }}</strong></td>
                 <td><strong style="color: green">{{ resultat.note }}</strong></td>
+                <td><strong>{{ resultat.team.club.username }}</strong></td>
             </tr>
             {% set place=place+1 %}
         {% endfor %}
