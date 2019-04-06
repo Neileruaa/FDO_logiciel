@@ -19,6 +19,7 @@
         <tr>
             <th scope="col" style="color: black; font-size: 23px;">Place</th>
             <th scope="col" style="color: black;font-size: 23px;">Équipe</th>
+            <th scope="col" style="color: black;font-size: 23px;">Club</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@
             <tr {% if (resultat[0]|number_format )<=3 %} style="color: red;" {% endif %}>
                 <th scope="row">{{ resultat[0]|number_format }}</th>
                 <td><strong>{{ resultat[1] }}</strong></td>
+                <td><strong>{{ resultat[2].username }}</strong></td>
             </tr>
         {% endfor %}
         </tbody>

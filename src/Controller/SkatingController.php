@@ -163,7 +163,7 @@ class SkatingController extends AbstractController
         }
 
         foreach ($resultatsTmp as $r){
-            $l=[$r->getNote(),$r->getTeam()->getNumDossard()];
+            $l=[$r->getNote(),$r->getTeam()->getNumDossard(),$r->getTeam()->getClub()];
             array_push($resultats,$l);
         }
         asort($resultats);

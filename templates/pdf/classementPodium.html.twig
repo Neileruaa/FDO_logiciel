@@ -130,6 +130,7 @@
         <tr>
             <th scope="col">Place</th>
             <th scope="col">Équipe</th>
+            <th scope="col">Club</th>
         </tr>
         </thead>
         <tbody>
@@ -138,6 +139,7 @@
             <tr>
                 <th scope="row">{{ resultat[0]|number_format }}</th>
                 <td><strong>{{ resultat[1] }}</strong></td>
+                <td><strong>{{ resultat[2].username }}</strong></td>
             </tr>
             {% set place=place+1 %}
         {% endfor %}
